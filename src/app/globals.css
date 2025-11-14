@@ -82,7 +82,7 @@
   }
   .dark body {
     background-color: hsl(var(--background));
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, hsla(260, 90%, 66%, 0.15), transparent);
+    background-image: radial-gradient(ellipse 80% 50% at 0% 0%, hsla(260, 90%, 66%, 0.15), transparent);
   }
 }
 
