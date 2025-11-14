@@ -1,33 +1,106 @@
+
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Menu, X, Star } from 'lucide-react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Card, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
+const navLinks = [
+  { href: '#home', label: 'Home' },
+  { href: '#about', label: 'About' },
+  { href: '#testimonials', label: 'Testimonials' },
+  { href: '#contact', label: 'Contact' },
+];
 
 export default function LandingPage() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 flex items-center">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/30 backdrop-blur-lg">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
             <Icons.logo className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-lg font-bold tracking-tight">Aedura Elite</span>
+            <span className="text-lg font-bold tracking-tight">Aedura Elite</span>
           </div>
-          <div className="flex flex-1 items-center justify-end space-x-2">
-            <nav className="flex items-center space-x-2">
-              <Button variant="ghost" asChild>
-                <Link href="/login">Sign In</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/signup">Get Started <ArrowRight className="ml-2" /></Link>
-              </Button>
-            </nav>
+
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden md:flex items-center gap-2">
+            <Button asChild>
+              <Link href="/login">
+                Login <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="md:hidden">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu />
+                  <span className="sr-only">Open Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full max-w-xs bg-background/95 backdrop-blur-sm">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center justify-between p-4 border-b">
+                     <div className="flex items-center gap-2">
+                        <Icons.logo className="h-8 w-8 text-primary" />
+                        <span className="text-lg font-bold">Aedura Elite</span>
+                      </div>
+                    <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
+                      <X />
+                      <span className="sr-only">Close Menu</span>
+                    </Button>
+                  </div>
+                  <nav className="flex flex-col items-start gap-4 p-4">
+                    {navLinks.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="text-lg font-medium text-muted-foreground transition-colors hover:text-primary"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </nav>
+                  <div className="mt-auto p-4 border-t">
+                     <Button asChild className="w-full">
+                      <Link href="/login">
+                        Login <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
 
       <main className="flex-1">
-        <div className="relative isolate px-6 pt-14 lg:px-8">
+        <section id="home" className="relative isolate px-6 pt-14 lg:px-8">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
@@ -40,10 +113,10 @@ export default function LandingPage() {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Button size="lg" asChild>
-                   <Link href="/signup">Get Started for Free</Link>
+                  <Link href="/signup">Get Started for Free</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="#">Learn More <ArrowRight className="ml-2" /></Link>
+                  <a href="#about">Learn More <ArrowRight className="ml-2" /></a>
                 </Button>
               </div>
             </div>
@@ -52,15 +125,109 @@ export default function LandingPage() {
                 <Image
                   src="https://picsum.photos/seed/dashboard/1200/600"
                   alt="App screenshot"
-                  width={2432}
-                  height={1442}
+                  width={1200}
+                  height={600}
                   data-ai-hint="app dashboard"
                   className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
                 />
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        <section id="about" className="py-24 sm:py-32 bg-secondary">
+          <div className="container mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">About Our School</h2>
+              <p className="mt-4 text-lg text-muted-foreground">Fostering excellence, innovation, and community since 1998.</p>
+            </div>
+            <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <Image 
+                  src="https://picsum.photos/seed/school/600/400" 
+                  alt="School Campus"
+                  width={600}
+                  height={400}
+                  data-ai-hint="school campus"
+                  className="rounded-lg shadow-md"
+                />
+              </div>
+              <div className="space-y-4 text-muted-foreground">
+                <p>Aedura Elite is a premier educational institution dedicated to providing a holistic learning experience. We believe in nurturing not just academic prowess, but also character, creativity, and a lifelong love for learning.</p>
+                <p>Our state-of-the-art campus, experienced faculty, and comprehensive curriculum are designed to prepare students for the challenges of the future. We offer a wide range of academic programs and extracurricular activities to ensure the all-round development of our students.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="testimonials" className="py-24 sm:py-32">
+          <div className="container mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What Our Community Says</h2>
+              <p className="mt-4 text-lg text-muted-foreground">Feedback from those who know us best.</p>
+            </div>
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                { name: 'Sarah L.', role: 'Parent', text: "Aedura Elite has been a transformative experience for my child. The teachers are incredible, and the focus on holistic development is truly commendable.", avatar: "https://picsum.photos/seed/parent/100/100", hint: "person portrait" },
+                { name: 'John D.', role: 'Teacher', text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", avatar: "https://picsum.photos/seed/teacher/100/100", hint: "person smiling" },
+                { name: 'Michael C.', role: 'Student, Class of 2024', text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", avatar: "https://picsum.photos/seed/student/100/100", hint: "student portrait" },
+              ].map((testimonial) => (
+                <Card key={testimonial.name} className="glassmorphic text-center">
+                  <CardContent className="pt-6">
+                    <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4" />
+                    <div className="flex justify-center mb-2">
+                        {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />)}
+                    </div>
+                    <blockquote className="text-muted-foreground italic">"{testimonial.text}"</blockquote>
+                    <p className="mt-4 font-semibold text-foreground">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="py-24 sm:py-32 bg-secondary">
+          <div className="container mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
+              <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
+            </div>
+            <div className="mt-16 max-w-xl mx-auto">
+              <Card className="glassmorphic">
+                <CardContent className="pt-6">
+                  <form className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input id="name" placeholder="Your Name" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email Address</Label>
+                        <Input id="email" type="email" placeholder="your.email@example.com" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="subject">Subject</Label>
+                      <Input id="subject" placeholder="What can we help you with?" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message</Label>
+                      <Textarea id="message" placeholder="Your message..." rows={5} />
+                    </div>
+                    <Button type="submit" className="w-full">Send Message</Button>
+                  </form>
+                </CardContent>
+              </Card>
+               <div className="text-center mt-8 text-muted-foreground">
+                  <p>Email: <a href="mailto:contact@aedura.elite" className="text-primary hover:underline">contact@aedura.elite</a></p>
+                  <p>Phone: <a href="tel:+1234567890" className="text-primary hover:underline">(123) 456-7890</a></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <footer className="border-t">
@@ -71,3 +238,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
