@@ -42,7 +42,7 @@
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
+    --background: 220 10% 10%; /* Dark Gray */
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
@@ -62,7 +62,7 @@
     --input: 215 27.9% 16.9%;
     --ring: 229 90% 63%;
 
-    --sidebar-background: 224 71.4% 4.1%;
+    --sidebar-background: 220 10% 12%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
     --sidebar-primary-foreground: 224 71.4% 4.1%;
@@ -80,10 +80,17 @@
   body {
     @apply bg-background text-foreground;
   }
+  .dark body {
+    background-color: hsl(var(--background));
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, hsla(260, 90%, 66%, 0.15), transparent);
+  }
 }
 
 @layer components {
   .glassmorphic {
     @apply bg-card/60 backdrop-blur-sm border border-border/20;
+  }
+  .dark .glassmorphic {
+    @apply bg-black/20 backdrop-blur-sm border-white/5;
   }
 }
