@@ -15,22 +15,8 @@ import {
 } from "@/components/ui/table";
 import { PageHeader } from "./components/page-header";
 import { Users, BookOpen, Banknote, CalendarDays } from "lucide-react";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartConfig,
-} from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { attendanceChartData } from "@/lib/mock-data";
 import { Badge } from "@/components/ui/badge";
-
-const chartConfig = {
-  attendance: {
-    label: "Attendance",
-    color: "hsl(var(--primary))",
-  },
-} satisfies ChartConfig;
+import { AttendanceChart } from "./components/attendance-chart";
 
 export default function DashboardPage() {
   return (
@@ -88,34 +74,7 @@ export default function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
-            <ChartContainer config={chartConfig} className="h-[250px] w-full">
-              <BarChart accessibilityLayer data={attendanceChartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="date"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                 <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={10}
-                    domain={[80, 100]}
-                    tickFormatter={(value) => `${value}%`}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
-                />
-                <Bar
-                  dataKey="attendance"
-                  fill="var(--color-attendance)"
-                  radius={4}
-                />
-              </BarChart>
-            </ChartContainer>
+            <AttendanceChart />
           </CardContent>
         </Card>
         <Card className="md:col-span-2 glassmorphic">
