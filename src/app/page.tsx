@@ -107,7 +107,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
-            <div className="text-center">
+            <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
                 The Future of School Management is Here
               </h1>
@@ -123,7 +123,7 @@ export default function LandingPage() {
                 </Button>
               </div>
             </div>
-            <div className="mt-16 flow-root sm:mt-24">
+            <div className="mt-16 flow-root sm:mt-24 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000 delay-300">
               <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
                   src="https://picsum.photos/seed/dashboard/1200/600"
@@ -139,7 +139,7 @@ export default function LandingPage() {
         </section>
 
         <section id="about" className="py-24 sm:py-32 bg-secondary/50">
-          <div className="container mx-auto">
+          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">About Our School</h2>
               <p className="mt-4 text-lg text-muted-foreground">Fostering excellence, innovation, and community since 1998.</p>
@@ -164,7 +164,7 @@ export default function LandingPage() {
         </section>
 
         <section id="testimonials" className="py-24 sm:py-32">
-          <div className="container mx-auto">
+          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What Our Community Says</h2>
               <p className="mt-4 text-lg text-muted-foreground">Feedback from those who know us best.</p>
@@ -175,7 +175,7 @@ export default function LandingPage() {
                 { name: 'John D.', role: 'Teacher', text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", avatar: "https://picsum.photos/seed/teacher/100/100", hint: "person smiling" },
                 { name: 'Michael C.', role: 'Student, Class of 2024', text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", avatar: "https://picsum.photos/seed/student/100/100", hint: "student portrait" },
               ].map((testimonial) => (
-                <Card key={testimonial.name} className="glassmorphic text-center">
+                <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <CardContent className="pt-6">
                     <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4" />
                     <div className="flex justify-center mb-2">
@@ -192,13 +192,13 @@ export default function LandingPage() {
         </section>
 
         <section id="contact" className="py-24 sm:py-32 bg-secondary/50">
-          <div className="container mx-auto">
+          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
               <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
             </div>
             <div className="mt-16 max-w-xl mx-auto">
-              <Card className="glassmorphic">
+              <Card className="glassmorphic transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                 <CardContent className="pt-6">
                   <form className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
