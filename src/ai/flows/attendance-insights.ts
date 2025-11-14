@@ -65,6 +65,9 @@ const attendanceInsightsFlow = ai.defineFlow(
     name: 'attendanceInsightsFlow',
     inputSchema: AttendanceInsightsInputSchema,
     outputSchema: AttendanceInsightsOutputSchema,
+    config: {
+      retries: 3
+    }
   },
   async input => {
     const {output} = await attendanceInsightsPrompt(input);
