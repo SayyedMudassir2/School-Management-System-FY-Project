@@ -106,7 +106,7 @@ export default function LandingPage() {
 
       <main className="flex-1">
         <section id="home" className="relative isolate px-6 pt-14 lg:px-8">
-          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
             <div className="text-center">
@@ -140,7 +140,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="about" className="py-24 sm:py-32 bg-secondary">
+        <section id="about" className="py-24 sm:py-32 bg-secondary/50">
           <div className="container mx-auto">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">About Our School</h2>
@@ -193,7 +193,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="contact" className="py-24 sm:py-32 bg-secondary">
+        <section id="contact" className="py-24 sm:py-32 bg-secondary/50">
           <div className="container mx-auto">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
