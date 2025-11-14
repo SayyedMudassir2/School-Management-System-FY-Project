@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
@@ -23,6 +23,11 @@ const navLinks = [
 
 export default function LandingPage() {
   const [open, setOpen] = useState(false);
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -232,11 +237,9 @@ export default function LandingPage() {
 
       <footer className="border-t">
         <div className="container py-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Aedura Elite. All Rights Reserved.
+            © {year} Aedura Elite. All Rights Reserved.
         </div>
       </footer>
     </div>
   );
 }
-
-    
