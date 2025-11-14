@@ -34,8 +34,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/30 backdrop-blur-lg">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icons.logo className="h-8 w-8 text-primary" />
-            <span className="text-lg font-bold tracking-tight">Aedura Elite</span>
+            <Icons.logo className="h-10 w-auto" />
           </div>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -70,8 +69,7 @@ export default function LandingPage() {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
                      <div className="flex items-center gap-2">
-                        <Icons.logo className="h-8 w-8 text-primary" />
-                        <span className="text-lg font-bold">Aedura Elite</span>
+                        <Icons.logo className="h-10 w-auto" />
                       </div>
                     <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
                       <X />

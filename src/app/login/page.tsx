@@ -11,12 +11,12 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
       <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
       <Card className="w-full max-w-md mx-auto glassmorphic animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
-        <CardHeader className="text-center">
+        <CardHeader className="text-center space-y-4">
           <div className="mb-4 flex justify-center">
-            <Icons.logo className="h-12 w-12 text-primary" />
+            <Icons.logo className="h-12 w-auto" />
           </div>
-          <CardTitle className="text-3xl font-bold tracking-tight">Aedura Elite</CardTitle>
-          <CardDescription>Welcome back! Please sign in to your account.</CardDescription>
+          <CardTitle className="text-3xl font-bold tracking-tight">Welcome Back</CardTitle>
+          <CardDescription>Please sign in to your account.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">

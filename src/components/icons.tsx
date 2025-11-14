@@ -4,17 +4,30 @@ export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      viewBox="0 0 200 50"
+      width="140"
+      height="40"
       {...props}
     >
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
+      <defs>
+        <linearGradient id="logo-gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stopColor="#8A2BE2" />
+          <stop offset="65%" stopColor="#C58940" />
+          <stop offset="100%" stopColor="#E0B870" />
+        </linearGradient>
+      </defs>
+      <text
+        x="50%"
+        y="50%"
+        dy=".35em"
+        fontFamily="Inter, sans-serif"
+        fontSize="38"
+        fontWeight="bold"
+        fill="url(#logo-gradient)"
+        textAnchor="middle"
+      >
+        Aedura
+      </text>
     </svg>
   ),
   google: (props: SVGProps<SVGSVGElement>) => (

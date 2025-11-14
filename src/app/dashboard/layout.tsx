@@ -47,10 +47,7 @@ export default function DashboardLayout({
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <Icons.logo className="size-7 text-sidebar-primary" />
-            <span className="text-lg font-semibold text-sidebar-primary">
-              Aedura
-            </span>
+            <Icons.logo className="h-10 w-auto" />
           </div>
         </SidebarHeader>
         <SidebarContent>
