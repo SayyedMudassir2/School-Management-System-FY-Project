@@ -13,6 +13,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -28,6 +29,11 @@ export default function LandingPage() {
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);
+  
+  const parentAvatar = PlaceHolderImages.find(img => img.id === 'teacher-avatar');
+  const teacherAvatar = PlaceHolderImages.find(img => img.id === 'admin-avatar');
+  const studentAvatar = PlaceHolderImages.find(img => img.id === 'student-avatar-1');
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -171,13 +177,13 @@ export default function LandingPage() {
             </div>
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { name: 'Sarah L.', role: 'Parent', text: "Aedura Elite has been a transformative experience for my child. The teachers are incredible, and the focus on holistic development is truly commendable.", avatar: "https://picsum.photos/seed/parent/100/100", hint: "person portrait" },
-                { name: 'John D.', role: 'Teacher', text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", avatar: "https://picsum.photos/seed/teacher/100/100", hint: "person smiling" },
-                { name: 'Michael C.', role: 'Student, Class of 2024', text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", avatar: "https://picsum.photos/seed/student/100/100", hint: "student portrait" },
+                { name: 'Sarah L.', role: 'Parent', text: "Aedura Elite has been a transformative experience for my child. The teachers are incredible, and the focus on holistic development is truly commendable.", avatar: parentAvatar?.imageUrl, hint: parentAvatar?.imageHint },
+                { name: 'John D.', role: 'Teacher', text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", avatar: teacherAvatar?.imageUrl, hint: teacherAvatar?.imageHint },
+                { name: 'Michael C.', role: 'Student, Class of 2024', text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", avatar: studentAvatar?.imageUrl, hint: studentAvatar?.imageHint },
               ].map((testimonial) => (
                 <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <CardContent className="pt-6">
-                    <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4" />
+                    {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4" />}
                     <div className="flex justify-center mb-2">
                         {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />)}
                     </div>
