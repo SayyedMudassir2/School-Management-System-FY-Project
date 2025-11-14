@@ -42,7 +42,7 @@
   }
 
   .dark {
-    --background: 220 10% 10%; /* Dark Gray */
+    --background: 232 47% 11%;
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
@@ -62,7 +62,7 @@
     --input: 215 27.9% 16.9%;
     --ring: 229 90% 63%;
 
-    --sidebar-background: 220 10% 12%;
+    --sidebar-background: 232 47% 13%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
     --sidebar-primary-foreground: 224 71.4% 4.1%;
