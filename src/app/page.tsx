@@ -183,7 +183,7 @@ export default function LandingPage() {
               ].map((testimonial) => (
                 <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <CardContent className="pt-6">
-                    {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4" />}
+                    {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4 object-cover w-20 h-20" />}
                     <div className="flex justify-center mb-2">
                         {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />)}
                     </div>
