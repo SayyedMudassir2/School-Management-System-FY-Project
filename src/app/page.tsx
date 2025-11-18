@@ -17,6 +17,7 @@ import { MobileNav } from './components/mobile-nav';
 import { SmallTitle } from './components/small-title';
 import { Stats } from './components/stats';
 import { Testimonials } from './components/testimonials';
+import { Features } from './components/features';
 
 
 export default function LandingPage() {
@@ -57,17 +58,17 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section id="home" className="relative isolate px-6 pt-14 lg:px-8">
+        <section id="home" className="relative isolate px-6 lg:px-8">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center">
                 <SmallTitle>
                   Welcome to Aedura
                 </SmallTitle>
               </div>
-              <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl mt-4">
                 The Official Management Portal <br /> of Our School
               </h1>
               <p className="mt-6 mx-auto max-w-[700px] text-lg leading-8 text-muted-foreground sm:text-xl">
@@ -103,30 +104,7 @@ export default function LandingPage() {
 
         <Stats />
 
-        <section id="features" className="py-24 sm:py-32 bg-secondary/50 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
-          <div className="container mx-auto">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Powerful Features</h2>
-              <p className="mt-4 text-lg text-muted-foreground">Everything you need to run your school efficiently.</p>
-            </div>
-            <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
-              <div className="px-4 md:px-0">
-                <Image 
-                  src="https://picsum.photos/seed/school/600/400" 
-                  alt="School Campus"
-                  width={600}
-                  height={400}
-                  data-ai-hint="school campus"
-                  className="rounded-lg shadow-md w-full"
-                />
-              </div>
-              <div className="space-y-4 text-muted-foreground px-4 md:px-0">
-                <p>Aedura Elite is a premier educational institution dedicated to providing a holistic learning experience. We believe in nurturing not just academic prowess, but also character, creativity, and a lifelong love for learning.</p>
-                <p>Our state-of-the-art campus, experienced faculty, and comprehensive curriculum are designed to prepare students for the challenges of the future. We offer a wide range of academic programs and extracurricular activities to ensure the all-round development of our students.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Features />
 
         <Testimonials />
 
