@@ -1,3 +1,4 @@
+
 import { PageHeader } from "../components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -6,7 +7,7 @@ export default function CommunicationPage() {
     <>
       <PageHeader
         title="Communication Hub"
-        description="A central place for announcements, messaging, and notifications."
+        description="It's a central place for announcements, messaging, and notifications."
       />
        <Card className="glassmorphic">
         <CardHeader>
@@ -14,7 +15,7 @@ export default function CommunicationPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction.  Here you will be able to send and receive communications with various user groups.
+            This section is under construction.  Here you'll be able to send and receive communications with various user groups.
           </p>
         </CardContent>
       </Card>

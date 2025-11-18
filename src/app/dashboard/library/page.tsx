@@ -1,3 +1,4 @@
+
 import { PageHeader } from "../components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -6,7 +7,7 @@ export default function LibraryPage() {
     <>
       <PageHeader
         title="Smart Library"
-        description="Manage book repositories, track issues, and gain insights on borrowing."
+        description="You can manage book repositories, track issues, and gain insights on borrowing."
       />
       <Card className="glassmorphic">
         <CardHeader>
@@ -14,7 +15,7 @@ export default function LibraryPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction.  Here you will find tools to automate and manage your school's library.
+            This section is under construction.  Here you'll find tools to automate and manage your school's library.
           </p>
         </CardContent>
       </Card>

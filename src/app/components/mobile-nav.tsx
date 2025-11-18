@@ -22,25 +22,25 @@ import { Logo } from '@/components/logo';
 const features = [
     {
       name: 'Attendance Tracking',
-      description: 'Monitor student attendance with ease.',
+      description: 'You can monitor student attendance with ease.',
       href: '#',
       icon: Users,
     },
     {
       name: 'Fee Management',
-      description: 'Streamline fee collection and reporting.',
+      description: 'You can streamline fee collection and reporting.',
       href: '#',
       icon: Banknote,
     },
     {
       name: 'Gradebooks',
-      description: 'Manage grades and academic performance.',
+      description: 'You can manage grades and academic performance.',
       href: '#',
       icon: BookOpen,
     },
     {
       name: 'Dashboards',
-      description: 'Get a complete overview of your institution.',
+      description: 'You can get a complete overview of your institution.',
       href: '/dashboard',
       icon: LayoutDashboard,
     }

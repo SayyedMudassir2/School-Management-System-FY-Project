@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -5,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Aedura Elite',
-  description: 'The elite school management system.',
+  description: 'It\'s the elite school management system.',
 };
 
 export default function RootLayout({

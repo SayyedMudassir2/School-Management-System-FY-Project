@@ -1,3 +1,4 @@
+
 import { PageHeader } from "../components/page-header";
 import {
   Tabs,
@@ -29,10 +30,10 @@ export default function SetupPage() {
     <>
       <PageHeader
         title="School Setup"
-        description="Manage academic years, classes, subjects, and timetables."
+        description="You can manage academic years, classes, subjects, and timetables."
       />
       <Tabs defaultValue="academic-year">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full max-w-md grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="academic-year">Academic Year</TabsTrigger>
           <TabsTrigger value="classes">Classes</TabsTrigger>
           <TabsTrigger value="subjects">Subjects</TabsTrigger>
@@ -41,7 +42,7 @@ export default function SetupPage() {
         <TabsContent value="academic-year">
           <Card className="glassmorphic mt-4">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                 <div>
                   <CardTitle>Academic Years</CardTitle>
                   <CardDescription>
@@ -99,11 +100,11 @@ export default function SetupPage() {
         <TabsContent value="classes">
            <Card className="glassmorphic mt-4">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                 <div>
                   <CardTitle>Classes & Sections</CardTitle>
                   <CardDescription>
-                    Manage all classes and their respective sections.
+                    You can manage all classes and their respective sections.
                   </CardDescription>
                 </div>
                 <Button>
@@ -153,11 +154,11 @@ export default function SetupPage() {
         <TabsContent value="subjects">
            <Card className="glassmorphic mt-4">
             <CardHeader>
-               <div className="flex items-center justify-between">
+               <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                   <div>
                     <CardTitle>Subjects</CardTitle>
                     <CardDescription>
-                      Manage subjects offered across different classes.
+                      You can manage subjects offered across different classes.
                     </CardDescription>
                   </div>
                   <Button>
@@ -218,11 +219,11 @@ export default function SetupPage() {
         <TabsContent value="timetable">
           <Card className="glassmorphic mt-4">
             <CardHeader>
-               <div className="flex items-center justify-between">
+               <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                 <div>
                   <CardTitle>Class Timetables</CardTitle>
                   <CardDescription>
-                    Create and manage class schedules.
+                    You can create and manage class schedules.
                   </CardDescription>
                 </div>
                 <Button>

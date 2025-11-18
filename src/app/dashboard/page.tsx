@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -22,6 +23,7 @@ export default function DashboardPage() {
   return (
     <>
       <PageHeader title="Welcome, Administrator" description="Here's a summary of your school's activities." />
+      
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card className="glassmorphic">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -50,7 +52,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$54,231.89</div>
-            <p className="text-xs text-muted-foreground">78% of target</p>x
+            <p className="text-xs text-muted-foreground">78% of target</p>
           </CardContent>
         </Card>
         <Card className="glassmorphic">
@@ -70,7 +72,7 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Weekly Attendance</CardTitle>
             <CardDescription>
-              An overview of student attendance for the current week.
+              Here's an overview of student attendance for the current week.
             </CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
@@ -81,7 +83,7 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Recent Announcements</CardTitle>
             <CardDescription>
-              Latest updates and news for the school community.
+              Here are the latest updates and news for the school community.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -90,7 +92,7 @@ export default function DashboardPage() {
                     <TableRow className="border-none">
                         <TableCell className="p-2">
                             <p className="font-medium">Parent-Teacher Meeting</p>
-                            <p className="text-xs text-muted-foreground">Scheduled for next Friday.</p>
+                            <p className="text-xs text-muted-foreground">This is scheduled for next Friday.</p>
                         </TableCell>
                         <TableCell className="p-2 text-right">
                            <Badge variant="secondary">General</Badge>

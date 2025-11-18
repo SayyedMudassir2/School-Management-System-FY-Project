@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -49,7 +50,7 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
     setInsights(null);
 
     try {
-      // In a real app, you would fetch records for the selectedClass
+      // In a real app, you'd fetch records for the selectedClass
       const result = await getAttendanceInsights({
         attendanceRecords: mockAttendanceRecords,
         classDetails: `Class: ${selectedClass}`,
@@ -122,7 +123,7 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={2} className="text-center text-muted-foreground">No significant truancy patterns detected.</TableCell>
+                        <TableCell colSpan={2} className="text-center text-muted-foreground py-8">No significant truancy patterns detected.</TableCell>
                       </TableRow>
                     )}
                   </TableBody>

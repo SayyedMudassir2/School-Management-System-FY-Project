@@ -14,7 +14,7 @@ const featuresData = [
     name: 'Students',
     icon: Users,
     title: 'Student Management',
-    description: 'Comprehensive student information system for managing enrollments, profiles, and academic records with ease.',
+    description: 'It\'s a comprehensive student information system for managing enrollments, profiles, and academic records with ease.',
     points: [
       'Digital student profiles with complete academic history',
       'Automated enrollment and registration process',
@@ -32,7 +32,7 @@ const featuresData = [
     name: 'Academics',
     icon: GraduationCap,
     title: 'Academic Excellence',
-    description: 'Streamline curriculum planning, assessments, and progress reporting to foster academic growth and success.',
+    description: 'You can streamline curriculum planning, assessments, and progress reporting to foster academic growth and success.',
     points: [
       'Centralized curriculum and subject management',
       'Online examination and automated grading system',
@@ -50,7 +50,7 @@ const featuresData = [
     name: 'Finance',
     icon: Banknote,
     title: 'Financial Control',
-    description: 'Simplify fee collection, expense tracking, and financial reporting with our integrated accounting module.',
+    description: 'You can simplify fee collection, expense tracking, and financial reporting with our integrated accounting module.',
     points: [
       'Automated fee invoicing and online payment gateways',
       'Customizable fee structures and concession management',
@@ -68,7 +68,7 @@ const featuresData = [
     name: 'Analytics',
     icon: BarChart,
     title: 'Data-Driven Insights',
-    description: 'Leverage powerful analytics to gain actionable insights into every aspect of your institution’s performance.',
+    description: 'You can leverage powerful analytics to gain actionable insights into every aspect of your institution’s performance.',
     points: [
       'Interactive dashboards for a 360-degree view',
       'Attendance and behavioral trend analysis',
@@ -89,24 +89,24 @@ export function AdditionalFeatures() {
 
   return (
     <section id="additional-features" className="py-24 sm:py-32 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
             <SmallTitle>Additional Features</SmallTitle>
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mt-4">All-in-One School Management Platform</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-                Streamline your entire school operations with our comprehensive suite of integrated modules designed specifically for modern educational institutions.
+                You can streamline your entire school operations with our comprehensive suite of integrated modules designed specifically for modern educational institutions.
             </p>
         </div>
 
         <div className="mt-16">
           <div className="border-b border-border/50 mb-8">
-            <div className="flex justify-center -mb-px">
+            <div className="flex justify-center -mb-px overflow-x-auto">
               {featuresData.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                    "flex-shrink-0 flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors",
                     activeTab === tab.id
                       ? "border-primary text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"

@@ -1,3 +1,4 @@
+
 import { cn } from "@/lib/utils";
 
 type PageHeaderProps = {
@@ -14,7 +15,7 @@ export function PageHeader({ title, description, children, className }: PageHead
         <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
         {description && <p className="text-muted-foreground max-w-2xl">{description}</p>}
       </div>
-      {children && <div className="flex-shrink-0">{children}</div>}
+      {children && <div className="flex-shrink-0 mt-4 md:mt-0">{children}</div>}
     </div>
   );
 }

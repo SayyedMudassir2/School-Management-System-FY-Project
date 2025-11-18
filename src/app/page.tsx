@@ -60,23 +60,27 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section id="home" className="relative isolate px-6 lg:px-8 pt-12">
+        <section id="home" className="relative isolate px-6 pt-12 lg:px-8">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-gradient-to-br from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto pb-24 sm:pb-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
+              
               <div className="flex justify-center">
                 <SmallTitle>
                   Welcome to Aedura
                 </SmallTitle>
               </div>
-              <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl mt-4">
+
+              <h1 className="mt-4 text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
                 The Official Management Portal <br /> of Our School
               </h1>
-              <p className="mt-6 mx-auto max-w-[700px] text-lg leading-8 text-muted-foreground sm:text-xl">
-                Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.  It provides a seamless experience for students, parents, teachers, and administrators.
+              
+              <p className="mx-auto mt-6 max-w-[700px] text-lg leading-8 text-muted-foreground sm:text-xl">
+                Aedura is our school’s centralized, all-in-one digital system.  It's designed to simplify communication, academics, administration, and daily school operations.  It provides a seamless experience for students, parents, teachers, and administrators.
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
+
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-x-6">
                 <Button size="lg" asChild>
                   <Link href="/login">Login</Link>
                 </Button>
@@ -88,6 +92,7 @@ export default function LandingPage() {
                 </Button>
               </div>
             </div>
+
             <div className="mt-16 flow-root sm:mt-24 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000 delay-300">
               <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
@@ -139,7 +144,8 @@ export default function LandingPage() {
                       <Label htmlFor="message">Message</Label>
                       <Textarea id="message" placeholder="Your message..." rows={5} />
                     </div>
-                    <Button type="submit" className="w-full">Send Message</Button>                  </form>
+                    <Button type="submit" className="w-full">Send Message</Button>                  
+                  </form>
                 </CardContent>
               </Card>
                <div className="text-center mt-8 text-muted-foreground">

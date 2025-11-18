@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +27,7 @@ export function Footer({ year }: { year: number | null }) {
                     <div className="lg:col-span-1">
                         <Logo />
                         <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-                            Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.
+                            Aedura is our school’s centralized, all-in-one digital system.  It's designed to simplify communication, academics, administration, and daily school operations.
                         </p>
                         <div className="mt-6 flex space-x-4">
                             {socialLinks.map((social) => (

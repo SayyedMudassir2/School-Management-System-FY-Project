@@ -13,73 +13,73 @@ import { ArrowRight, ChevronDown, BookOpen, Users, Banknote, LayoutDashboard, Gr
 const features = [
   {
     name: 'Student Management',
-    description: 'Comprehensive student information system.',
+    description: 'It\'s a comprehensive student information system.',
     href: '#',
     icon: Users,
   },
   {
     name: 'Academic Management',
-    description: 'Streamline curriculum planning and examinations.',
+    description: 'You can streamline curriculum planning and examinations.',
     href: '#',
     icon: GraduationCap,
   },
   {
     name: 'Communication Hub',
-    description: 'Integrated messaging system with multi-channel...',
+    description: 'It\'s an integrated messaging system with multi-channel support.',
     href: '#',
     icon: MessageSquare,
   },
   {
     name: 'Financial Management',
-    description: 'Complete fee management system with online...',
+    description: 'It\'s a complete fee management system with online payment.',
     href: '#',
     icon: Banknote,
   },
   {
     name: 'Staff Management',
-    description: 'Efficient tools for managing staff records, attendance,...',
+    description: 'There are efficient tools for managing staff records, attendance, and more.',
     href: '#',
-icon: UserCog,
+    icon: UserCog,
   },
   {
     name: 'Transport Management',
-    description: 'Real-time transport tracking, route management, and...',
+    description: 'There\'s real-time transport tracking, route management, and more.',
     href: '#',
     icon: Bus,
   },
   {
     name: 'Analytics & Reports',
-    description: 'Powerful analytics tools for data-driven decisions.',
+    description: 'There are powerful analytics tools for data-driven decisions.',
     href: '/dashboard',
     icon: BarChart,
   },
   {
     name: 'Resource Management',
-    description: 'Digital library system, inventory tracking, and...',
+    description: 'It has a digital library system, inventory tracking, and more.',
     href: '#',
     icon: BookOpen,
   },
   {
     name: 'Attendance System',
-    description: 'Automated attendance tracking for students and...',
+    description: 'There\'s automated attendance tracking for students and staff.',
     href: '/dashboard/attendance',
     icon: CalendarCheck,
   },
   {
     name: 'Examination Portal',
-    description: 'Complete examination management system from...',
+    description: 'It\'s a complete examination management system.',
     href: '#',
     icon: FileCheck,
   },
   {
     name: 'Notice Board',
-    description: 'Digital notice board for announcements, events, an...',
+    description: 'It\'s a digital notice board for announcements, events, and more.',
     href: '#',
     icon: Bell,
   },
   {
     name: 'Security & Access',
-    description: 'Role-based access control with data encryption and...',
+    description: 'There\'s role-based access control with data encryption.',
     href: '#',
     icon: Shield,
   }
@@ -113,7 +113,7 @@ export function DesktopNav() {
             onMouseLeave={() => setOpen(false)}
             className="w-[56rem] p-6" align="start">
           <div className="grid gap-4">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mb-2">
               <h4 className="font-medium leading-none text-foreground">Features</h4>
               <a href="#features" className='text-sm font-medium text-primary hover:underline'>View all</a>
             </div>
@@ -143,7 +143,9 @@ export function DesktopNav() {
                 <div className="flex justify-between items-center bg-muted/50 rounded-lg p-4">
                     <div>
                         <p className="font-semibold text-foreground">Get started</p>
-                        <p className="text-sm text-muted-foreground">Their food sources have decreased, and their numbers</p>
+                        <p className="text-sm text-muted-foreground max-w-sm">
+                          Ready to streamline your school's operations?  Get started today.
+                        </p>
                     </div>
                     <Button asChild size="sm">
                         <Link href="/signup">Get Started</Link>
@@ -168,5 +170,3 @@ export function DesktopNav() {
     </nav>
   );
 }
-
-    
