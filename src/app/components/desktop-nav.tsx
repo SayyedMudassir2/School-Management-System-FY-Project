@@ -139,19 +139,7 @@ export function DesktopNav() {
                 </Link>
               ))}
             </div>
-            <div className="border-t pt-4 mt-2">
-                <div className="flex justify-between items-center bg-muted/50 rounded-lg p-4">
-                    <div>
-                        <p className="font-semibold text-foreground">Get started</p>
-                        <p className="text-sm text-muted-foreground max-w-sm">
-                          Ready to streamline your school's operations?  Get started today.
-                        </p>
-                    </div>
-                    <Button asChild size="sm">
-                        <Link href="/signup">Get Started</Link>
-                    </Button>
-                </div>
-            </div>
+            
           </div>
         </PopoverContent>
       </Popover>

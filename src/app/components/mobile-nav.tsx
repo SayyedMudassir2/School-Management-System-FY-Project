@@ -135,9 +135,6 @@ export function MobileNav() {
                   Login <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-               <Button asChild className="w-full" variant="outline">
-                <Link href="/signup">Get Started</Link>
-              </Button>
             </div>
           </div>
         </SheetContent>
