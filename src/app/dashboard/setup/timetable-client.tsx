@@ -191,7 +191,7 @@ export function TimetableClient() {
                               control={control}
                               name={`schedule.${day}.periods.${periodIndex}.subject`}
                               render={({ field }) => (
-                                <Select onValuechange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <SelectTrigger><SelectValue placeholder="Subject" /></SelectTrigger>
                                   <SelectContent>
                                     {availableSubjects.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
