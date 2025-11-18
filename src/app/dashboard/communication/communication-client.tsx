@@ -35,7 +35,14 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const fileSchema = z.custom<File>(val => typeof window !== 'undefined' ? val instanceof File : false, "Please upload a file").optional();
+const fileSchema = z.custom<File>(val => {
+    if (typeof window === 'undefined') {
+        // On the server, we can't check for File instance, so we can either
+        // assume it's valid or invalid. Let's be permissive and validate on client.
+        return true; 
+    }
+    return val instanceof File;
+}, "Please upload a file").optional();
 
 const announcementSchema = z.object({
   id: z.string().optional(),
