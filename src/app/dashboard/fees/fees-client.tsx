@@ -71,15 +71,11 @@ export function FeesClient() {
 
   useEffect(() => {
     if (feeToPrint) {
-      const handlePrint = () => {
+      const timer = setTimeout(() => {
         window.print();
         setFeeToPrint(null);
-      };
-      
-      // Use a timeout to allow the print component to render before printing
-      const timer = setTimeout(handlePrint, 100);
+      }, 100);
 
-      // Cleanup the timeout if the component unmounts or feeToPrint changes
       return () => clearTimeout(timer);
     }
   }, [feeToPrint]);
