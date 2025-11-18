@@ -32,8 +32,8 @@ function LoginPageContent() {
     try {
       await signInWithEmail(email, password);
       // On successful sign-in, Firebase automatically handles session.
-      // Redirect to the dashboard.
-      router.push('/dashboard');
+      // Redirect to the dashboard with the selected role.
+      router.push(`/dashboard?role=${role}`);
     } catch (err: any) {
       // Handle known Firebase auth errors
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
@@ -97,9 +97,8 @@ function LoginPageContent() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">Administrator</SelectItem>
-                    <SelectItem value="teacher">Teacher</SelectItem>
-                    <SelectItem value="student">Student</SelectItem>
                     <SelectItem value="parent">Parent</SelectItem>
+                    <SelectItem value="student">Student</SelectItem>
                   </SelectContent>
                 </Select>
             </div>

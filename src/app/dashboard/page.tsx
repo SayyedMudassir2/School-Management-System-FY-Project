@@ -1,55 +1,36 @@
 
-import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { PageHeader } from "./components/page-header";
-import { User, Shield, UserCog } from "lucide-react";
+'use client';
 
-const roles = [
-    {
-        name: "Admin",
-        description: "Full access to all school management features.",
-        href: "/dashboard/admin",
-        icon: Shield
-    },
-    {
-        name: "Parent",
-        description: "View your child's progress, attendance, and fees.",
-        href: "/dashboard/parent",
-        icon: User
-    },
-    {
-        name: "Student",
-        description: "Access your courses, assignments, and grades.",
-        href: "/dashboard/student",
-        icon: UserCog
-    }
-]
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { PageHeader } from "./components/page-header";
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get('role');
+
+  useEffect(() => {
+    if (role) {
+      if (role === 'admin' || role === 'parent' || role === 'student') {
+        router.replace(`/dashboard/${role}`);
+      } else {
+        // Fallback for unknown roles, maybe redirect to a default or error page
+        router.replace('/dashboard/admin');
+      }
+    }
+    // If no role, we might want to show a loading state or a default dashboard
+    // For now, it will just wait for the role parameter. A loading skeleton is shown.
+  }, [role, router]);
+
   return (
     <>
-      <PageHeader title="Select a Dashboard" description="Choose your role to view the corresponding dashboard." />
-      
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {roles.map(role => (
-            <Link key={role.name} href={role.href}>
-                <Card className="glassmorphic hover:bg-muted/40 transition-colors">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">{role.name}</CardTitle>
-                        <role.icon className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-xs text-muted-foreground">{role.description}</p>
-                    </CardContent>
-                </Card>
-            </Link>
-        ))}
+      <PageHeader title="Loading Dashboard..." description="Please wait while we redirect you." />
+      <div className="space-y-4">
+        <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-24 w-full" />
       </div>
     </>
   );
