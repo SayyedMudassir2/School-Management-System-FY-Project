@@ -4,9 +4,9 @@ export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 200 50"
-      width="140"
-      height="40"
+      viewBox="0 0 160 50"
+      width="112"
+      height="35"
       {...props}
     >
       <circle cx="25" cy="25" r="22" fill="#3b82f6" />
@@ -15,24 +15,14 @@ export const Icons = {
         fill="white"
       />
       <text
-        x="60"
+        x="58"
         y="32"
         fontFamily="Inter, sans-serif"
         fontSize="24"
         fontWeight="bold"
         fill="currentColor"
       >
-        School
-      </text>
-      <text
-        x="142"
-        y="32"
-        fontFamily="Inter, sans-serif"
-        fontSize="24"
-        fontWeight="bold"
-        fill="#3b82f6"
-      >
-        Pro
+        Aedura
       </text>
     </svg>
   ),
