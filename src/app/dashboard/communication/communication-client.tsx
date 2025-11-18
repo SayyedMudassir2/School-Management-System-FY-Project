@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Send, PlusCircle, Users, Briefcase, GraduationCap, Shell, Search, Paperclip, XCircle, File } from "lucide-react";
+import { Send, PlusCircle, Users, Briefcase, GraduationCap, Shell, Search } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -35,22 +35,12 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const fileSchema = z.custom<File>(val => {
-    if (typeof window === 'undefined') {
-        // On the server, we can't check for File instance, so we can either
-        // assume it's valid or invalid. Let's be permissive and validate on client.
-        return true; 
-    }
-    return val instanceof File;
-}, "Please upload a file").optional();
-
 const announcementSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1, "Title is required"),
   content: z.string().min(1, "Message content is required"),
   recipientGroup: z.enum(["All Users", "Teachers", "Students", "Parents"]),
   sentAt: z.string(),
-  attachment: fileSchema,
 });
 
 type Announcement = z.infer<typeof announcementSchema>;
@@ -87,17 +77,14 @@ export function CommunicationClient() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterGroup, setFilterGroup] = useState("All");
 
-  const { register, handleSubmit, reset, control, setValue, watch, formState: { errors } } = useForm<Omit<Announcement, 'id' | 'sentAt'>>({
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<Omit<Announcement, 'id' | 'sentAt'>>({
     resolver: zodResolver(announcementSchema.omit({ id: true, sentAt: true })),
     defaultValues: {
       title: "",
       content: "",
       recipientGroup: "All Users",
-      attachment: undefined,
     }
   });
-
-  const attachment = watch("attachment");
 
   const onSubmit: SubmitHandler<Omit<Announcement, 'id' | 'sentAt'>> = (data) => {
     const newAnnouncement: Announcement = {
@@ -186,17 +173,6 @@ export function CommunicationClient() {
                                             <span className="text-xs text-muted-foreground">{formatDate(ann.sentAt)}</span>
                                         </div>
                                         <p className="text-sm text-muted-foreground mt-1">{ann.content}</p>
-                                        {ann.attachment && (
-                                            <a 
-                                                href={URL.createObjectURL(ann.attachment)} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer" 
-                                                className="text-sm text-primary hover:underline mt-2 flex items-center gap-1"
-                                            >
-                                                <File className="h-4 w-4" />
-                                                {ann.attachment.name}
-                                            </a>
-                                        )}
                                         <Badge variant="secondary" className="mt-2">{ann.recipientGroup}</Badge>
                                     </div>
                                 </div>
@@ -244,18 +220,6 @@ export function CommunicationClient() {
                             <Textarea id="content-quick" {...register("content")} rows={5} />
                              {errors.content && <p className="text-destructive text-xs mt-1">{errors.content.message}</p>}
                         </div>
-                         <div>
-                            <Label htmlFor="attachment-quick">Attachment</Label>
-                            <Input id="attachment-quick" type="file" accept="image/*,application/pdf" className="pt-1.5" onChange={(e) => setValue('attachment', e.target.files?.[0])}/>
-                            {attachment && (
-                                <div className="text-sm mt-2 flex items-center justify-between">
-                                    <span className="truncate text-muted-foreground">{attachment.name}</span>
-                                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setValue('attachment', undefined)}>
-                                        <XCircle className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
                         <Button type="submit" className="w-full">
                             <Send className="mr-2 h-4 w-4" /> Send Announcement
                         </Button>
@@ -298,18 +262,6 @@ export function CommunicationClient() {
                 <Label htmlFor="content-dialog">Message</Label>
                 <Textarea id="content-dialog" {...register("content")} rows={8} />
                  {errors.content && <p className="text-destructive text-xs">{errors.content.message}</p>}
-              </div>
-               <div className="space-y-2">
-                <Label htmlFor="attachment-dialog">Attachment (Image or PDF)</Label>
-                <Input id="attachment-dialog" type="file" accept="image/*,application/pdf" className="pt-1.5" onChange={(e) => setValue('attachment', e.target.files?.[0])} />
-                 {attachment && (
-                    <div className="text-sm mt-2 flex items-center justify-between bg-muted p-2 rounded-md">
-                        <span className="truncate text-muted-foreground">{attachment.name}</span>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setValue('attachment', undefined)}>
-                            <XCircle className="h-4 w-4" />
-                        </Button>
-                    </div>
-                )}
               </div>
             </div>
             <DialogFooter>
