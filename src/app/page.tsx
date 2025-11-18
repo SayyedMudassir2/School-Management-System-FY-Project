@@ -69,7 +69,8 @@ export default function LandingPage() {
                 The Official Management Portal <br /> of Our School
               </h1>
               <p className="mt-6 text-lg leading-8 text-muted-foreground">
-                Aedura Elite provides a seamless, integrated platform to manage all aspects of your educational institution. From attendance to fees, communication to smart analytics.
+                Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.
+                It provides a seamless experience for students, parents, teachers, and administrators.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
                 <Button size="lg" asChild>
