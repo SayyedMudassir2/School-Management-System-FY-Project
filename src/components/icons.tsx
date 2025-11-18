@@ -9,24 +9,30 @@ export const Icons = {
       height="40"
       {...props}
     >
-      <defs>
-        <linearGradient id="logo-gradient" x1="0%" y1="50%" x2="100%" y2="50%">
-          <stop offset="0%" stopColor="#8A2BE2" />
-          <stop offset="65%" stopColor="#C58940" />
-          <stop offset="100%" stopColor="#E0B870" />
-        </linearGradient>
-      </defs>
+      <circle cx="25" cy="25" r="22" fill="#3b82f6" />
+      <path
+        d="M13.5 21l8.5 4.5 8.5-4.5-8.5-4.5-8.5 4.5zM13.5 31.5v-7l-3-1.5v8.5l11.5 6 11.5-6v-8.5l-3 1.5v7l-8.5 4.5-8.5-4.5z"
+        fill="white"
+      />
       <text
-        x="50%"
-        y="50%"
-        dy=".35em"
+        x="60"
+        y="32"
         fontFamily="Inter, sans-serif"
-        fontSize="38"
+        fontSize="24"
         fontWeight="bold"
-        fill="url(#logo-gradient)"
-        textAnchor="middle"
+        fill="currentColor"
       >
-        Aedura
+        School
+      </text>
+      <text
+        x="142"
+        y="32"
+        fontFamily="Inter, sans-serif"
+        fontSize="24"
+        fontWeight="bold"
+        fill="#3b82f6"
+      >
+        Pro
       </text>
     </svg>
   ),
