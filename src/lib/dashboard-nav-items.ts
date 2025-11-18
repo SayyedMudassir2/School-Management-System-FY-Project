@@ -10,7 +10,8 @@ import {
     Banknote,
     User,
     UserCog,
-    Shield
+    Shield,
+    BookOpen
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -23,5 +24,5 @@ export const navItems: NavItem[] = [
     { title: "User Management", href: "/dashboard/users", icon: Users },
     { title: "Fees Management", href: "/dashboard/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/communication", icon: MessageCircle },
-    { title: "Library", href: "/dashboard/library", icon: BookMarked },
+    { title: "Library", href: "/dashboard/library", icon: BookOpen },
 ];

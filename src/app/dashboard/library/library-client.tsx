@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search } from "lucide-react";
+import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search, AlertCircle, FileWarning, BadgeDollarSign, Star } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -35,7 +35,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { format } from "date-fns";
+import { format, isAfter, isThisMonth } from "date-fns";
 
 const bookSchema = z.object({
   id: z.string().optional(),
@@ -63,6 +63,8 @@ type BookIssuance = {
   issueDate: string;
   dueDate: string;
   returnDate: string | null;
+  fine: number;
+  finePaid: boolean;
 }
 
 type LibraryClientProps = {
@@ -81,6 +83,7 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
   const [searchTerm, setSearchTerm] = useState("");
 
   const studentMap = new Map(students.map(s => [s.id, s.name]));
+  const bookMap = new Map(books.map(b => [b.id, b.title]));
 
   const bookForm = useForm<Book>({
     resolver: zodResolver(bookSchema),
@@ -128,6 +131,8 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
       issueDate: issueDate.toISOString(),
       dueDate: dueDate.toISOString(),
       returnDate: null,
+      fine: 0,
+      finePaid: false
     };
     
     setIssuances([...issuances, newIssuance]);
@@ -140,7 +145,10 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
     const updatedIssuances = issuances.map(i => {
         if (i.id === issuanceId) {
             bookToUpdate = i.bookId;
-            return { ...i, returnDate: new Date().toISOString() };
+            const isOverdue = isAfter(new Date(), new Date(i.dueDate));
+            // Simple fine calculation: $5 if overdue
+            const fine = isOverdue && i.fine === 0 ? 5 : i.fine;
+            return { ...i, returnDate: new Date().toISOString(), fine };
         }
         return i;
     });
@@ -150,6 +158,48 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
         setBooks(books.map(b => b.id === bookToUpdate ? { ...b, available: b.available + 1 } : b));
     }
   };
+
+  const handlePayFine = (issuanceId: string) => {
+    setIssuances(issuances.map(i => i.id === issuanceId ? { ...i, finePaid: true } : i));
+  };
+
+  const {
+    totalBooks,
+    pendingReturns,
+    overdueBooks,
+    totalFine,
+    fineCollectedThisMonth,
+    mostBorrowed,
+  } = useMemo(() => {
+    const now = new Date();
+    const currentIssuances = issuances.filter(i => !i.returnDate);
+    
+    const overdue = currentIssuances.filter(i => isAfter(now, new Date(i.dueDate)));
+    const totalFineAmt = overdue.reduce((sum, i) => sum + i.fine, 0);
+
+    const collectedThisMonth = issuances.filter(i => 
+      i.finePaid && i.returnDate && isThisMonth(new Date(i.returnDate))
+    ).reduce((sum, i) => sum + i.fine, 0);
+    
+    const borrowCounts = issuances.reduce((acc, i) => {
+        acc[i.bookId] = (acc[i.bookId] || 0) + 1;
+        return acc;
+    }, {} as Record<string, number>);
+
+    const topBorrowed = Object.entries(borrowCounts)
+      .sort(([,a],[,b]) => b - a)
+      .slice(0, 5)
+      .map(([bookId, count]) => ({ bookId, title: bookMap.get(bookId) || "Unknown Book", count }));
+
+    return {
+      totalBooks: books.reduce((sum, book) => sum + book.quantity, 0),
+      pendingReturns: currentIssuances.length,
+      overdueBooks: overdue.length,
+      totalFine: totalFineAmt,
+      fineCollectedThisMonth: collectedThisMonth,
+      mostBorrowed: topBorrowed,
+    };
+  }, [books, issuances, bookMap]);
 
   const bookWithIssuance = useMemo(() => {
     const issuanceMap = new Map<string, BookIssuance[]>();
@@ -168,13 +218,40 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
       book.subject.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [books, searchTerm]);
-  
-  const totalBooks = useMemo(() => books.reduce((sum, book) => sum + book.quantity, 0), [books]);
-  const totalIssued = useMemo(() => issuances.filter(i => !i.returnDate).length, [issuances]);
 
   return (
     <>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+            <Card className="glassmorphic">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Pending Returns</CardTitle>
+                    <BookUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{pendingReturns}</div>
+                    <p className="text-xs text-muted-foreground">Currently borrowed by students</p>
+                </CardContent>
+            </Card>
+            <Card className="glassmorphic">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Overdue Books</CardTitle>
+                    <FileWarning className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{overdueBooks}</div>
+                    <p className="text-xs text-muted-foreground">Total outstanding fine: ${totalFine}</p>
+                </CardContent>
+            </Card>
+            <Card className="glassmorphic">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Fine Collected</CardTitle>
+                    <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">${fineCollectedThisMonth}</div>
+                    <p className="text-xs text-muted-foreground">This month</p>
+                </CardContent>
+            </Card>
             <Card className="glassmorphic">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Total Books</CardTitle>
@@ -185,110 +262,122 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                     <p className="text-xs text-muted-foreground">Across all subjects</p>
                 </CardContent>
             </Card>
-            <Card className="glassmorphic">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Books Issued</CardTitle>
-                    <BookUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{totalIssued}</div>
-                    <p className="text-xs text-muted-foreground">Currently borrowed by students</p>
-                </CardContent>
-            </Card>
-            <Card className="glassmorphic">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Books Available</CardTitle>
-                    <BookDown className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{totalBooks - totalIssued}</div>
-                    <p className="text-xs text-muted-foreground">Available for checkout</p>
-                </CardContent>
-            </Card>
         </div>
-        <Card className="glassmorphic">
-        <CardHeader>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
-                <div>
-                    <CardTitle>Book Inventory</CardTitle>
-                    <CardDescription>A list of all books in the library.</CardDescription>
-                </div>
-                 <Button onClick={() => handleOpenBookDialog()}>
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Book
-                </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+                <Card className="glassmorphic">
+                    <CardHeader>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <CardTitle>Book Inventory</CardTitle>
+                                <CardDescription>A list of all books in the library.</CardDescription>
+                            </div>
+                            <Button onClick={() => handleOpenBookDialog()}>
+                                <PlusCircle className="mr-2 h-4 w-4" /> Add New Book
+                            </Button>
+                        </div>
+                        <div className="mt-4 flex flex-col sm:flex-row gap-4">
+                            <div className="relative flex-1">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input 
+                                    placeholder="Search by title, author, or subject..." 
+                                    className="pl-10"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Author</TableHead>
+                                <TableHead>Subject</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredBooks.map(book => {
+                                const isIssued = (bookWithIssuance.get(book.id!) || []).length > 0;
+                                return (
+                                    <TableRow key={book.id}>
+                                        <TableCell className="font-medium">{book.title}</TableCell>
+                                        <TableCell>{book.author}</TableCell>
+                                        <TableCell>{book.subject}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={book.available > 0 ? 'default' : 'secondary'} className={book.available > 0 ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>
+                                                {book.available} / {book.quantity} Available
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                <span className="sr-only">Open menu</span>
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                            <DropdownMenuItem onClick={() => handleOpenIssueDialog(book)} disabled={book.available === 0}>
+                                                <BookUp className="mr-2 h-4 w-4" />
+                                                Issue Book
+                                            </DropdownMenuItem>
+                                            {isIssued && <DropdownMenuSeparator />}
+                                            {isIssued && <DropdownMenuLabel>Issued To</DropdownMenuLabel>}
+                                            {(bookWithIssuance.get(book.id!) || []).map(issuance => (
+                                                <DropdownMenuItem key={issuance.id} onClick={() => handleReturnBook(issuance.id)}>
+                                                    <BookDown className="mr-2 h-4 w-4" />
+                                                    <span>Return from {studentMap.get(issuance.studentId)}</span>
+                                                </DropdownMenuItem>
+                                            ))}
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem onClick={() => handleOpenBookDialog(book)}>
+                                                <BookOpen className="mr-2 h-4 w-4" />
+                                                View/Edit
+                                            </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
             </div>
-            <div className="mt-4 flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                        placeholder="Search by title, author, or subject..." 
-                        className="pl-10"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-            </div>
-        </CardHeader>
-        <CardContent>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Author</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {filteredBooks.map(book => {
-                       const isIssued = (bookWithIssuance.get(book.id!) || []).length > 0;
-                       return (
-                        <TableRow key={book.id}>
-                            <TableCell className="font-medium">{book.title}</TableCell>
-                            <TableCell>{book.author}</TableCell>
-                            <TableCell>{book.subject}</TableCell>
-                            <TableCell>
-                                <Badge variant={book.available > 0 ? 'default' : 'secondary'} className={book.available > 0 ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>
-                                    {book.available} / {book.quantity} Available
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                    <span className="sr-only">Open menu</span>
-                                    <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem onClick={() => handleOpenIssueDialog(book)} disabled={book.available === 0}>
-                                    <BookUp className="mr-2 h-4 w-4" />
-                                    Issue Book
-                                </DropdownMenuItem>
-                                {isIssued && <DropdownMenuSeparator />}
-                                {isIssued && <DropdownMenuLabel>Issued To</DropdownMenuLabel>}
-                                {(bookWithIssuance.get(book.id!) || []).map(issuance => (
-                                    <DropdownMenuItem key={issuance.id} onClick={() => handleReturnBook(issuance.id)}>
-                                        <BookDown className="mr-2 h-4 w-4" />
-                                        <span>Return from {studentMap.get(issuance.studentId)}</span>
-                                    </DropdownMenuItem>
+            <div className="space-y-8">
+                 <Card className="glassmorphic">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><Star className="h-5 w-5 text-yellow-500" />Most Borrowed Books</CardTitle>
+                        <CardDescription>Top 5 most popular books.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Book Title</TableHead>
+                                    <TableHead className="text-right">Borrows</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {mostBorrowed.map(book => (
+                                    <TableRow key={book.bookId}>
+                                        <TableCell className="font-medium">{book.title}</TableCell>
+                                        <TableCell className="text-right">{book.count}</TableCell>
+                                    </TableRow>
                                 ))}
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => handleOpenBookDialog(book)}>
-                                    <BookOpen className="mr-2 h-4 w-4" />
-                                    View/Edit
-                                </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            </TableCell>
-                        </TableRow>
-                       );
-                    })}
-                </TableBody>
-            </Table>
-        </CardContent>
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+        
 
         <Dialog open={isBookDialogOpen} onOpenChange={setIsBookDialogOpen}>
             <DialogContent className="sm:max-w-md">
@@ -374,8 +463,6 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                 </form>
             </DialogContent>
         </Dialog>
-
-        </Card>
     </>
   );
 }
