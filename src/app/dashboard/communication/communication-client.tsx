@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Send, PlusCircle, Users, Briefcase, GraduationCap, Shell } from "lucide-react";
+import { Send, PlusCircle, Users, Briefcase, GraduationCap, Shell, Search } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -74,6 +74,8 @@ const groupIcons: { [key in typeof recipientGroups[number]]: React.ElementType }
 export function CommunicationClient() {
   const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncements);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterGroup, setFilterGroup] = useState("All");
 
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm<Omit<Announcement, 'id' | 'sentAt'>>({
     resolver: zodResolver(announcementSchema.omit({ id: true, sentAt: true })),
@@ -101,6 +103,17 @@ export function CommunicationClient() {
     }
   }
 
+  const filteredAnnouncements = useMemo(() => {
+    return announcements.filter(ann => {
+      const matchesFilter = filterGroup === 'All' || ann.recipientGroup === filterGroup;
+      const matchesSearch = searchTerm === '' || 
+        ann.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        ann.content.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesFilter && matchesSearch;
+    });
+  }, [announcements, searchTerm, filterGroup]);
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
@@ -115,26 +128,55 @@ export function CommunicationClient() {
                             <PlusCircle className="mr-2 h-4 w-4" /> New Announcement
                         </Button>
                     </div>
+                    <div className="mt-4 flex flex-col sm:flex-row gap-4">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input 
+                                placeholder="Search announcements..." 
+                                className="pl-10"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <Select value={filterGroup} onValueChange={setFilterGroup}>
+                            <SelectTrigger className="w-full sm:w-[180px]">
+                                <SelectValue placeholder="Filter by group" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="All">All Groups</SelectItem>
+                                {recipientGroups.map(group => (
+                                    <SelectItem key={group} value={group}>{group}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-6">
-                        {announcements.map((ann) => (
-                        <div key={ann.id} className="flex items-start gap-4">
-                            <div className="flex-shrink-0">
-                                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                    {React.createElement(groupIcons[ann.recipientGroup], { className: "h-5 w-5 text-primary" })}
+                        {filteredAnnouncements.length > 0 ? (
+                            filteredAnnouncements.map((ann) => (
+                                <div key={ann.id} className="flex items-start gap-4">
+                                    <div className="flex-shrink-0">
+                                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                            {React.createElement(groupIcons[ann.recipientGroup], { className: "h-5 w-5 text-primary" })}
+                                        </div>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-center justify-between">
+                                            <p className="font-semibold text-foreground">{ann.title}</p>
+                                            <span className="text-xs text-muted-foreground">{formatDate(ann.sentAt)}</span>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground mt-1">{ann.content}</p>
+                                        <Badge variant="secondary" className="mt-2">{ann.recipientGroup}</Badge>
+                                    </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-12 text-muted-foreground">
+                                <p>No announcements found.</p>
+                                <p className="text-sm">Try adjusting your search or filter.</p>
                             </div>
-                            <div className="flex-1">
-                                <div className="flex items-center justify-between">
-                                    <p className="font-semibold text-foreground">{ann.title}</p>
-                                    <span className="text-xs text-muted-foreground">{formatDate(ann.sentAt)}</span>
-                                </div>
-                                <p className="text-sm text-muted-foreground mt-1">{ann.content}</p>
-                                <Badge variant="secondary" className="mt-2">{ann.recipientGroup}</Badge>
-                            </div>
-                        </div>
-                        ))}
+                        )}
                     </div>
                 </CardContent>
             </Card>
@@ -228,4 +270,3 @@ export function CommunicationClient() {
     </div>
   );
 }
-
