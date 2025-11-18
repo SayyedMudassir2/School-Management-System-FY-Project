@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 const quickLinks = [
     { name: "Home", href: "#home" },
@@ -24,7 +24,7 @@ export function Footer({ year }: { year: number | null }) {
             <div className="container mx-auto px-6 py-12 lg:py-16">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                     <div className="lg:col-span-1">
-                        <Icons.logo />
+                        <Logo />
                         <p className="mt-4 max-w-xs text-sm text-muted-foreground">
                             Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.
                         </p>

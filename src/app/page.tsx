@@ -4,7 +4,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
 import { ArrowRight, Star } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,6 +19,7 @@ import { Testimonials } from './components/testimonials';
 import { Features } from './components/features';
 import { AdditionalFeatures } from './components/additional-features';
 import { Footer } from './components/footer';
+import { Logo } from '@/components/logo';
 
 
 export default function LandingPage() {
@@ -40,7 +40,7 @@ export default function LandingPage() {
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2">
-              <Icons.logo className="h-10 w-auto" />
+              <Logo />
             </Link>
             <DesktopNav />
           </div>

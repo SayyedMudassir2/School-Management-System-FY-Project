@@ -23,7 +23,7 @@ import {
   Banknote,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Icons } from "@/components/icons";
+import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import type { NavItem } from "@/lib/types";
 
@@ -47,7 +47,7 @@ export default function DashboardLayout({
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <Icons.logo className="h-10 w-auto" />
+            <Logo className="h-10 w-auto" />
           </div>
         </SidebarHeader>
         <SidebarContent>

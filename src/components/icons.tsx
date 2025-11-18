@@ -1,13 +1,7 @@
-import { GraduationCap, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import type { SVGProps } from "react";
 
 export const Icons = {
-  logo: (props: SVGProps<SVGSVGElement>) => (
-    <div className="flex items-center gap-2 whitespace-nowrap" {...props}>
-      <GraduationCap className="h-8 w-8 text-primary" />
-      <span className="text-xl font-bold">Aedura</span>
-    </div>
-  ),
   google: (props: SVGProps<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

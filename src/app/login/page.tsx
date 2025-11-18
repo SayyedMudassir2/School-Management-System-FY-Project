@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Icons } from '@/components/icons';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Logo } from '@/components/logo';
 
 export default function LoginPage() {
   return (
@@ -13,7 +13,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md mx-auto glassmorphic animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
         <CardHeader className="text-center space-y-4">
           <div className="mb-4 flex justify-center">
-            <Icons.logo className="h-12 w-auto" />
+            <Logo className="h-12 w-auto" />
           </div>
           <CardTitle className="text-3xl font-bold tracking-tight">Welcome Back</CardTitle>
           <CardDescription>Please sign in to your account.</CardDescription>

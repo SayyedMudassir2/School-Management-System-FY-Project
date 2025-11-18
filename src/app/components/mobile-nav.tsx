@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
 import { ArrowRight, Menu, X, ChevronDown, BookOpen, Users, Banknote, LayoutDashboard } from 'lucide-react';
 import {
   Sheet,
@@ -17,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Logo } from '@/components/logo';
 
 
 const features = [
@@ -66,7 +66,7 @@ export function MobileNav() {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-2">
-                <Icons.logo className="h-10 w-auto" />
+                <Logo className="h-10 w-auto" />
               </div>
               <Button
                 variant="ghost"
