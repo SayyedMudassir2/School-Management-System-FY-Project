@@ -14,6 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { DesktopNav } from './components/desktop-nav';
 import { MobileNav } from './components/mobile-nav';
+import { SmallTitle } from './components/small-title';
 
 
 export default function LandingPage() {
@@ -59,6 +60,11 @@ export default function LandingPage() {
 
           <div className="container mx-auto py-24 sm:py-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
+              <div className="flex justify-center mb-6">
+                <SmallTitle>
+                  Welcome to Aedura
+                </SmallTitle>
+              </div>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
                 The Future of School Management is Here
               </h1>
