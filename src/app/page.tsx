@@ -8,7 +8,7 @@ import { Icons } from '@/components/icons';
 import { ArrowRight, Menu, X, Star } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -71,7 +71,8 @@ export default function LandingPage() {
                   <span className="sr-only">Open Menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-xs bg-background/95 backdrop-blur-sm">
+              <SheetContent side="right" className="w-full max-w-xs bg-background/95 backdrop-blur-sm p-0">
+                <SheetTitle className="sr-only">Menu</SheetTitle>
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
                      <div className="flex items-center gap-2">
@@ -247,3 +248,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
