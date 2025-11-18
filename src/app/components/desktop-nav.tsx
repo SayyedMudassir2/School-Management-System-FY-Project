@@ -115,7 +115,7 @@ export function DesktopNav() {
           <div className="grid gap-4">
             <div className="flex justify-between items-center">
               <h4 className="font-medium leading-none text-foreground">Features</h4>
-              <Link href="#" className='text-sm font-medium text-primary hover:underline'>View all</Link>
+              <a href="#features" className='text-sm font-medium text-primary hover:underline'>View all</a>
             </div>
             <div className="grid grid-cols-3 gap-x-6 gap-y-4">
               {features.map((feature) => (
