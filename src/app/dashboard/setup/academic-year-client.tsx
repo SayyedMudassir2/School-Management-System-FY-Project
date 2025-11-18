@@ -84,6 +84,19 @@ export function AcademicYearClient() {
     }
   }
 
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    if (value.length === 4 && /^\d{4}$/.test(value)) {
+      value += '-';
+    }
+    // Limit the length to prevent more than YYYY-YYYY
+    if (value.length > 9) {
+      value = value.substring(0, 9);
+    }
+    setValue('year', value);
+  };
+
+
   return (
     <Card className="glassmorphic mt-4">
       <CardHeader>
@@ -149,7 +162,15 @@ export function AcademicYearClient() {
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="year" className="text-right">Year</Label>
-                <Input id="year" {...register("year")} className="col-span-3" placeholder="e.g., 2025-2026"/>
+                <Input
+                  id="year"
+                  {...register("year", {
+                    onChange: handleYearChange,
+                  })}
+                  className="col-span-3"
+                  placeholder="e.g., 2025-2026"
+                  maxLength={9}
+                />
                 {errors.year && <p className="col-span-4 text-destructive text-xs text-right">{errors.year.message}</p>}
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
