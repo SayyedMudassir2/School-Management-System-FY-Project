@@ -15,6 +15,7 @@ import {
   SidebarInset,
   SidebarTrigger,
   SidebarRail,
+  SidebarMenuSkeleton,
 } from "@/components/ui/sidebar";
 import {
   LogOut,
@@ -38,7 +39,9 @@ const getRoleFromPath = (path: string): 'admin' | 'parent' | 'student' | null =>
 
 const getFilteredNavItems = (role: 'admin' | 'parent' | 'student' | null): NavItem[] => {
   if (!role) {
-    return navItems;
+    // Return an empty array or a default set if no role is identified yet
+    // This can happen on initial load before redirection.
+    return [];
   }
   const forbiddenLinks: { [key: string]: string[] } = {
     admin: ["/dashboard/parent", "/dashboard/student"],
@@ -57,10 +60,17 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [currentNavItems, setCurrentNavItems] = useState<NavItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const role = getRoleFromPath(pathname);
-    setCurrentNavItems(getFilteredNavItems(role));
+    const filteredItems = getFilteredNavItems(role);
+    setCurrentNavItems(filteredItems);
+    // Only stop loading if we have items or it's a base dashboard path that will redirect
+    if (filteredItems.length > 0 || pathname === '/dashboard') {
+        setLoading(false);
+    }
   }, [pathname]);
 
   return (
@@ -75,16 +85,26 @@ export default function DashboardLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              {currentNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <Link href={item.href}>
-                    <SidebarMenuButton tooltip={item.title}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-              ))}
+              {loading ? (
+                <>
+                  <SidebarMenuSkeleton showIcon />
+                  <SidebarMenuSkeleton showIcon />
+                  <SidebarMenuSkeleton showIcon />
+                  <SidebarMenuSkeleton showIcon />
+                  <SidebarMenuSkeleton showIcon />
+                </>
+              ) : (
+                currentNavItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <Link href={item.href}>
+                      <SidebarMenuButton tooltip={item.title} isActive={pathname.startsWith(item.href)}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                ))
+              )}
             </SidebarMenu>
           </SidebarContent>
           <SidebarFooter>
@@ -92,7 +112,7 @@ export default function DashboardLayout({
             <SidebarMenu>
                <SidebarMenuItem>
                   <Link href="/dashboard/settings">
-                    <SidebarMenuButton tooltip="Settings">
+                    <SidebarMenuButton tooltip="Settings" isActive={pathname === '/dashboard/settings'}>
                       <Settings/>
                       <span>Settings</span>
                     </SidebarMenuButton>
