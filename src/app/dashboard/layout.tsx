@@ -1,5 +1,8 @@
 
+'use client';
+
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -21,14 +24,45 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { navItems } from "@/lib/dashboard-nav-items";
+import type { NavItem } from "@/lib/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Breadcrumb } from "./components/breadcrumb";
+import { useEffect, useState } from "react";
+
+const getRoleFromPath = (path: string): 'admin' | 'parent' | 'student' | null => {
+  if (path.startsWith('/dashboard/admin')) return 'admin';
+  if (path.startsWith('/dashboard/parent')) return 'parent';
+  if (path.startsWith('/dashboard/student')) return 'student';
+  return null;
+}
+
+const getFilteredNavItems = (role: 'admin' | 'parent' | 'student' | null): NavItem[] => {
+  if (!role) {
+    return navItems;
+  }
+  const forbiddenLinks: { [key: string]: string[] } = {
+    admin: ["/dashboard/parent", "/dashboard/student"],
+    parent: ["/dashboard/admin", "/dashboard/student"],
+    student: ["/dashboard/admin", "/dashboard/parent"],
+  };
+
+  return navItems.filter(item => !forbiddenLinks[role].includes(item.href));
+};
+
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const [currentNavItems, setCurrentNavItems] = useState<NavItem[]>([]);
+
+  useEffect(() => {
+    const role = getRoleFromPath(pathname);
+    setCurrentNavItems(getFilteredNavItems(role));
+  }, [pathname]);
+
   return (
     <TooltipProvider>
       <SidebarProvider>
@@ -41,7 +75,7 @@ export default function DashboardLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              {navItems.map((item) => (
+              {currentNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <Link href={item.href}>
                     <SidebarMenuButton tooltip={item.title}>
