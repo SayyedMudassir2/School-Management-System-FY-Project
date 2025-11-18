@@ -18,6 +18,7 @@ import { SmallTitle } from './components/small-title';
 import { Stats } from './components/stats';
 import { Testimonials } from './components/testimonials';
 import { Features } from './components/features';
+import { AdditionalFeatures } from './components/additional-features';
 
 
 export default function LandingPage() {
@@ -58,10 +59,10 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section id="home" className="relative isolate px-6 lg:px-8">
+        <section id="home" className="relative isolate px-6 lg:px-8 pt-12">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
-          <div className="container mx-auto py-24 sm:py-32">
+          <div className="container mx-auto pb-24 sm:pb-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
               <div className="flex justify-center">
                 <SmallTitle>
@@ -105,6 +106,8 @@ export default function LandingPage() {
         <Stats />
 
         <Features />
+
+        <AdditionalFeatures />
 
         <Testimonials />
 
@@ -152,7 +155,7 @@ export default function LandingPage() {
 
       <footer className="border-t">
         <div className="container py-8 text-center text-sm text-muted-foreground">
-            {year && <>© {year} Aedura Elite. All Rights Reserved.</>}
+            {year ? <>© {year} Aedura Elite. All Rights Reserved.</> : `© ${new Date().getFullYear()} Aedura Elite. All Rights Reserved.`}
         </div>
       </footer>
     </div>
