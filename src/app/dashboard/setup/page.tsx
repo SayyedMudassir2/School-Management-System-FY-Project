@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function SetupPage() {
   return (
@@ -74,9 +75,16 @@ export default function SetupPage() {
                       <Badge>Active</Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm">
-                        Edit
-                      </Button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            Edit
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Edit Academic Year</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -87,9 +95,16 @@ export default function SetupPage() {
                       <Badge variant="secondary">Completed</Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm" disabled>
-                        Edit
-                      </Button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button variant="outline" size="sm" disabled>
+                            Edit
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Cannot edit a completed year.</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -130,9 +145,16 @@ export default function SetupPage() {
                     <TableCell>Mr.  John Smith</TableCell>
                     <TableCell>120</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm">
-                        Manage
-                      </Button>
+                       <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button variant="outline" size="sm">
+                            Manage
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Manage Class 10</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -141,9 +163,16 @@ export default function SetupPage() {
                     <TableCell>Ms.  Emily White</TableCell>
                      <TableCell>85</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm">
-                        Manage
-                      </Button>
+                       <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button variant="outline" size="sm">
+                            Manage
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Manage Class 9</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -184,9 +213,16 @@ export default function SetupPage() {
                       <TableCell>Core</TableCell>
                       <TableCell>Class 9, Class 10</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
+                         <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              Edit
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Edit Mathematics</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -195,9 +231,16 @@ export default function SetupPage() {
                       <TableCell>Core</TableCell>
                       <TableCell>Class 10</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
+                         <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              Edit
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Edit Physics</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                      <TableRow>
@@ -206,9 +249,16 @@ export default function SetupPage() {
                       <TableCell>Elective</TableCell>
                       <TableCell>Class 9, Class 10</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
+                         <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              Edit
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Edit Computer Science</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   </TableBody>

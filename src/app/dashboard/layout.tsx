@@ -28,6 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import type { NavItem } from "@/lib/types";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navItems: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -88,16 +89,24 @@ export default function DashboardLayout({
               </SidebarMenuItem>
           </SidebarMenu>
            <Separator className="my-2 bg-sidebar-border" />
-           <div className="flex items-center gap-3 p-2">
-             <Avatar>
-                <AvatarImage src="https://picsum.photos/seed/1/100/100" alt="Admin" data-ai-hint="person portrait"/>
-                <AvatarFallback>AD</AvatarFallback>
-             </Avatar>
-             <div className="overflow-hidden">
-                <p className="font-semibold text-sm truncate">Alex Doe</p>
-                <p className="text-xs text-sidebar-foreground/70 truncate">Administrator</p>
-             </div>
-           </div>
+           <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-3 p-2">
+                <Avatar>
+                    <AvatarImage src="https://picsum.photos/seed/1/100/100" alt="Admin" data-ai-hint="person portrait"/>
+                    <AvatarFallback>AD</AvatarFallback>
+                </Avatar>
+                <div className="overflow-hidden">
+                    <p className="font-semibold text-sm truncate">Alex Doe</p>
+                    <p className="text-xs text-sidebar-foreground/70 truncate">Administrator</p>
+                </div>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="right" align="center">
+              <p className="font-semibold">Alex Doe</p>
+              <p className="text-xs text-muted-foreground">Administrator</p>
+            </TooltipContent>
+           </Tooltip>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
