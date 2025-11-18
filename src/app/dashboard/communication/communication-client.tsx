@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -25,7 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { format, toDate } from "date-fns";
+import { format } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -71,6 +71,21 @@ const groupIcons: { [key in typeof recipientGroups[number]]: React.ElementType }
   "Parents": Shell,
 };
 
+function FormattedDate({ dateString }: { dateString: string }) {
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        try {
+            setFormattedDate(format(new Date(dateString), "dd MMM yyyy, h:mm a"));
+        } catch {
+            setFormattedDate("Invalid Date");
+        }
+    }, [dateString]);
+
+    return <>{formattedDate}</>;
+}
+
+
 export function CommunicationClient() {
   const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncements);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -96,15 +111,6 @@ export function CommunicationClient() {
     setIsDialogOpen(false);
     reset();
   };
-  
-  const formatDate = (dateString: string) => {
-    try {
-        // Use toDate to handle timezone conversion correctly
-        return format(toDate(dateString), "dd MMM yyyy, h:mm a");
-    } catch {
-        return "Invalid Date";
-    }
-  }
 
   const filteredAnnouncements = useMemo(() => {
     return announcements.filter(ann => {
@@ -170,7 +176,7 @@ export function CommunicationClient() {
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between">
                                             <p className="font-semibold text-foreground">{ann.title}</p>
-                                            <span className="text-xs text-muted-foreground">{formatDate(ann.sentAt)}</span>
+                                            <span className="text-xs text-muted-foreground"><FormattedDate dateString={ann.sentAt} /></span>
                                         </div>
                                         <p className="text-sm text-muted-foreground mt-1">{ann.content}</p>
                                         <Badge variant="secondary" className="mt-2">{ann.recipientGroup}</Badge>
