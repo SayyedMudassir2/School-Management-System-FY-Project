@@ -90,7 +90,6 @@ export function DesktopNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
     <nav className="hidden md:flex items-center gap-6">
       <a
         href="#home"
@@ -167,13 +166,5 @@ export function DesktopNav() {
         Contact
       </a>
     </nav>
-     <div className="hidden md:flex items-center gap-2">
-        <Button asChild>
-          <Link href="/login">
-            Login <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-    </>
   );
 }
