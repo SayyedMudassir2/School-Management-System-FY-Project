@@ -90,7 +90,7 @@ export function DesktopNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="hidden md:flex items-center gap-6">
+    <nav className="hidden md:flex items-center gap-6 ml-6">
       <a
         href="#home"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
@@ -168,3 +168,5 @@ export function DesktopNav() {
     </nav>
   );
 }
+
+    

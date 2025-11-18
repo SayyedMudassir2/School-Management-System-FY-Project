@@ -89,8 +89,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="features" className="py-24 sm:py-32 bg-secondary/50">
-          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+        <section id="features" className="py-24 sm:py-32 bg-secondary/50 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+          <div className="container mx-auto">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Powerful Features</h2>
               <p className="mt-4 text-lg text-muted-foreground">Everything you need to run your school efficiently.</p>
@@ -114,8 +114,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="testimonials" className="py-24 sm:py-32">
-          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+        <section id="testimonials" className="py-24 sm:py-32 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+          <div className="container mx-auto">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What Our Community Says</h2>
               <p className="mt-4 text-lg text-muted-foreground">Feedback from those who know us best.</p>
@@ -142,8 +142,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="contact" className="py-24 sm:py-32 bg-secondary/50">
-          <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+        <section id="contact" className="py-24 sm:py-32 bg-secondary/50 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
+          <div className="container mx-auto">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
               <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
@@ -192,3 +192,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
