@@ -1,32 +1,12 @@
+import { GraduationCap } from "lucide-react";
 import type { SVGProps } from "react";
 
 export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 170 50"
-      width="122"
-      height="35"
-      {...props}
-    >
-      <g transform="translate(10, 0)">
-        <path d="M22 10v6.09c0 1.3-.84 2.54-2.07 3.02l-8.5 3.39c-.93.37-1.93.37-2.86 0l-8.5-3.39A3.42 3.42 0 010 16.09V10a2 2 0 012-2h20a2 2 0 012 2zM4 11.43v4.66l8 3.2 8-3.2V11.43l-8 3.2-8-3.2z" fill="#3b82f6" transform="translate(0, 10)"/>
-        <path d="M11 18.09l-8-3.2V10l8 3.2v4.89z" fill="#3b82f6" opacity="0.7" transform="translate(0, 10)"/>
-        <path d="M11 25.09l8-3.2V17l-8 3.2v4.89z" fill="#3b82f6" opacity="0.7" transform="translate(0, 10)" />
-        <path d="M22 10v6.09c0 1.3-.84 2.54-2.07 3.02l-8.5 3.39c-.93.37-1.93.37-2.86 0l-8.5-3.39A3.42 3.42 0 010 16.09V10" stroke="#3b82f6" strokeWidth="2" fill="none" transform="translate(0, 10)"/>
-        <line x1="11" y1="14" x2="11" y2="25" stroke="#3b82f6" strokeWidth="2" transform="translate(0, 10)" />
-        <text
-          x="68"
-          y="32"
-          fontFamily="Inter, sans-serif"
-          fontSize="24"
-          fontWeight="bold"
-          fill="currentColor"
-        >
-          Aedura
-        </text>
-      </g>
-    </svg>
+    <div className="flex items-center gap-2">
+      <GraduationCap className="h-8 w-8 text-primary" />
+      <span className="text-xl font-bold">Aedura</span>
+    </div>
   ),
   google: (props: SVGProps<SVGSVGElement>) => (
     <svg
