@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -30,20 +30,24 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Breadcrumb } from "./components/breadcrumb";
 import { useEffect, useState } from "react";
 
-const getRoleFromPath = (path: string): 'admin' | 'parent' | 'student' | null => {
+type Role = 'admin' | 'parent' | 'student';
+
+const getRoleFromPath = (path: string): Role | null => {
   if (path.startsWith('/dashboard/admin')) return 'admin';
   if (path.startsWith('/dashboard/parent')) return 'parent';
   if (path.startsWith('/dashboard/student')) return 'student';
   return null;
 }
 
-const getFilteredNavItems = (role: 'admin' | 'parent' | 'student' | null): NavItem[] => {
+const getFilteredNavItems = (role: Role | null): NavItem[] => {
   if (!role) {
-    // Return an empty array or a default set if no role is identified yet
-    // This can happen on initial load before redirection.
-    return [];
+    return navItems.filter(item => 
+        item.href !== '/dashboard/admin' &&
+        item.href !== '/dashboard/parent' &&
+        item.href !== '/dashboard/student'
+    );
   }
-  const forbiddenLinks: { [key: string]: string[] } = {
+  const forbiddenLinks: { [key in Role]: string[] } = {
     admin: ["/dashboard/parent", "/dashboard/student"],
     parent: ["/dashboard/admin", "/dashboard/student"],
     student: ["/dashboard/admin", "/dashboard/parent"],
@@ -59,19 +63,43 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [currentNavItems, setCurrentNavItems] = useState<NavItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState<Role | null>(null);
 
   useEffect(() => {
     setLoading(true);
-    const role = getRoleFromPath(pathname);
-    const filteredItems = getFilteredNavItems(role);
+    let activeRole = getRoleFromPath(pathname);
+    
+    // Fallback to search param if not in path
+    if (!activeRole) {
+      const roleFromParam = searchParams.get('role') as Role;
+      if (roleFromParam && ['admin', 'parent', 'student'].includes(roleFromParam)) {
+        activeRole = roleFromParam;
+      }
+    }
+    
+    // Persist role in state
+    if (activeRole) {
+      setRole(activeRole);
+    }
+    
+    const filteredItems = getFilteredNavItems(activeRole || role);
     setCurrentNavItems(filteredItems);
-    // Only stop loading if we have items or it's a base dashboard path that will redirect
-    if (filteredItems.length > 0 || pathname === '/dashboard') {
+    
+    if (filteredItems.length > 0) {
         setLoading(false);
     }
-  }, [pathname]);
+  }, [pathname, searchParams, role]);
+
+  const userDetails = {
+    admin: { name: 'Alex Doe', role: 'Administrator' },
+    parent: { name: 'Jane Doe', role: 'Parent' },
+    student: { name: 'John Doe', role: 'Student' }
+  };
+
+  const currentUser = userDetails[role || 'admin'];
 
   return (
     <TooltipProvider>
@@ -133,17 +161,17 @@ export default function DashboardLayout({
                 <div className="flex items-center gap-3 p-2">
                   <Avatar>
                       <AvatarImage src="https://picsum.photos/seed/1/100/100" alt="Admin" data-ai-hint="person portrait"/>
-                      <AvatarFallback>AD</AvatarFallback>
+                      <AvatarFallback>{currentUser.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div className="overflow-hidden">
-                      <p className="font-semibold text-sm truncate">Alex Doe</p>
-                      <p className="text-xs text-sidebar-foreground/70 truncate">Administrator</p>
+                      <p className="font-semibold text-sm truncate">{currentUser.name}</p>
+                      <p className="text-xs text-sidebar-foreground/70 truncate">{currentUser.role}</p>
                   </div>
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right" align="center">
-                <p className="font-semibold">Alex Doe</p>
-                <p className="text-xs text-muted-foreground">Administrator</p>
+                <p className="font-semibold">{currentUser.name}</p>
+                <p className="text-xs text-muted-foreground">{currentUser.role}</p>
               </TooltipContent>
              </Tooltip>
           </SidebarFooter>
