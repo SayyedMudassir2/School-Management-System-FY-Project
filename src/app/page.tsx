@@ -18,7 +18,7 @@ import { SmallTitle } from './components/small-title';
 
 
 export default function LandingPage() {
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(null);
 
   useEffect(() => {
     setYear(new Date().getFullYear());
@@ -193,7 +193,7 @@ export default function LandingPage() {
 
       <footer className="border-t">
         <div className="container py-8 text-center text-sm text-muted-foreground">
-            © {year} Aedura Elite. All Rights Reserved.
+            {year && <>© {year} Aedura Elite. All Rights Reserved.</>}
         </div>
       </footer>
     </div>
