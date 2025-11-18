@@ -35,7 +35,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { students } from "@/lib/mock-data";
+import { students, classes } from "@/lib/mock-data";
 import { Banknote, FileText, Scale } from "lucide-react";
 import { InvoicePrint } from "./invoice-print";
 
@@ -64,25 +64,30 @@ export function FeesClient() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingFee, setEditingFee] = useState<Fee | null>(null);
   const [feeToPrint, setFeeToPrint] = useState<Fee | null>(null);
+  const [selectedClass, setSelectedClass] = useState<string>('');
 
   const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<Fee>({
     resolver: zodResolver(feeSchema),
   });
 
-  useEffect(() => {
-    if (feeToPrint) {
-      const timer = setTimeout(() => {
-        window.print();
-        setFeeToPrint(null);
-      }, 100);
+  const printRef = useRef(false);
 
-      return () => clearTimeout(timer);
+  useEffect(() => {
+    if (feeToPrint && printRef.current) {
+        window.print();
+        printRef.current = false;
+        setFeeToPrint(null);
     }
   }, [feeToPrint]);
 
   const handleOpenDialog = (fee: Fee | null = null) => {
     setEditingFee(fee);
+    setSelectedClass('');
     if (fee) {
+      const student = students.find(s => s.id === fee.studentId);
+      if (student) {
+        setSelectedClass(student.classId);
+      }
       reset(fee);
     } else {
       const newInvoiceNumber = `INV-2024-${(fees.length + 1).toString().padStart(3, '0')}`;
@@ -106,6 +111,7 @@ export function FeesClient() {
   
   const handlePrint = (fee: Fee) => {
     setFeeToPrint(fee);
+    printRef.current = true;
   };
 
   const { totalCollected, totalUnpaid, totalOverdue } = useMemo(() => {
@@ -128,6 +134,11 @@ export function FeesClient() {
         return "Invalid Date";
     }
   }
+
+  const studentsInClass = useMemo(() => {
+    if (!selectedClass) return [];
+    return students.filter(s => s.classId === selectedClass);
+  }, [selectedClass]);
 
   return (
     <>
@@ -248,8 +259,22 @@ export function FeesClient() {
                     <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="invoiceNumber" className="text-right">Invoice #</Label>
-                        <Input id="invoiceNumber" {...register("invoiceNumber")} className="col-span-3" readOnly={!editingFee} />
+                        <Input id="invoiceNumber" {...register("invoiceNumber")} className="col-span-3" readOnly />
                         {errors.invoiceNumber && <p className="col-span-4 text-destructive text-xs text-right">{errors.invoiceNumber.message}</p>}
+                    </div>
+                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="classId" className="text-right">Class</Label>
+                        <Select onValueChange={(value) => {
+                            setSelectedClass(value);
+                            setValue('studentId', ''); // Reset student when class changes
+                        }} defaultValue={selectedClass}>
+                            <SelectTrigger className="col-span-3">
+                                <SelectValue placeholder="Select a class" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {classes.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="studentId" className="text-right">Student</Label>
@@ -257,12 +282,12 @@ export function FeesClient() {
                             control={control}
                             name="studentId"
                             render={({ field }) => (
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange} value={field.value} disabled={!selectedClass}>
                                 <SelectTrigger className="col-span-3">
                                     <SelectValue placeholder="Select a student" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {students.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+                                    {studentsInClass.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
                                 </SelectContent>
                             </Select>
                             )}

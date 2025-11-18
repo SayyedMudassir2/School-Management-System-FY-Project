@@ -1,18 +1,19 @@
+
 import { AttendanceRecordSchema } from "@/ai/flows/attendance-insights";
 import { z } from "zod";
 
 export const classes = [
   { id: '10a', name: 'Class 10-A' },
   { id: '10b', name: 'Class 10-B' },
-  { id: '11a', name: 'Class 11-A' },
+  { id: '9a', name: 'Class 9-A' },
 ];
 
 export const students = [
-  { id: 'S001', name: 'Alice Johnson' },
-  { id: 'S002', name: 'Bob Williams' },
-  { id: 'S003', name: 'Charlie Brown' },
-  { id: 'S004', name: 'David Miller' },
-  { id: 'S005', name: 'Eve Davis' },
+  { id: 'S001', name: 'Alice Johnson', classId: '10a' },
+  { id: 'S002', name: 'Bob Williams', classId: '10a' },
+  { id: 'S003', name: 'Charlie Brown', classId: '10b' },
+  { id: 'S004', name: 'David Miller', classId: '9a' },
+  { id: 'S005', name: 'Eve Davis', classId: '9a' },
 ];
 
 const generateAttendance = (): z.infer<typeof AttendanceRecordSchema>[] => {
