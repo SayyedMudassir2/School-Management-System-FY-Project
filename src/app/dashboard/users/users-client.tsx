@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Edit } from "lucide-react";
+import { PlusCircle, Edit, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -50,6 +51,7 @@ export function UsersClient() {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
 
   const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<User>({
     resolver: zodResolver(userSchema),
@@ -74,6 +76,13 @@ export function UsersClient() {
     setIsDialogOpen(false);
     reset();
   };
+
+  const handleDeleteUser = () => {
+    if (userToDelete) {
+        setUsers(users.filter(user => user.id !== userToDelete.id));
+        setUserToDelete(null);
+    }
+  }
 
   return (
     <TooltipProvider>
@@ -111,18 +120,29 @@ export function UsersClient() {
                     <TableCell>
                       <Badge variant={user.status === 'Active' ? 'default' : 'secondary'} className={user.status === 'Active' ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>{user.status}</Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(user)}>
-                                <Edit className="h-4 w-4" />
-                                <span className="sr-only">Edit User</span>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Edit {user.name}</p>
-                        </TooltipContent>
-                    </Tooltip>
+                    <TableCell className="text-right space-x-2">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(user)}>
+                                    <Edit className="h-4 w-4" />
+                                    <span className="sr-only">Edit User</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Edit {user.name}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={() => setUserToDelete(user)}>
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                    <span className="sr-only">Delete User</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Delete {user.name}</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </TableCell>
                 </TableRow>
                 ))}
@@ -198,6 +218,22 @@ export function UsersClient() {
             </form>
             </DialogContent>
         </Dialog>
+
+        <AlertDialog open={!!userToDelete} onOpenChange={(open) => !open && setUserToDelete(null)}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the user account for <span className="font-semibold">{userToDelete?.name}</span> and remove their data from our servers.
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteUser} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
         </Card>
     </TooltipProvider>
   );
