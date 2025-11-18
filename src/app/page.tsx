@@ -65,7 +65,7 @@ export default function LandingPage() {
                   Welcome to Aedura
                 </SmallTitle>
               </div>
-              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
                 The Future of School Management is Here
               </h1>
               <p className="mt-6 text-lg leading-8 text-muted-foreground">
