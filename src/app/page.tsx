@@ -72,7 +72,7 @@ export default function LandingPage() {
                 </SmallTitle>
               </div>
 
-              <h1 className="mt-4 text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
+              <h1 className="mt-4 text-4xl font-bold tracking-tighter text-foreground sm:text-5xl md:text-6xl">
                 The Official Management Portal <br /> of Our School
               </h1>
               
