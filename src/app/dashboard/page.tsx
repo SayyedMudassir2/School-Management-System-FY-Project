@@ -24,7 +24,7 @@ export default function DashboardPage() {
     <>
       <PageHeader title="Welcome, Administrator" description="Here's a summary of your school's activities." />
       
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="glassmorphic">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Students</CardTitle>
@@ -67,8 +67,8 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-5 mt-6">
-        <Card className="md:col-span-3 glassmorphic">
+      <div className="grid gap-6 lg:grid-cols-5 mt-6">
+        <Card className="lg:col-span-3 glassmorphic">
           <CardHeader>
             <CardTitle>Weekly Attendance</CardTitle>
             <CardDescription>
@@ -79,7 +79,7 @@ export default function DashboardPage() {
             <AttendanceChart />
           </CardContent>
         </Card>
-        <Card className="md:col-span-2 glassmorphic">
+        <Card className="lg:col-span-2 glassmorphic">
           <CardHeader>
             <CardTitle>Recent Announcements</CardTitle>
             <CardDescription>
