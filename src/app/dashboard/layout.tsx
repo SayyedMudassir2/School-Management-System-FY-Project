@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import {
   SidebarProvider,
@@ -10,6 +11,7 @@ import {
   SidebarFooter,
   SidebarInset,
   SidebarTrigger,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import {
   BookMarked,
@@ -45,6 +47,7 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <Sidebar>
+        <SidebarRail />
         <SidebarHeader>
           <div className="flex items-center gap-2">
             <Logo className="h-10 w-auto" />
@@ -99,7 +102,7 @@ export default function DashboardLayout({
       </Sidebar>
       <SidebarInset>
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 lg:px-6">
-            <SidebarTrigger className="md:hidden" />
+            <SidebarTrigger />
             {/* Page Title or Breadcrumbs could go here */}
         </header>
         <main className="flex-1 p-4 sm:p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
