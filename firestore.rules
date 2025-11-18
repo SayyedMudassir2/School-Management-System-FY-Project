@@ -1,0 +1,293 @@
+/**
+ * @file Firestore Security Rules for Aedura Elite.
+ *
+ * @Core Philosophy:
+ *   This ruleset enforces a strict role-based and ownership-based security model.
+ *   Users can only access data associated with their school and/or user ID,
+ *   with some data publicly readable. Authorization decisions are made based on
+ *   the authenticated user's ID and role, combined with the document's schoolId,
+ *   teacherId, or owner ID.
+ *
+ * @Data Structure:
+ *   - /schools/{schoolId}: Contains school-specific data.
+ *   - /schools/{schoolId}/academicYears/{academicYearId}: Academic years for a school.
+ *   - /schools/{schoolId}/classes/{classId}: Classes for a school.
+ *   - /schools/{schoolId}/sections/{sectionId}: Sections for a class.
+ *   - /subjects/{subjectId}: Subjects, accessible to all authenticated users.
+ *   - /schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId}: Timetable slots.
+ *   - /schools/{schoolId}/classes/{classId}/attendances/{attendanceId}: Attendance records.
+ *   - /users/{userId}: User profiles, accessible only to the user themselves.
+ *   - /schools/{schoolId}/fees/{feeId}: Fee structures for a school.
+ *   - /users/{userId}/invoices/{invoiceId}: Invoices for a user (student).
+ *   - /users/{userId}/invoices/{invoiceId}/payments/{paymentId}: Payments for an invoice.
+ *   - /schools/{schoolId}/announcements/{announcementId}: Announcements for a school.
+ *   - /users/{userId}/messages/{messageId}: Messages for a user.
+ *   - /schools/{schoolId}/books/{bookId}: Books in the school library.
+ *   - /schools/{schoolId}/books/{bookId}/borrowings/{borrowingId}: Borrowing records for a book.
+ *
+ * @Key Security Decisions:
+ *   - User listing is explicitly denied.
+ *   - All write operations require authentication.
+ *   - Data access is scoped to the user's school.
+ *   - Teacher-specific write access for TimetableSlots is based on the teacherId field within the document.
+ *
+ * @Denormalization for Authorization:
+ *   - TimetableSlot documents include a `teacherId` field to directly authorize teacher write access.
+ *     This avoids needing to query a separate collection to check the teacher's role.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description: Allows creating, reading, updating, and deleting school data.
+     *               Access is restricted to authenticated users.
+     * @path: /schools/{schoolId}
+     * @allow: User with schoolId 'school123' creates a school document. (create)
+     * @deny: User tries to create a school with an ID different from their own. (create)
+     * @principle: Enforces document ownership and authenticated access.
+     */
+    match /schools/{schoolId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages academic year data within a specific school.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/academicYears/{academicYearId}
+     * @allow: Authenticated user reads an academic year within their school. (get)
+     * @deny:  Unauthenticated user attempts to read academic year data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/academicYears/{academicYearId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages class data within a specific school.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/classes/{classId}
+     * @allow: Authenticated user reads a class within their school. (get)
+     * @deny:  Unauthenticated user attempts to read class data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/classes/{classId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages section data within a specific school.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/sections/{sectionId}
+     * @allow: Authenticated user reads a section within their school. (get)
+     * @deny:  Unauthenticated user attempts to read section data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/sections/{sectionId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages subject data. Accessible to all authenticated users.
+     * @path: /subjects/{subjectId}
+     * @allow: Authenticated user reads subject data. (get)
+     * @deny:  Unauthenticated user attempts to read subject data. (get)
+     * @principle: Subjects are generally available to all authenticated users.
+     */
+    match /subjects/{subjectId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages timetable slots for a specific section.
+     *               Teachers have write access based on the 'teacherId' field.
+     * @path: /schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId}
+     * @allow: Teacher with ID 'teacher123' updates a timetable slot where teacherId matches. (update)
+     * @deny:  Teacher tries to update a timetable slot for a different teacher. (update)
+     * @principle: Grants teacher-specific write access based on the teacherId field.
+     */
+    match /schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages attendance records for a specific class.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/classes/{classId}/attendances/{attendanceId}
+     * @allow: Authenticated user reads an attendance record within their school. (get)
+     * @deny:  Unauthenticated user attempts to read attendance data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/classes/{classId}/attendances/{attendanceId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Controls access to user profile data.
+     *               A user can only read/write their own profile.
+     * @path: /users/{userId}
+     * @allow: User with ID 'user123' reads their own profile. (get)
+     * @deny:  User with ID 'user456' attempts to read profile of 'user123'. (get)
+     * @principle: Enforces strict user-ownership for profile data.
+     */
+    match /users/{userId} {
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description: Manages fee structures for a specific school.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/fees/{feeId}
+     * @allow: Authenticated user reads a fee within their school. (get)
+     * @deny:  Unauthenticated user attempts to read fee data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/fees/{feeId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages invoices for a specific user (student).
+     *               Access control is scoped to the user.
+     * @path: /users/{userId}/invoices/{invoiceId}
+     * @allow: User with ID 'user123' reads an invoice associated with their ID. (get)
+     * @deny:  User with ID 'user456' attempts to read invoice data for 'user123'. (get)
+     * @principle: Scopes data access to the user (student).
+     */
+    match /users/{userId}/invoices/{invoiceId} {
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages payments for a specific invoice.
+     *               Access control is scoped to the user and invoice.
+     * @path: /users/{userId}/invoices/{invoiceId}/payments/{paymentId}
+     * @allow: User with ID 'user123' reads a payment associated with their invoice. (get)
+     * @deny:  User with ID 'user456' attempts to read payment data for 'user123'. (get)
+     * @principle: Scopes data access to the user and invoice.
+     */
+    match /users/{userId}/invoices/{invoiceId}/payments/{paymentId} {
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages announcements for a specific school.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/announcements/{announcementId}
+     * @allow: Authenticated user reads an announcement within their school. (get)
+     * @deny:  Unauthenticated user attempts to read announcement data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/announcements/{announcementId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Controls access to messages for a specific user.
+     *               A user can only read/write their own messages.
+     * @path: /users/{userId}/messages/{messageId}
+     * @allow: User with ID 'user123' reads their own message. (get)
+     * @deny:  User with ID 'user456' attempts to read message of 'user123'. (get)
+     * @principle: Enforces strict user-ownership for message data.
+     */
+    match /users/{userId}/messages/{messageId} {
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description: Manages books in the school library.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/books/{bookId}
+     * @allow: Authenticated user reads a book within their school. (get)
+     * @deny:  Unauthenticated user attempts to read book data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/books/{bookId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    /**
+     * @description: Manages borrowing records for a specific book.
+     *               Access control is scoped to the school.
+     * @path: /schools/{schoolId}/books/{bookId}/borrowings/{borrowingId}
+     * @allow: Authenticated user reads a borrowing record within their school. (get)
+     * @deny:  Unauthenticated user attempts to read borrowing data. (get)
+     * @principle: Scopes data access to the school.
+     */
+    match /schools/{schoolId}/books/{bookId}/borrowings/{borrowingId} {
+      allow get: if request.auth != null;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+  }
+}

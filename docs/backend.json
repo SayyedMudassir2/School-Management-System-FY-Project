@@ -1,0 +1,873 @@
+{
+  "entities": {
+    "School": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "School",
+      "type": "object",
+      "description": "Represents a school institution.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the School entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the school."
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the school."
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Contact email address for the school.",
+          "format": "email"
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "Contact phone number for the school."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "AcademicYear": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AcademicYear",
+      "type": "object",
+      "description": "Represents an academic year within a school.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AcademicYear entity."
+        },
+        "schoolId": {
+          "type": "string",
+          "description": "Reference to School. (Relationship: School 1:N AcademicYear)"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date of the academic year.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "End date of the academic year.",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the academic year (e.g., 2023-2024)."
+        }
+      },
+      "required": [
+        "id",
+        "schoolId",
+        "startDate",
+        "endDate",
+        "name"
+      ]
+    },
+    "Class": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Class",
+      "type": "object",
+      "description": "Represents a class within a school.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Class entity."
+        },
+        "academicYearId": {
+          "type": "string",
+          "description": "Reference to AcademicYear. (Relationship: AcademicYear 1:N Class)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the class (e.g., Grade 10)."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the class."
+        }
+      },
+      "required": [
+        "id",
+        "academicYearId",
+        "name"
+      ]
+    },
+    "Section": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Section",
+      "type": "object",
+      "description": "Represents a section within a class.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Section entity."
+        },
+        "classId": {
+          "type": "string",
+          "description": "Reference to Class. (Relationship: Class 1:N Section)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the section (e.g., A, B, C)."
+        },
+        "teacherId": {
+          "type": "string",
+          "description": "Reference to User representing the teacher in charge. (Relationship: User 1:N Section)"
+        }
+      },
+      "required": [
+        "id",
+        "classId",
+        "name"
+      ]
+    },
+    "Subject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Subject",
+      "type": "object",
+      "description": "Represents a subject taught in a class.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Subject entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the subject (e.g., Mathematics, Science)."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the subject."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "TimetableSlot": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TimetableSlot",
+      "type": "object",
+      "description": "Represents a time slot in the timetable.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the TimetableSlot entity."
+        },
+        "sectionId": {
+          "type": "string",
+          "description": "Reference to Section. (Relationship: Section 1:N TimetableSlot)"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "description": "Day of the week for the time slot (e.g., Monday, Tuesday)."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Start time of the time slot (e.g., 09:00)."
+        },
+        "endTime": {
+          "type": "string",
+          "description": "End time of the time slot (e.g., 09:45)."
+        },
+        "subjectId": {
+          "type": "string",
+          "description": "Reference to Subject. (Relationship: Subject 1:N TimetableSlot)"
+        },
+        "teacherId": {
+          "type": "string",
+          "description": "Reference to User representing the teacher teaching during this slot. (Relationship: User 1:N TimetableSlot)"
+        }
+      },
+      "required": [
+        "id",
+        "sectionId",
+        "dayOfWeek",
+        "startTime",
+        "endTime",
+        "subjectId"
+      ]
+    },
+    "Attendance": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Attendance",
+      "type": "object",
+      "description": "Represents student attendance record.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Attendance entity."
+        },
+        "studentId": {
+          "type": "string",
+          "description": "Reference to User representing the student. (Relationship: User 1:N Attendance)"
+        },
+        "classId": {
+          "type": "string",
+          "description": "Reference to Class. (Relationship: Class 1:N Attendance)"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of the attendance record.",
+          "format": "date-time"
+        },
+        "isPresent": {
+          "type": "boolean",
+          "description": "Indicates whether the student was present or not."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for absence, if applicable."
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "classId",
+        "date",
+        "isPresent"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the system (teacher, student, parent, admin).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the user (e.g., teacher, student, parent, admin)."
+        },
+        "schoolId": {
+          "type": "string",
+          "description": "Reference to School. (Relationship: School 1:N User)"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "schoolId"
+      ]
+    },
+    "Fee": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Fee",
+      "type": "object",
+      "description": "Represents a fee structure.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Fee entity."
+        },
+        "schoolId": {
+          "type": "string",
+          "description": "Reference to School. (Relationship: School 1:N Fee)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the fee (e.g., Tuition Fee, Library Fee)."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Amount of the fee."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the fee."
+        }
+      },
+      "required": [
+        "id",
+        "schoolId",
+        "name",
+        "amount"
+      ]
+    },
+    "Invoice": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Invoice",
+      "type": "object",
+      "description": "Represents an invoice for fees.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Invoice entity."
+        },
+        "studentId": {
+          "type": "string",
+          "description": "Reference to User representing the student. (Relationship: User 1:N Invoice)"
+        },
+        "feeId": {
+          "type": "string",
+          "description": "Reference to Fee. (Relationship: Fee 1:N Invoice)"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "description": "Date when the invoice was generated.",
+          "format": "date-time"
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "Due date for the invoice payment.",
+          "format": "date-time"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Amount due in the invoice."
+        },
+        "isPaid": {
+          "type": "boolean",
+          "description": "Indicates whether the invoice is paid or not."
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "feeId",
+        "invoiceDate",
+        "dueDate",
+        "amount"
+      ]
+    },
+    "Payment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Payment",
+      "type": "object",
+      "description": "Represents a payment made for an invoice.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Payment entity."
+        },
+        "invoiceId": {
+          "type": "string",
+          "description": "Reference to Invoice. (Relationship: Invoice 1:N Payment)"
+        },
+        "paymentDate": {
+          "type": "string",
+          "description": "Date when the payment was made.",
+          "format": "date-time"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Amount paid."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Method of payment (e.g., Cash, Credit Card)."
+        }
+      },
+      "required": [
+        "id",
+        "invoiceId",
+        "paymentDate",
+        "amount",
+        "paymentMethod"
+      ]
+    },
+    "Announcement": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Announcement",
+      "type": "object",
+      "description": "Represents an announcement or notice.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Announcement entity."
+        },
+        "schoolId": {
+          "type": "string",
+          "description": "Reference to School. (Relationship: School 1:N Announcement)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the announcement."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the announcement."
+        },
+        "datePublished": {
+          "type": "string",
+          "description": "Date when the announcement was published.",
+          "format": "date-time"
+        },
+        "targetUserRoles": {
+          "type": "array",
+          "description": "Roles to whom the announcement is targeted (e.g., student, teacher, parent).",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "schoolId",
+        "title",
+        "content",
+        "datePublished"
+      ]
+    },
+    "Message": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Message",
+      "type": "object",
+      "description": "Represents a message sent between users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Message entity."
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Reference to User representing the sender. (Relationship: User 1:N Message)"
+        },
+        "receiverId": {
+          "type": "string",
+          "description": "Reference to User representing the receiver. (Relationship: User 1:N Message)"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the message."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp when the message was sent.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "senderId",
+        "receiverId",
+        "content",
+        "timestamp"
+      ]
+    },
+    "Book": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Book",
+      "type": "object",
+      "description": "Represents a book in the library.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Book entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the book."
+        },
+        "author": {
+          "type": "string",
+          "description": "Author of the book."
+        },
+        "isbn": {
+          "type": "string",
+          "description": "ISBN of the book."
+        },
+        "publicationDate": {
+          "type": "string",
+          "description": "Date when the book was published.",
+          "format": "date-time"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Number of copies available."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "author",
+        "isbn",
+        "quantity"
+      ]
+    },
+    "Borrowing": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Borrowing",
+      "type": "object",
+      "description": "Represents a borrowing record.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Borrowing entity."
+        },
+        "bookId": {
+          "type": "string",
+          "description": "Reference to Book. (Relationship: Book 1:N Borrowing)"
+        },
+        "studentId": {
+          "type": "string",
+          "description": "Reference to User representing the student. (Relationship: User 1:N Borrowing)"
+        },
+        "borrowDate": {
+          "type": "string",
+          "description": "Date when the book was borrowed.",
+          "format": "date-time"
+        },
+        "returnDate": {
+          "type": "string",
+          "description": "Date when the book is due to be returned.",
+          "format": "date-time"
+        },
+        "actualReturnDate": {
+          "type": "string",
+          "description": "Date when the book was actually returned.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "bookId",
+        "studentId",
+        "borrowDate",
+        "returnDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/schools/{schoolId}",
+        "definition": {
+          "entityName": "School",
+          "schema": {
+            "$ref": "#/backend/entities/School"
+          },
+          "description": "Stores school information. School ID is used to scope access to school-specific data.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/academicYears/{academicYearId}",
+        "definition": {
+          "entityName": "AcademicYear",
+          "schema": {
+            "$ref": "#/backend/entities/AcademicYear"
+          },
+          "description": "Stores academic year information for a specific school.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "academicYearId",
+              "description": "Unique identifier for the academic year."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/classes/{classId}",
+        "definition": {
+          "entityName": "Class",
+          "schema": {
+            "$ref": "#/backend/entities/Class"
+          },
+          "description": "Stores class information for a specific school.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "classId",
+              "description": "Unique identifier for the class."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/sections/{sectionId}",
+        "definition": {
+          "entityName": "Section",
+          "schema": {
+            "$ref": "#/backend/entities/Section"
+          },
+          "description": "Stores section information for a specific school.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "sectionId",
+              "description": "Unique identifier for the section."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/subjects/{subjectId}",
+        "definition": {
+          "entityName": "Subject",
+          "schema": {
+            "$ref": "#/backend/entities/Subject"
+          },
+          "description": "Stores subject information. Accessible to all authorized users.",
+          "params": [
+            {
+              "name": "subjectId",
+              "description": "Unique identifier for the subject."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId}",
+        "definition": {
+          "entityName": "TimetableSlot",
+          "schema": {
+            "$ref": "#/backend/entities/TimetableSlot"
+          },
+          "description": "Stores timetable slots for a specific section. Includes denormalized 'teacherId' for authorization independence.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "sectionId",
+              "description": "Unique identifier for the section."
+            },
+            {
+              "name": "timetableSlotId",
+              "description": "Unique identifier for the timetable slot."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/classes/{classId}/attendances/{attendanceId}",
+        "definition": {
+          "entityName": "Attendance",
+          "schema": {
+            "$ref": "#/backend/entities/Attendance"
+          },
+          "description": "Stores attendance records for a specific class. Student ID links to user profile.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "classId",
+              "description": "Unique identifier for the class."
+            },
+            {
+              "name": "attendanceId",
+              "description": "Unique identifier for the attendance record."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Includes 'role' and 'schoolId' for authorization.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/fees/{feeId}",
+        "definition": {
+          "entityName": "Fee",
+          "schema": {
+            "$ref": "#/backend/entities/Fee"
+          },
+          "description": "Stores fee structures for a specific school.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "feeId",
+              "description": "Unique identifier for the fee."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/invoices/{invoiceId}",
+        "definition": {
+          "entityName": "Invoice",
+          "schema": {
+            "$ref": "#/backend/entities/Invoice"
+          },
+          "description": "Stores invoices for a specific user (student).",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user (student)."
+            },
+            {
+              "name": "invoiceId",
+              "description": "Unique identifier for the invoice."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/invoices/{invoiceId}/payments/{paymentId}",
+        "definition": {
+          "entityName": "Payment",
+          "schema": {
+            "$ref": "#/backend/entities/Payment"
+          },
+          "description": "Stores payments for a specific invoice.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user (student)."
+            },
+            {
+              "name": "invoiceId",
+              "description": "Unique identifier for the invoice."
+            },
+            {
+              "name": "paymentId",
+              "description": "Unique identifier for the payment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/announcements/{announcementId}",
+        "definition": {
+          "entityName": "Announcement",
+          "schema": {
+            "$ref": "#/backend/entities/Announcement"
+          },
+          "description": "Stores announcements for a specific school.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "announcementId",
+              "description": "Unique identifier for the announcement."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": {
+            "$ref": "#/backend/entities/Message"
+          },
+          "description": "Stores messages for a specific user. Path-based ownership.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user."
+            },
+            {
+              "name": "messageId",
+              "description": "Unique identifier for the message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/books/{bookId}",
+        "definition": {
+          "entityName": "Book",
+          "schema": {
+            "$ref": "#/backend/entities/Book"
+          },
+          "description": "Stores books for a specific school library.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "bookId",
+              "description": "Unique identifier for the book."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/schools/{schoolId}/books/{bookId}/borrowings/{borrowingId}",
+        "definition": {
+          "entityName": "Borrowing",
+          "schema": {
+            "$ref": "#/backend/entities/Borrowing"
+          },
+          "description": "Stores borrowing records for a specific book in a school library. Student ID links to user profile.",
+          "params": [
+            {
+              "name": "schoolId",
+              "description": "Unique identifier for the school."
+            },
+            {
+              "name": "bookId",
+              "description": "Unique identifier for the book."
+            },
+            {
+              "name": "borrowingId",
+              "description": "Unique identifier for the borrowing record."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the Aedura Elite application, focusing on security, scalability, and ease of debugging. The design prioritizes authorization independence by denormalizing relevant authorization data, avoiding hierarchical `get()` calls in security rules. Structural segregation ensures that each collection has a homogeneous security posture. Access modeling employs consistent patterns for private and collaborative data.\n\n*   **Authorization Independence:** School-specific data (academic years, classes, sections, etc.) is nested under the `/schools/{schoolId}` path and inherits authorization context. User roles are stored directly within the User document. For collaborative data, such as TimetableSlots, the `teacherId` field within the document is used to grant write access to the teacher. The user's `schoolId` field is used to control read access to school-specific data.\n*   **Structural Segregation:** Different data types with varying access requirements are stored in separate collections. For instance, school-specific data resides under `/schools/{schoolId}`, while user profiles are stored in `/users/{userId}`.\n*   **Access Modeling:** Hierarchical paths are used for user-owned data (e.g., `/users/{userId}/messages/{messageId}`). Collaborative data is managed with the `teacherId` field in `/schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId}`.\n*   **QAPs (Rules are not Filters):** To support secure `list` operations, the structure leverages path-based ownership and structural segregation. For example, listing academic years for a specific school is done via `/schools/{schoolId}/academicYears`. The rule will check if the user has permission (based on their role and `schoolId` stored in their user document) to access resources under the specified school.\n\nThis structure ensures clear authorization logic and efficient data retrieval, simplifying security rule implementation and debugging."
+  }
+}
