@@ -71,7 +71,7 @@ export function Footer({ year }: { year: number | null }) {
                 </div>
 
                 <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-                    <p>&copy; {year || new Date().getFullYear()} Aedura Elite. All Rights Reserved.</p>
+                    <p>&copy; {year || new Date().getFullYear()} Aedura Elite.  All Rights Reserved.</p>
                 </div>
             </div>
         </footer>

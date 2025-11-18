@@ -14,7 +14,7 @@ export default function LibraryPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction. Here you will find tools to automate and manage your school's library.
+            This section is under construction.  Here you will find tools to automate and manage your school's library.
           </p>
         </CardContent>
       </Card>

@@ -14,7 +14,7 @@ export default function CommunicationPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction. Here you will be able to send and receive communications with various user groups.
+            This section is under construction.  Here you will be able to send and receive communications with various user groups.
           </p>
         </CardContent>
       </Card>

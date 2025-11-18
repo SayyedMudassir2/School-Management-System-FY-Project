@@ -126,7 +126,7 @@ export default function SetupPage() {
                   <TableRow>
                     <TableCell className="font-medium">Class 10</TableCell>
                     <TableCell>A, B, C</TableCell>
-                    <TableCell>Mr. John Smith</TableCell>
+                    <TableCell>Mr.  John Smith</TableCell>
                     <TableCell>120</TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm">
@@ -137,7 +137,7 @@ export default function SetupPage() {
                   <TableRow>
                     <TableCell className="font-medium">Class 9</TableCell>
                     <TableCell>A, B</TableCell>
-                    <TableCell>Ms. Emily White</TableCell>
+                    <TableCell>Ms.  Emily White</TableCell>
                      <TableCell>85</TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm">

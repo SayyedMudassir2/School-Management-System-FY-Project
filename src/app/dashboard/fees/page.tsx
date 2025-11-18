@@ -14,7 +14,7 @@ export default function FeesPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction. Here you will find a comprehensive system for all fee-related processes.
+            This section is under construction.  Here you will find a comprehensive system for all fee-related processes.
           </p>
         </CardContent>
       </Card>

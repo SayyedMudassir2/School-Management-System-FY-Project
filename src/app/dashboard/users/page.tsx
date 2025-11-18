@@ -14,7 +14,7 @@ export default function UsersPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction. Here you will be able to create and manage users with roles for Teachers, Students, Parents, and Admins.
+            This section is under construction.  Here you will be able to create and manage users with roles for Teachers, Students, Parents, and Admins.
           </p>
         </CardContent>
       </Card>

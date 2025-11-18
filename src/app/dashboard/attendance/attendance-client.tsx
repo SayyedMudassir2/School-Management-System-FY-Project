@@ -56,7 +56,7 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
       });
       setInsights(result);
     } catch (e) {
-      setError("Failed to generate insights. Please try again.");
+      setError("Failed to generate insights.  Please try again.");
       console.error(e);
     } finally {
       setIsGenerating(false);

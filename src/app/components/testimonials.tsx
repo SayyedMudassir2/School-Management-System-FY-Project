@@ -12,21 +12,21 @@ const testimonials = [
     { 
         name: 'Sarah L.', 
         role: 'Parent', 
-        text: "Aedura Elite has been a transformative experience for my child. The teachers are incredible, and the focus on holistic development is truly commendable.", 
+        text: "Aedura Elite has been a transformative experience for my child.  The teachers are incredible, and the focus on holistic development is truly commendable.", 
         avatar: parentAvatar?.imageUrl, 
         hint: parentAvatar?.imageHint 
     },
     { 
         name: 'John D.', 
         role: 'Teacher', 
-        text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", 
+        text: "Teaching here is a joy.  The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", 
         avatar: teacherAvatar?.imageUrl, 
         hint: teacherAvatar?.imageHint 
     },
     { 
         name: 'Michael C.', 
         role: 'Student, Class of 2024', 
-        text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", 
+        text: "I feel prepared for whatever comes next.  The school provided me with not just knowledge, but also with problem-solving skills and confidence.", 
         avatar: studentAvatar?.imageUrl, 
         hint: studentAvatar?.imageHint 
     },

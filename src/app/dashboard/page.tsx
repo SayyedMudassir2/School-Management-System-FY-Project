@@ -50,7 +50,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$54,231.89</div>
-            <p className="text-xs text-muted-foreground">78% of target</p>
+            <p className="text-xs text-muted-foreground">78% of target</p>x
           </CardContent>
         </Card>
         <Card className="glassmorphic">

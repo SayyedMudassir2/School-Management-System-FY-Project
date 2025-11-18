@@ -14,7 +14,7 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            This section is under construction. Here you will be able to manage your personal profile, notification preferences, and other application settings.
+            This section is under construction.  Here you will be able to manage your personal profile, notification preferences, and other application settings.
           </p>
         </CardContent>
       </Card>

@@ -61,7 +61,7 @@ export default function LandingPage() {
 
       <main className="flex-1">
         <section id="home" className="relative isolate px-6 lg:px-8 pt-12">
-          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
+          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-gradient-to-br from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto pb-24 sm:pb-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
@@ -74,8 +74,7 @@ export default function LandingPage() {
                 The Official Management Portal <br /> of Our School
               </h1>
               <p className="mt-6 mx-auto max-w-[700px] text-lg leading-8 text-muted-foreground sm:text-xl">
-                Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.
-                It provides a seamless experience for students, parents, teachers, and administrators.
+                Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.  It provides a seamless experience for students, parents, teachers, and administrators.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
                 <Button size="lg" asChild>
@@ -140,13 +139,12 @@ export default function LandingPage() {
                       <Label htmlFor="message">Message</Label>
                       <Textarea id="message" placeholder="Your message..." rows={5} />
                     </div>
-                    <Button type="submit" className="w-full">Send Message</Button>
-                  </form>
+                    <Button type="submit" className="w-full">Send Message</Button>                  </form>
                 </CardContent>
               </Card>
                <div className="text-center mt-8 text-muted-foreground">
-                  <p>Email: <a href="mailto:contact@aedura.elite" className="text-primary hover:underline">contact@aedura.elite</a></p>
-                  <p>Phone: <a href="tel:+1234567890" className="text-primary hover:underline">(123) 456-7890</a></p>
+                  <p>Email:  <a href="mailto:contact@aedura.elite" className="text-primary hover:underline">contact@aedura.elite</a></p>
+                  <p>Phone:  <a href="tel:+1234567890" className="text-primary hover:underline">(123) 456-7890</a></p>
               </div>
             </div>
           </div>
