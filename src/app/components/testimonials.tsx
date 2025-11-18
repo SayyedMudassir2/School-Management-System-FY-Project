@@ -4,8 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
-const parentAvatar = PlaceHolderImages.find(img => img.id === 'teacher-avatar');
-const teacherAvatar = PlaceHolderImages.find(img => img.id === 'admin-avatar');
+const parentAvatar = PlaceHolderImages.find(img => img.id === 'parent-avatar');
+const teacherAvatar = PlaceHolderImages.find(img => img.id === 'teacher-avatar');
 const studentAvatar = PlaceHolderImages.find(img => img.id === 'student-avatar-1');
 
 const testimonials = [
