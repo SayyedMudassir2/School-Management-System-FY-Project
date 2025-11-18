@@ -39,7 +39,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-background/30 backdrop-blur-lg">
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 whitespace-nowrap">
               <Icons.logo className="h-10 w-auto" />
             </Link>
             <DesktopNav />
