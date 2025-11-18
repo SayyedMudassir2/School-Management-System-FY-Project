@@ -60,7 +60,7 @@ export default function LandingPage() {
 
           <div className="container mx-auto py-24 sm:py-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-4">
                 <SmallTitle>
                   Welcome to Aedura
                 </SmallTitle>
@@ -68,7 +68,7 @@ export default function LandingPage() {
               <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
                 The Official Management Portal <br /> of Our School
               </h1>
-              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              <p className="mt-6 mx-auto max-w-[700px] text-lg leading-8 text-muted-foreground sm:text-xl">
                 Aedura is our school’s centralized, all-in-one digital system designed to simplify communication, academics, administration, and daily school operations.
                 It provides a seamless experience for students, parents, teachers, and administrators.
               </p>
