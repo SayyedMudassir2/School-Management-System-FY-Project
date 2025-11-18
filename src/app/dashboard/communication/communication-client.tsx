@@ -25,7 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { format } from "date-fns";
+import { format, toDate } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const fileSchema = z.custom<File>(val => val instanceof File, "Please upload a file").optional();
+const fileSchema = z.custom<File>(val => typeof window !== 'undefined' && val instanceof File, "Please upload a file").optional();
 
 const announcementSchema = z.object({
   id: z.string().optional(),
@@ -54,14 +54,14 @@ const initialAnnouncements: Announcement[] = [
     title: "Parent-Teacher Meeting Scheduled",
     content: "Please be advised that the quarterly parent-teacher meetings will be held next Friday.  Sign-up sheets will be sent out tomorrow.",
     recipientGroup: "Parents",
-    sentAt: "2024-08-10T10:00:00Z"
+    sentAt: new Date(Date.UTC(2024, 7, 10, 10, 0, 0)).toISOString()
   },
   {
     id: '2',
     title: "Annual Sports Day",
     content: "Registrations for the Annual Sports Day are now open.  Please encourage students to participate. The event will be on the 25th of this month.",
     recipientGroup: "All Users",
-    sentAt: "2024-08-08T14:30:00Z"
+    sentAt: new Date(Date.UTC(2024, 7, 8, 14, 30, 0)).toISOString()
   },
 ];
 
@@ -105,7 +105,8 @@ export function CommunicationClient() {
   
   const formatDate = (dateString: string) => {
     try {
-        return format(new Date(dateString), "dd MMM yyyy, h:mm a");
+        // Use toDate to handle timezone conversion correctly
+        return format(toDate(dateString), "dd MMM yyyy, h:mm a");
     } catch {
         return "Invalid Date";
     }
