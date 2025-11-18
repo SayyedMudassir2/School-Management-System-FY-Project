@@ -66,7 +66,7 @@ export default function LandingPage() {
                 </SmallTitle>
               </div>
               <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
-                The Official Management Portal of Our School
+                The Official Management Portal <br /> of Our School
               </h1>
               <p className="mt-6 text-lg leading-8 text-muted-foreground">
                 Aedura Elite provides a seamless, integrated platform to manage all aspects of your educational institution. From attendance to fees, communication to smart analytics.
