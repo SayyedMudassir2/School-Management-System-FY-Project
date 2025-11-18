@@ -1,6 +1,7 @@
 
 import { PageHeader } from "../components/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LibraryClient } from "./library-client";
+import { books, students, bookIssuances } from "@/lib/mock-data";
 
 export default function LibraryPage() {
   return (
@@ -9,16 +10,11 @@ export default function LibraryPage() {
         title="Smart Library"
         description="You can manage book repositories, track issues, and gain insights on borrowing."
       />
-      <Card className="glassmorphic">
-        <CardHeader>
-          <CardTitle>Coming Soon</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">
-            This section is under construction.  Here you'll find tools to automate and manage your school's library.
-          </p>
-        </CardContent>
-      </Card>
+      <LibraryClient 
+        initialBooks={books}
+        students={students}
+        initialIssuances={bookIssuances}
+      />
     </>
   );
 }

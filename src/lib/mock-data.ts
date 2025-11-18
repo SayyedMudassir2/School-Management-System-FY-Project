@@ -51,3 +51,18 @@ export const attendanceChartData = [
   { date: 'Sat', attendance: 100 },
   { date: 'Sun', attendance: 100 },
 ];
+
+export const books = [
+  { id: 'B001', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', subject: 'Literature', isbn: '978-0743273565', quantity: 5, available: 3 },
+  { id: 'B002', title: 'To Kill a Mockingbird', author: 'Harper Lee', subject: 'Literature', isbn: '978-0061120084', quantity: 3, available: 1 },
+  { id: 'B003', title: '1984', author: 'George Orwell', subject: 'Dystopian Fiction', isbn: '978-0451524935', quantity: 4, available: 4 },
+  { id: 'B004', title: 'A Brief History of Time', author: 'Stephen Hawking', subject: 'Science', isbn: '978-0553380163', quantity: 2, available: 2 },
+  { id: 'B005', title: 'Calculus: A Complete Course', author: 'Robert A. Adams', subject: 'Mathematics', isbn: '978-0321781079', quantity: 10, available: 8 },
+];
+
+export const bookIssuances = [
+  { id: 'I001', bookId: 'B001', studentId: 'S001', issueDate: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString(), dueDate: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(), returnDate: null },
+  { id: 'I002', bookId: 'B001', studentId: 'S003', issueDate: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(), dueDate: new Date(new Date().setDate(new Date().getDate() + 9)).toISOString(), returnDate: null },
+  { id: 'I003', bookId: 'B002', studentId: 'S002', issueDate: new Date(new Date().setDate(new Date().getDate() - 20)).toISOString(), dueDate: new Date(new Date().setDate(new Date().getDate() - 6)).toISOString(), returnDate: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString() },
+  { id: 'I004', bookId: 'B002', studentId: 'S004', issueDate: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(), dueDate: new Date(new Date().setDate(new Date().getDate() + 11)).toISOString(), returnDate: null },
+];
