@@ -3,7 +3,7 @@ import type { SVGProps } from "react";
 
 export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
-    <div className="flex items-center gap-2" {...props}>
+    <div className="flex items-center gap-2 whitespace-nowrap" {...props}>
       <GraduationCap className="h-8 w-8 text-primary" />
       <span className="text-xl font-bold">Aedura</span>
     </div>
