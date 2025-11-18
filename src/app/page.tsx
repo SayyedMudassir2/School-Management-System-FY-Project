@@ -5,25 +5,18 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { ArrowRight, Menu, X, Star } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { DesktopNav } from './components/desktop-nav';
+import { MobileNav } from './components/mobile-nav';
 
-const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#testimonials', label: 'Testimonials' },
-  { href: '#contact', label: 'Contact' },
-];
 
 export default function LandingPage() {
-  const [open, setOpen] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
@@ -43,69 +36,9 @@ export default function LandingPage() {
             <Icons.logo className="h-10 w-auto" />
           </div>
 
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          <DesktopNav />
+          <MobileNav />
 
-          <div className="hidden md:flex items-center gap-2">
-            <Button asChild>
-              <Link href="/login">
-                Login <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="md:hidden">
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu />
-                  <span className="sr-only">Open Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-xs bg-background/95 backdrop-blur-sm p-0">
-                <SheetTitle className="sr-only">Menu</SheetTitle>
-                <div className="flex flex-col h-full">
-                  <div className="flex items-center justify-between p-4 border-b">
-                     <div className="flex items-center gap-2">
-                        <Icons.logo className="h-10 w-auto" />
-                      </div>
-                    <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
-                      <X />
-                      <span className="sr-only">Close Menu</span>
-                    </Button>
-                  </div>
-                  <nav className="flex flex-col items-start gap-4 p-4">
-                    {navLinks.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                        className="text-lg font-medium text-muted-foreground transition-colors hover:text-primary"
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </nav>
-                  <div className="mt-auto p-4 border-t">
-                     <Button asChild className="w-full">
-                      <Link href="/login">
-                        Login <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </header>
 
@@ -126,7 +59,7 @@ export default function LandingPage() {
                   <Link href="/signup">Get Started for Free</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <a href="#about">Learn More <ArrowRight className="ml-2" /></a>
+                  <a href="#features">Learn More <ArrowRight className="ml-2" /></a>
                 </Button>
               </div>
             </div>
@@ -145,11 +78,11 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="about" className="py-24 sm:py-32 bg-secondary/50">
+        <section id="features" className="py-24 sm:py-32 bg-secondary/50">
           <div className="container mx-auto animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
             <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">About Our School</h2>
-              <p className="mt-4 text-lg text-muted-foreground">Fostering excellence, innovation, and community since 1998.</p>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Powerful Features</h2>
+              <p className="mt-4 text-lg text-muted-foreground">Everything you need to run your school efficiently.</p>
             </div>
             <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
               <div className="px-4 md:px-0">
@@ -162,7 +95,7 @@ export default function LandingPage() {
                   className="rounded-lg shadow-md w-full"
                 />
               </div>
-              <div className="space-y-4 text-muted-foreground">
+              <div className="space-y-4 text-muted-foreground px-4 md:px-0">
                 <p>Aedura Elite is a premier educational institution dedicated to providing a holistic learning experience. We believe in nurturing not just academic prowess, but also character, creativity, and a lifelong love for learning.</p>
                 <p>Our state-of-the-art campus, experienced faculty, and comprehensive curriculum are designed to prepare students for the challenges of the future. We offer a wide range of academic programs and extracurricular activities to ensure the all-round development of our students.</p>
               </div>
@@ -184,7 +117,7 @@ export default function LandingPage() {
               ].map((testimonial) => (
                 <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl mx-4 md:mx-0">
                   <CardContent className="pt-6">
-                    {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4 object-cover w-20 h-20" />}
+                    {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint || ''} className="rounded-full mx-auto mb-4 object-cover w-20 h-20" />}
                     <div className="flex justify-center mb-2">
                         {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />)}
                     </div>
@@ -204,7 +137,7 @@ export default function LandingPage() {
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
               <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
             </div>
-            <div className="mt-16 max-w-xl mx-auto">
+            <div className="mt-16 max-w-xl mx-auto px-4 sm:px-0">
               <Card className="glassmorphic transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                 <CardContent className="pt-6">
                   <form className="space-y-4">
@@ -248,5 +181,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
