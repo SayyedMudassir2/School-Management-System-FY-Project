@@ -15,11 +15,6 @@ export function Breadcrumb() {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(segment => segment);
 
-  // If we're at the root of the dashboard, don't show any breadcrumbs
-  if (segments.length <= 1) {
-    return null;
-  }
-
   const breadcrumbs = segments.map((segment, index) => {
     const href = `/${segments.slice(0, index + 1).join('/')}`;
     const isLast = index === segments.length - 1;
@@ -33,28 +28,42 @@ export function Breadcrumb() {
     return { href, title, isLast };
   });
 
+  // Don't show breadcrumbs on the main dashboard page
+  if (pathname === '/dashboard') {
+    return (
+        <nav aria-label="Breadcrumb" className="hidden md:flex items-center text-sm font-medium text-muted-foreground">
+            <Home className="h-4 w-4" />
+        </nav>
+    );
+  }
+
   return (
     <nav aria-label="Breadcrumb" className="hidden md:flex items-center text-sm font-medium text-muted-foreground">
       <Link href="/dashboard" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
         <Home className="h-4 w-4" />
       </Link>
-      {breadcrumbs.map((breadcrumb, index) => (
-        <React.Fragment key={breadcrumb.href}>
-          <ChevronRight className="h-4 w-4 mx-1" />
-          <Link
-            href={breadcrumb.href}
-            className={cn(
-              'transition-colors',
-              breadcrumb.isLast
-                ? 'text-foreground cursor-default pointer-events-none'
-                : 'hover:text-foreground'
-            )}
-            aria-current={breadcrumb.isLast ? 'page' : undefined}
-          >
-            {breadcrumb.title}
-          </Link>
-        </React.Fragment>
-      ))}
+      {breadcrumbs.map((breadcrumb, index) => {
+        // We don't want to show the 'Dashboard' part of the breadcrumb after home
+        if (breadcrumb.title === 'Dashboard') return null;
+
+        return (
+            <React.Fragment key={breadcrumb.href}>
+                <ChevronRight className="h-4 w-4 mx-1" />
+                <Link
+                    href={breadcrumb.href}
+                    className={cn(
+                    'transition-colors',
+                    breadcrumb.isLast
+                        ? 'text-foreground cursor-default pointer-events-none'
+                        : 'hover:text-foreground'
+                    )}
+                    aria-current={breadcrumb.isLast ? 'page' : undefined}
+                >
+                    {breadcrumb.title}
+                </Link>
+            </React.Fragment>
+        )
+       })}
     </nav>
   );
 }
