@@ -12,10 +12,11 @@ import { Logo } from '@/components/logo';
 import { useAuth } from '@/hooks/use-auth';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
+import { FirebaseProvider } from '@/firebase/index.tsx';
 
-export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function LoginPageContent() {
+  const [email, setEmail] = useState('test@example.com');
+  const [password, setPassword] = useState('password');
   const [role, setRole] = useState('admin');
   const [error, setError] = useState<string | null>(null);
   const { signInWithEmail, loading } = useAuth();
@@ -24,11 +25,23 @@ export default function LoginPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
     try {
       await signInWithEmail(email, password);
+      // On successful sign-in, Firebase automatically handles session.
+      // Redirect to the dashboard.
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.message);
+      // Handle known Firebase auth errors
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setError('Invalid email or password. Please try again.');
+      } else {
+        setError(err.message || 'An unexpected error occurred.');
+      }
+      console.error(err);
     }
   };
 
@@ -99,4 +112,12 @@ export default function LoginPage() {
       </Card>
     </div>
   );
+}
+
+export default function LoginPage() {
+    return (
+        <FirebaseProvider>
+            <LoginPageContent />
+        </FirebaseProvider>
+    )
 }
