@@ -18,11 +18,13 @@ import { PageHeader } from "./components/page-header";
 import { Users, BookOpen, Banknote, CalendarDays } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AttendanceChart } from "./components/attendance-chart";
+import { Sitemap } from "./components/sitemap";
 
 export default function DashboardPage() {
   return (
     <>
-      <PageHeader title="Welcome, Administrator" description="Here's a summary of your school's activities." />
+      <Sitemap />
+      <PageHeader title="Welcome, Administrator!" description="Here's a summary of your school's activities." />
       
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="glassmorphic">
@@ -67,7 +69,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-5 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-3 glassmorphic">
           <CardHeader>
             <CardTitle>Weekly Attendance</CardTitle>

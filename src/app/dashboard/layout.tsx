@@ -14,31 +14,14 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
-  BookMarked,
-  Building2,
-  LayoutDashboard,
   LogOut,
-  MessageCircle,
-  Presentation,
   Settings,
-  Users,
-  Banknote,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
-import type { NavItem } from "@/lib/types";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-
-const navItems: NavItem[] = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "School Setup", href: "/dashboard/setup", icon: Building2 },
-  { title: "Attendance", href: "/dashboard/attendance", icon: Presentation },
-  { title: "User Management", href: "/dashboard/users", icon: Users },
-  { title: "Fees Management", href: "/dashboard/fees", icon: Banknote },
-  { title: "Communication", href: "/dashboard/communication", icon: MessageCircle },
-  { title: "Library", href: "/dashboard/library", icon: BookMarked },
-];
+import { navItems } from "@/lib/dashboard-nav-items";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function DashboardLayout({
   children,
