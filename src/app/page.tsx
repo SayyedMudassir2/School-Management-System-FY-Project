@@ -55,14 +55,14 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section id="home" className="relative isolate px-6 lg:px-8">
+        <section id="home" className="relative isolate px-6 pt-14 lg:px-8">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
               <div className="flex justify-center mb-4">
                 <SmallTitle>
-                  ✨ Welcome to Aedura
+                  Welcome to Aedura
                 </SmallTitle>
               </div>
               <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
@@ -76,8 +76,11 @@ export default function LandingPage() {
                 <Button size="lg" asChild>
                   <Link href="/login">Login</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="#features">See all features</a>
+                <Button size="lg" variant="outline" asChild className="group">
+                  <a href="#features">
+                    See all features
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </a>
                 </Button>
               </div>
             </div>
