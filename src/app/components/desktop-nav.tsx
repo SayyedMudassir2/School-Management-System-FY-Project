@@ -39,7 +39,7 @@ const features = [
     name: 'Staff Management',
     description: 'Efficient tools for managing staff records, attendance,...',
     href: '#',
-    icon: UserCog,
+icon: UserCog,
   },
   {
     name: 'Transport Management',
@@ -90,10 +90,10 @@ export function DesktopNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="hidden md:flex items-center gap-6 ml-6">
+    <nav className="hidden md:flex items-center gap-1 ml-6">
       <a
         href="#home"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Home
       </a>
@@ -102,7 +102,7 @@ export function DesktopNav() {
           <button
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
-            className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-primary outline-none"
+            className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary outline-none"
           >
             Features
             <ChevronDown className="h-4 w-4" />
@@ -155,13 +155,13 @@ export function DesktopNav() {
       </Popover>
       <a
         href="#testimonials"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Testimonials
       </a>
       <a
         href="#contact"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Contact
       </a>
