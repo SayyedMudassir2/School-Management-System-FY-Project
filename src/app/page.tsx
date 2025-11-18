@@ -15,6 +15,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { DesktopNav } from './components/desktop-nav';
 import { MobileNav } from './components/mobile-nav';
 import { SmallTitle } from './components/small-title';
+import { Stats } from './components/stats';
 
 
 export default function LandingPage() {
@@ -55,7 +56,7 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section id="home" className="relative isolate px-6 pt-14 lg:px-8">
+        <section id="home" className="relative isolate px-6 lg:px-8">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
 
           <div className="container mx-auto py-24 sm:py-32">
@@ -98,6 +99,8 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        <Stats />
 
         <section id="features" className="py-24 sm:py-32 bg-secondary/50 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
           <div className="container mx-auto">
