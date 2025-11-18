@@ -4,13 +4,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { DesktopNav } from './components/desktop-nav';
 import { MobileNav } from './components/mobile-nav';
 import { SmallTitle } from './components/small-title';
@@ -29,10 +28,6 @@ export default function LandingPage() {
     setYear(new Date().getFullYear());
   }, []);
   
-  const parentAvatar = PlaceHolderImages.find(img => img.id === 'teacher-avatar');
-  const teacherAvatar = PlaceHolderImages.find(img => img.id === 'admin-avatar');
-  const studentAvatar = PlaceHolderImages.find(img => img.id === 'student-avatar-1');
-
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -84,7 +79,7 @@ export default function LandingPage() {
                 <Button size="lg" asChild>
                   <Link href="/login">Login</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild className="group">
+                <Button size="lg" variant="outline" asChild className="group hover:bg-primary hover:text-primary-foreground">
                   <a href="#features">
                     See all features
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
