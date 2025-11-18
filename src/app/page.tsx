@@ -19,6 +19,7 @@ import { Stats } from './components/stats';
 import { Testimonials } from './components/testimonials';
 import { Features } from './components/features';
 import { AdditionalFeatures } from './components/additional-features';
+import { Footer } from './components/footer';
 
 
 export default function LandingPage() {
@@ -153,11 +154,7 @@ export default function LandingPage() {
 
       </main>
 
-      <footer className="border-t">
-        <div className="container py-8 text-center text-sm text-muted-foreground">
-            {year ? <>© {year} Aedura Elite. All Rights Reserved.</> : `© ${new Date().getFullYear()} Aedura Elite. All Rights Reserved.`}
-        </div>
-      </footer>
+      <Footer year={year} />
     </div>
   );
 }
