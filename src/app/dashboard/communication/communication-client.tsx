@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const fileSchema = z.custom<File>(val => typeof window !== 'undefined' && val instanceof File, "Please upload a file").optional();
+const fileSchema = z.custom<File>(val => typeof window !== 'undefined' ? val instanceof File : false, "Please upload a file").optional();
 
 const announcementSchema = z.object({
   id: z.string().optional(),
