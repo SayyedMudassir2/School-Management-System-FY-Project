@@ -6,25 +6,12 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { AcademicYearClient } from "./academic-year-client";
+import { ClassesClient } from "./classes-client";
+import { SubjectsClient } from "./subjects-client";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function SetupPage() {
   return (
@@ -41,230 +28,13 @@ export default function SetupPage() {
           <TabsTrigger value="timetable">Timetable</TabsTrigger>
         </TabsList>
         <TabsContent value="academic-year">
-          <Card className="glassmorphic mt-4">
-            <CardHeader>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
-                <div>
-                  <CardTitle>Academic Years</CardTitle>
-                  <CardDescription>
-                    Manage academic sessions for your school.
-                  </CardDescription>
-                </div>
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Add New Year
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Year</TableHead>
-                    <TableHead>Start Date</TableHead>
-                    <TableHead>End Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">2024-2025</TableCell>
-                    <TableCell>01 Apr 2024</TableCell>
-                    <TableCell>31 Mar 2025</TableCell>
-                    <TableCell>
-                      <Badge>Active</Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="outline" size="sm">
-                            Edit
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Edit Academic Year</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">2023-2024</TableCell>
-                    <TableCell>01 Apr 2023</TableCell>
-                    <TableCell>31 Mar 2024</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">Completed</Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button variant="outline" size="sm" disabled>
-                            Edit
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Cannot edit a completed year.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          <AcademicYearClient />
         </TabsContent>
         <TabsContent value="classes">
-           <Card className="glassmorphic mt-4">
-            <CardHeader>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
-                <div>
-                  <CardTitle>Classes & Sections</CardTitle>
-                  <CardDescription>
-                    You can manage all classes and their respective sections.
-                  </CardDescription>
-                </div>
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Add New Class
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-               <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Class Name</TableHead>
-                    <TableHead>Sections</TableHead>
-                    <TableHead>Class Teacher</TableHead>
-                    <TableHead>Total Students</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">Class 10</TableCell>
-                    <TableCell>A, B, C</TableCell>
-                    <TableCell>Mr.  John Smith</TableCell>
-                    <TableCell>120</TableCell>
-                    <TableCell className="text-right">
-                       <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button variant="outline" size="sm">
-                            Manage
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Manage Class 10</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Class 9</TableCell>
-                    <TableCell>A, B</TableCell>
-                    <TableCell>Ms.  Emily White</TableCell>
-                     <TableCell>85</TableCell>
-                    <TableCell className="text-right">
-                       <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button variant="outline" size="sm">
-                            Manage
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Manage Class 9</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+           <ClassesClient />
         </TabsContent>
         <TabsContent value="subjects">
-           <Card className="glassmorphic mt-4">
-            <CardHeader>
-               <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
-                  <div>
-                    <CardTitle>Subjects</CardTitle>
-                    <CardDescription>
-                      You can manage subjects offered across different classes.
-                    </CardDescription>
-                  </div>
-                  <Button>
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Subject
-                  </Button>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Subject Name</TableHead>
-                      <TableHead>Subject Code</TableHead>
-                      <TableHead>Type</TableHead>
-                       <TableHead>Assigned Classes</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Mathematics</TableCell>
-                      <TableCell>MATH101</TableCell>
-                      <TableCell>Core</TableCell>
-                      <TableCell>Class 9, Class 10</TableCell>
-                      <TableCell className="text-right">
-                         <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Edit Mathematics</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Physics</TableCell>
-                      <TableCell>PHY101</TableCell>
-                      <TableCell>Core</TableCell>
-                      <TableCell>Class 10</TableCell>
-                      <TableCell className="text-right">
-                         <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Edit Physics</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                     <TableRow>
-                      <TableCell className="font-medium">Computer Science</TableCell>
-                      <TableCell>CS101</TableCell>
-                      <TableCell>Elective</TableCell>
-                      <TableCell>Class 9, Class 10</TableCell>
-                      <TableCell className="text-right">
-                         <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Edit Computer Science</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+           <SubjectsClient />
         </TabsContent>
         <TabsContent value="timetable">
           <Card className="glassmorphic mt-4">
