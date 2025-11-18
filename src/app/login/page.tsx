@@ -13,13 +13,14 @@ import { useAuth } from '@/hooks/use-auth';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
 import { FirebaseProvider } from '@/firebase/index.tsx';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function LoginPageContent() {
   const [email, setEmail] = useState('test@example.com');
   const [password, setPassword] = useState('password');
   const [role, setRole] = useState('admin');
   const [error, setError] = useState<string | null>(null);
-  const { signInWithEmail, loading } = useAuth();
+  const { signInWithEmail, loading, auth } = useAuth();
   const router = useRouter();
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -31,17 +32,21 @@ function LoginPageContent() {
     }
     try {
       await signInWithEmail(email, password);
-      // On successful sign-in, Firebase automatically handles session.
-      // Redirect to the dashboard with the selected role.
       router.push(`/dashboard?role=${role}`);
     } catch (err: any) {
-      // Handle known Firebase auth errors
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        setError('Invalid email or password. Please try again.');
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+        // If user does not exist, try to create a new account
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          // After successful creation, Firebase automatically signs the user in.
+          router.push(`/dashboard?role=${role}`);
+        } catch (signUpError: any) {
+          setError(signUpError.message || 'An unexpected error occurred during sign-up.');
+        }
       } else {
         setError(err.message || 'An unexpected error occurred.');
+        console.error(err);
       }
-      console.error(err);
     }
   };
 
