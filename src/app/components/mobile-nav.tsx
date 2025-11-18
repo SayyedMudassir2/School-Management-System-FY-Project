@@ -23,13 +23,13 @@ const features = [
     {
       name: 'Attendance Tracking',
       description: 'You can monitor student attendance with ease.',
-      href: '#',
+      href: '/dashboard/attendance',
       icon: Users,
     },
     {
       name: 'Fee Management',
       description: 'You can streamline fee collection and reporting.',
-      href: '#',
+      href: '/dashboard/fees',
       icon: Banknote,
     },
     {
@@ -42,7 +42,7 @@ const features = [
       name: 'Dashboards',
       description: 'You can get a complete overview of your institution.',
       href: '/dashboard',
-      icon: LayoutDashboard,
+icon: LayoutDashboard,
     }
   ];
 
