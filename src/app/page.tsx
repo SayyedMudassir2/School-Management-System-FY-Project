@@ -62,7 +62,7 @@ export default function LandingPage() {
             <div className="text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
               <div className="flex justify-center mb-4">
                 <SmallTitle>
-                  Welcome to Aedura
+                  ✨ Welcome to Aedura
                 </SmallTitle>
               </div>
               <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
@@ -74,10 +74,10 @@ export default function LandingPage() {
               </p>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
                 <Button size="lg" asChild>
-                  <Link href="/signup">Get Started for Free</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <a href="#features">Learn More <ArrowRight className="ml-2" /></a>
+                  <a href="#testimonials">View Announcements</a>
                 </Button>
               </div>
             </div>
