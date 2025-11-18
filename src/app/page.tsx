@@ -121,7 +121,7 @@ export default function LandingPage() {
               <p className="mt-6 text-lg leading-8 text-muted-foreground">
                 Aedura Elite provides a seamless, integrated platform to manage all aspects of your educational institution. From attendance to fees, communication to smart analytics.
               </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
                 <Button size="lg" asChild>
                   <Link href="/signup">Get Started for Free</Link>
                 </Button>
@@ -152,14 +152,14 @@ export default function LandingPage() {
               <p className="mt-4 text-lg text-muted-foreground">Fostering excellence, innovation, and community since 1998.</p>
             </div>
             <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
-              <div>
+              <div className="px-4 md:px-0">
                 <Image 
                   src="https://picsum.photos/seed/school/600/400" 
                   alt="School Campus"
                   width={600}
                   height={400}
                   data-ai-hint="school campus"
-                  className="rounded-lg shadow-md"
+                  className="rounded-lg shadow-md w-full"
                 />
               </div>
               <div className="space-y-4 text-muted-foreground">
@@ -182,7 +182,7 @@ export default function LandingPage() {
                 { name: 'John D.', role: 'Teacher', text: "Teaching here is a joy. The administration is supportive, the students are eager to learn, and the technology integration makes our job easier and more effective.", avatar: teacherAvatar?.imageUrl, hint: teacherAvatar?.imageHint },
                 { name: 'Michael C.', role: 'Student, Class of 2024', text: "I feel prepared for whatever comes next. The school provided me with not just knowledge, but also with problem-solving skills and confidence.", avatar: studentAvatar?.imageUrl, hint: studentAvatar?.imageHint },
               ].map((testimonial) => (
-                <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                <Card key={testimonial.name} className="glassmorphic text-center transition-all duration-300 hover:scale-105 hover:shadow-xl mx-4 md:mx-0">
                   <CardContent className="pt-6">
                     {testimonial.avatar && <Image src={testimonial.avatar} alt={testimonial.name} width={80} height={80} data-ai-hint={testimonial.hint} className="rounded-full mx-auto mb-4 object-cover w-20 h-20" />}
                     <div className="flex justify-center mb-2">
