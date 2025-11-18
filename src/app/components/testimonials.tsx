@@ -1,6 +1,8 @@
 
+'use client';
+
 import Image from "next/image";
-import { Star, Banknote, CalendarCheck, BarChart4 } from "lucide-react";
+import { Star } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { SmallTitle } from "./small-title";
 
@@ -46,30 +48,6 @@ export function Testimonials() {
                         </div>
                         <p className="text-sm font-medium">Loved by 5000+ customers</p>
                     </div>
-                </div>
-            </div>
-
-            <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center p-6 bg-background/50 rounded-lg shadow-sm">
-                    <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-primary/10 text-primary">
-                        <Banknote className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Fee Collections</h3>
-                    <p className="mt-2 text-muted-foreground">Automate invoicing, accept online payments, and track fee status in real-time.</p>
-                </div>
-                <div className="text-center p-6 bg-background/50 rounded-lg shadow-sm">
-                     <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-primary/10 text-primary">
-                        <CalendarCheck className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Attendance</h3>
-                    <p className="mt-2 text-muted-foreground">Easily mark and monitor student attendance, generating instant reports and alerts.</p>
-                </div>
-                <div className="text-center p-6 bg-background/50 rounded-lg shadow-sm">
-                     <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-primary/10 text-primary">
-                        <BarChart4 className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Academic Performance</h3>
-                    <p className="mt-2 text-muted-foreground">Track grades, view performance analytics, and generate custom report cards effortlessly.</p>
                 </div>
             </div>
         </div>
