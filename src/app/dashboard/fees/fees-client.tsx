@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, MoreHorizontal, CheckCircle, Clock } from "lucide-react";
+import { PlusCircle, MoreHorizontal, CheckCircle, Clock, Printer } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -37,6 +37,7 @@ import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { students } from "@/lib/mock-data";
 import { Banknote, FileText, Scale } from "lucide-react";
+import { InvoicePrint } from "./invoice-print";
 
 const feeSchema = z.object({
   id: z.string().optional(),
@@ -62,10 +63,26 @@ export function FeesClient() {
   const [fees, setFees] = useState<Fee[]>(initialFees);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingFee, setEditingFee] = useState<Fee | null>(null);
+  const [feeToPrint, setFeeToPrint] = useState<Fee | null>(null);
 
   const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<Fee>({
     resolver: zodResolver(feeSchema),
   });
+
+  useEffect(() => {
+    if (feeToPrint) {
+      const handlePrint = () => {
+        window.print();
+        setFeeToPrint(null);
+      };
+      
+      // Use a timeout to allow the print component to render before printing
+      const timer = setTimeout(handlePrint, 100);
+
+      // Cleanup the timeout if the component unmounts or feeToPrint changes
+      return () => clearTimeout(timer);
+    }
+  }, [feeToPrint]);
 
   const handleOpenDialog = (fee: Fee | null = null) => {
     setEditingFee(fee);
@@ -89,6 +106,10 @@ export function FeesClient() {
 
   const handleMarkAsPaid = (feeId: string) => {
     setFees(fees.map(f => f.id === feeId ? { ...f, status: "Paid" } : f));
+  };
+  
+  const handlePrint = (fee: Fee) => {
+    setFeeToPrint(fee);
   };
 
   const { totalCollected, totalUnpaid, totalOverdue } = useMemo(() => {
@@ -114,158 +135,169 @@ export function FeesClient() {
 
   return (
     <>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div className="print:hidden">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+                <Card className="glassmorphic">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Collected</CardTitle>
+                        <Banknote className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">${totalCollected.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">This academic year</p>
+                    </CardContent>
+                </Card>
+                <Card className="glassmorphic">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Unpaid</CardTitle>
+                        <FileText className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">${totalUnpaid.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">Awaiting payment</p>
+                    </CardContent>
+                </Card>
+                <Card className="glassmorphic">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Overdue</CardTitle>
+                        <Scale className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-destructive">${totalOverdue.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">Past due date</p>
+                    </CardContent>
+                </Card>
+            </div>
             <Card className="glassmorphic">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Collected</CardTitle>
-                    <Banknote className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">${totalCollected.toLocaleString()}</div>
-                    <p className="text-xs text-muted-foreground">This academic year</p>
-                </CardContent>
-            </Card>
-            <Card className="glassmorphic">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Unpaid</CardTitle>
-                    <FileText className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">${totalUnpaid.toLocaleString()}</div>
-                    <p className="text-xs text-muted-foreground">Awaiting payment</p>
-                </CardContent>
-            </Card>
-            <Card className="glassmorphic">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Overdue</CardTitle>
-                    <Scale className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold text-destructive">${totalOverdue.toLocaleString()}</div>
-                    <p className="text-xs text-muted-foreground">Past due date</p>
-                </CardContent>
+            <CardHeader>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
+                <div>
+                    <CardTitle>Fee Invoices</CardTitle>
+                    <CardDescription>A list of all fee invoices for the current term.</CardDescription>
+                </div>
+                <Button onClick={() => handleOpenDialog()}>
+                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Invoice
+                </Button>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                        <TableHead>Invoice #</TableHead>
+                        <TableHead>Student</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {fees.map(fee => (
+                        <TableRow key={fee.id}>
+                            <TableCell className="font-medium">{fee.invoiceNumber}</TableCell>
+                            <TableCell>{studentMap.get(fee.studentId) || 'Unknown Student'}</TableCell>
+                            <TableCell>${fee.amount.toLocaleString()}</TableCell>
+                            <TableCell>{formatDate(fee.dueDate)}</TableCell>
+                            <TableCell>
+                                <Badge variant={
+                                    fee.status === 'Paid' ? 'default' :
+                                    fee.status === 'Overdue' ? 'destructive' : 'secondary'
+                                } className={fee.status === 'Paid' ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>
+                                    {fee.status}
+                                </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                {fee.status !== 'Paid' && (
+                                    <DropdownMenuItem onClick={() => handleMarkAsPaid(fee.id!)}>
+                                        <CheckCircle className="mr-2 h-4 w-4" />
+                                        Mark as Paid
+                                    </DropdownMenuItem>
+                                )}
+                                <DropdownMenuItem onClick={() => handleOpenDialog(fee)}>
+                                    <Clock className="mr-2 h-4 w-4" />
+                                    View/Edit
+                                </DropdownMenuItem>
+                                 <DropdownMenuItem onClick={() => handlePrint(fee)}>
+                                    <Printer className="mr-2 h-4 w-4" />
+                                    Print Invoice
+                                </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            </TableCell>
+                        </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </CardContent>
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>{editingFee ? "Edit Invoice" : "Add New Invoice"}</DialogTitle>
+                    <DialogDescription>
+                        {editingFee ? "Update the details for the invoice." : "Enter details for the new fee invoice."}
+                    </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="invoiceNumber" className="text-right">Invoice #</Label>
+                        <Input id="invoiceNumber" {...register("invoiceNumber")} className="col-span-3" readOnly={!editingFee} />
+                        {errors.invoiceNumber && <p className="col-span-4 text-destructive text-xs text-right">{errors.invoiceNumber.message}</p>}
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="studentId" className="text-right">Student</Label>
+                        <Controller
+                            control={control}
+                            name="studentId"
+                            render={({ field }) => (
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="col-span-3">
+                                    <SelectValue placeholder="Select a student" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {students.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                            )}
+                        />
+                        {errors.studentId && <p className="col-span-4 text-destructive text-xs text-right">{errors.studentId.message}</p>}
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="amount" className="text-right">Amount</Label>
+                        <Input id="amount" type="number" {...register("amount")} className="col-span-3" />
+                        {errors.amount && <p className="col-span-4 text-destructive text-xs text-right">{errors.amount.message}</p>}
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="dueDate" className="text-right">Due Date</Label>
+                        <Input id="dueDate" type="date" {...register("dueDate")} className="col-span-3" />
+                        {errors.dueDate && <p className="col-span-4 text-destructive text-xs text-right">{errors.dueDate.message}</p>}
+                    </div>
+                    </div>
+                    <DialogFooter>
+                        <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                        <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                </form>
+                </DialogContent>
+            </Dialog>
             </Card>
         </div>
-        <Card className="glassmorphic">
-        <CardHeader>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
-            <div>
-                <CardTitle>Fee Invoices</CardTitle>
-                <CardDescription>A list of all fee invoices for the current term.</CardDescription>
+        {feeToPrint && (
+            <div className="hidden print:block">
+                <InvoicePrint fee={feeToPrint} studentName={studentMap.get(feeToPrint.studentId) || 'Unknown Student'} />
             </div>
-            <Button onClick={() => handleOpenDialog()}>
-                <PlusCircle className="mr-2 h-4 w-4" /> Add New Invoice
-            </Button>
-            </div>
-        </CardHeader>
-        <CardContent>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>Invoice #</TableHead>
-                    <TableHead>Student</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Due Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {fees.map(fee => (
-                    <TableRow key={fee.id}>
-                        <TableCell className="font-medium">{fee.invoiceNumber}</TableCell>
-                        <TableCell>{studentMap.get(fee.studentId) || 'Unknown Student'}</TableCell>
-                        <TableCell>${fee.amount.toLocaleString()}</TableCell>
-                        <TableCell>{formatDate(fee.dueDate)}</TableCell>
-                        <TableCell>
-                            <Badge variant={
-                                fee.status === 'Paid' ? 'default' :
-                                fee.status === 'Overdue' ? 'destructive' : 'secondary'
-                            } className={fee.status === 'Paid' ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>
-                                {fee.status}
-                            </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            {fee.status !== 'Paid' && (
-                                <DropdownMenuItem onClick={() => handleMarkAsPaid(fee.id)}>
-                                    <CheckCircle className="mr-2 h-4 w-4" />
-                                    Mark as Paid
-                                </DropdownMenuItem>
-                            )}
-                            <DropdownMenuItem onClick={() => handleOpenDialog(fee)}>
-                                <Clock className="mr-2 h-4 w-4" />
-                                View/Edit
-                            </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        </TableCell>
-                    </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </CardContent>
-
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-                <DialogTitle>{editingFee ? "Edit Invoice" : "Add New Invoice"}</DialogTitle>
-                <DialogDescription>
-                    {editingFee ? "Update the details for the invoice." : "Enter details for the new fee invoice."}
-                </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="invoiceNumber" className="text-right">Invoice #</Label>
-                    <Input id="invoiceNumber" {...register("invoiceNumber")} className="col-span-3" readOnly={!editingFee} />
-                    {errors.invoiceNumber && <p className="col-span-4 text-destructive text-xs text-right">{errors.invoiceNumber.message}</p>}
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="studentId" className="text-right">Student</Label>
-                    <Controller
-                        control={control}
-                        name="studentId"
-                        render={({ field }) => (
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <SelectTrigger className="col-span-3">
-                                <SelectValue placeholder="Select a student" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {students.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
-                            </SelectContent>
-                        </Select>
-                        )}
-                    />
-                    {errors.studentId && <p className="col-span-4 text-destructive text-xs text-right">{errors.studentId.message}</p>}
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="amount" className="text-right">Amount</Label>
-                    <Input id="amount" type="number" {...register("amount")} className="col-span-3" />
-                    {errors.amount && <p className="col-span-4 text-destructive text-xs text-right">{errors.amount.message}</p>}
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="dueDate" className="text-right">Due Date</Label>
-                    <Input id="dueDate" type="date" {...register("dueDate")} className="col-span-3" />
-                    {errors.dueDate && <p className="col-span-4 text-destructive text-xs text-right">{errors.dueDate.message}</p>}
-                </div>
-                </div>
-                <DialogFooter>
-                    <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                    <Button type="submit">Save changes</Button>
-                </DialogFooter>
-            </form>
-            </DialogContent>
-        </Dialog>
-        </Card>
+        )}
     </>
   );
 }
