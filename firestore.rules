@@ -48,11 +48,7 @@ service cloud.firestore {
      * @principle: Enforces document ownership and authenticated access.
      */
     match /schools/{schoolId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -64,11 +60,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/academicYears/{academicYearId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -80,11 +72,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/classes/{classId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -96,11 +84,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/sections/{sectionId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -111,11 +95,7 @@ service cloud.firestore {
      * @principle: Subjects are generally available to all authenticated users.
      */
     match /subjects/{subjectId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -127,11 +107,7 @@ service cloud.firestore {
      * @principle: Grants teacher-specific write access based on the teacherId field.
      */
     match /schools/{schoolId}/sections/{sectionId}/timetableSlots/{timetableSlotId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -143,11 +119,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/classes/{classId}/attendances/{attendanceId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -159,14 +131,12 @@ service cloud.firestore {
      * @principle: Enforces strict user-ownership for profile data.
      */
     match /users/{userId} {
-      function isOwner(userId) {
+      function isOwner() {
         return request.auth.uid == userId;
       }
-      allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      allow read, update: if isOwner();
+      allow create: if request.auth.uid == userId;
+      allow list, delete: if false;
     }
 
     /**
@@ -178,11 +148,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/fees/{feeId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -194,14 +160,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the user (student).
      */
     match /users/{userId}/invoices/{invoiceId} {
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if false;
+      allow read, write: if request.auth.uid == userId;
     }
 
     /**
@@ -213,14 +172,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the user and invoice.
      */
     match /users/{userId}/invoices/{invoiceId}/payments/{paymentId} {
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth.uid == userId;
     }
 
     /**
@@ -232,11 +184,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/announcements/{announcementId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -248,14 +196,7 @@ service cloud.firestore {
      * @principle: Enforces strict user-ownership for message data.
      */
     match /users/{userId}/messages/{messageId} {
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+       allow read, write: if request.auth.uid == userId;
     }
 
     /**
@@ -267,11 +208,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/books/{bookId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
 
     /**
@@ -283,11 +220,7 @@ service cloud.firestore {
      * @principle: Scopes data access to the school.
      */
     match /schools/{schoolId}/books/{bookId}/borrowings/{borrowingId} {
-      allow get: if request.auth != null;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if false;
+      allow read, write: if request.auth != null;
     }
   }
 }
