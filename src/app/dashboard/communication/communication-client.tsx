@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const fileSchema = z.custom<File>(val => val instanceof File, "Please upload a file");
+const fileSchema = z.custom<File>(val => val instanceof File, "Please upload a file").optional();
 
 const announcementSchema = z.object({
   id: z.string().optional(),
@@ -43,7 +43,7 @@ const announcementSchema = z.object({
   content: z.string().min(1, "Message content is required"),
   recipientGroup: z.enum(["All Users", "Teachers", "Students", "Parents"]),
   sentAt: z.string(),
-  attachment: fileSchema.optional(),
+  attachment: fileSchema,
 });
 
 type Announcement = z.infer<typeof announcementSchema>;
@@ -83,7 +83,10 @@ export function CommunicationClient() {
   const { register, handleSubmit, reset, control, setValue, watch, formState: { errors } } = useForm<Omit<Announcement, 'id' | 'sentAt'>>({
     resolver: zodResolver(announcementSchema.omit({ id: true, sentAt: true })),
     defaultValues: {
+      title: "",
+      content: "",
       recipientGroup: "All Users",
+      attachment: undefined,
     }
   });
 
@@ -313,5 +316,3 @@ export function CommunicationClient() {
     </div>
   );
 }
-
-    
