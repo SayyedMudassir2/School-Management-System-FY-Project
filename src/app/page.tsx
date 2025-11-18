@@ -41,9 +41,9 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <Button asChild>
+              <Button asChild className="group">
                 <Link href="/login">
-                  Login <ArrowRight className="ml-2 h-4 w-4" />
+                  Login <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </Button>
             </div>
