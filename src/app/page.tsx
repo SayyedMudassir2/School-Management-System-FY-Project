@@ -4,9 +4,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Mail, MessageSquare, Phone } from 'lucide-react';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -112,43 +112,63 @@ export default function LandingPage() {
         <Testimonials />
 
         <section id="contact" className="py-24 sm:py-32 bg-secondary/50 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
-          <div className="container mx-auto">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get In Touch</h2>
-              <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get in Touch</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
+                </div>
+
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <Card className="glassmorphic text-center flex flex-col">
+                        <CardHeader>
+                            <div className="mx-auto bg-primary/10 p-3 rounded-lg">
+                                <Mail className="h-6 w-6 text-primary" />
+                            </div>
+                            <CardTitle className="mt-4">Email Support</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                            <p className="text-muted-foreground">Get in touch with our support team via email</p>
+                        </CardContent>
+                        <div className="p-6 pt-0">
+                             <Button variant="outline" asChild className="w-full">
+                                <a href="mailto:contact@aedura.elite">Send Email</a>
+                            </Button>
+                        </div>
+                    </Card>
+                     <Card className="glassmorphic text-center flex flex-col">
+                        <CardHeader>
+                            <div className="mx-auto bg-accent/10 p-3 rounded-lg">
+                                <MessageSquare className="h-6 w-6 text-accent" />
+                            </div>
+                            <CardTitle className="mt-4">Live Chat</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                            <p className="text-muted-foreground">Chat with our support team in real-time</p>
+                        </CardContent>
+                         <div className="p-6 pt-0">
+                             <Button variant="outline" asChild className="w-full">
+                                <Link href="#">Start Chat</Link>
+                            </Button>
+                        </div>
+                    </Card>
+                     <Card className="glassmorphic text-center flex flex-col">
+                        <CardHeader>
+                            <div className="mx-auto bg-green-500/10 p-3 rounded-lg">
+                                <Phone className="h-6 w-6 text-green-500" />
+                            </div>
+                            <CardTitle className="mt-4">Phone Support</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                            <p className="text-muted-foreground">Call us directly for immediate assistance</p>
+                        </CardContent>
+                         <div className="p-6 pt-0">
+                             <Button variant="outline" asChild className="w-full">
+                                <a href="tel:+1234567890">Call Now</a>
+                            </Button>
+                        </div>
+                    </Card>
+                </div>
             </div>
-            <div className="mt-16 max-w-xl mx-auto px-4 sm:px-0">
-              <Card className="glassmorphic transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-                <CardContent className="pt-6">
-                  <form className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" placeholder="Your Name" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email Address</Label>
-                        <Input id="email" type="email" placeholder="your.email@example.com" />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Input id="subject" placeholder="What can we help you with?" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
-                      <Textarea id="message" placeholder="Your message..." rows={5} />
-                    </div>
-                    <Button type="submit" className="w-full">Send Message</Button>                  
-                  </form>
-                </CardContent>
-              </Card>
-               <div className="text-center mt-8 text-muted-foreground">
-                  <p>Email:  <a href="mailto:contact@aedura.elite" className="text-primary hover:underline">contact@aedura.elite</a></p>
-                  <p>Phone:  <a href="tel:+1234567890" className="text-primary hover:underline">(123) 456-7890</a></p>
-              </div>
-            </div>
-          </div>
         </section>
 
       </main>
