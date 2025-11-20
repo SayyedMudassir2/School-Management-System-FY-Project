@@ -92,7 +92,7 @@ export function DesktopNav() {
   return (
     <nav className="hidden md:flex items-center gap-1 ml-6">
       <a
-        href="#home"
+        href="/#home"
         className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Home
@@ -115,7 +115,7 @@ export function DesktopNav() {
           <div className="grid gap-4">
             <div className="flex justify-between items-center mb-2">
               <h4 className="font-medium leading-none text-foreground">Features</h4>
-              <a href="#features" className='text-sm font-medium text-primary hover:underline'>View all</a>
+              <a href="/#features" className='text-sm font-medium text-primary hover:underline'>View all</a>
             </div>
             <div className="grid grid-cols-3 gap-x-6 gap-y-4">
               {features.map((feature) => (
@@ -144,13 +144,19 @@ export function DesktopNav() {
         </PopoverContent>
       </Popover>
       <a
-        href="#testimonials"
+        href="/#testimonials"
         className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Testimonials
       </a>
+       <Link
+        href="/help"
+        className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
+      >
+        Help Center
+      </Link>
       <a
-        href="#contact"
+        href="/#contact"
         className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
       >
         Contact

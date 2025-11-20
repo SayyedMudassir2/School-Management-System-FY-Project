@@ -79,7 +79,7 @@ export function MobileNav() {
             </div>
             <nav className="flex flex-col items-start gap-2 p-4">
               <a
-                href="#home"
+                href="/#home"
                 onClick={() => setOpen(false)}
                 className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
               >
@@ -115,14 +115,21 @@ export function MobileNav() {
                 </AccordionItem>
               </Accordion>
               <a
-                href="#testimonials"
+                href="/#testimonials"
                 onClick={() => setOpen(false)}
                 className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 Testimonials
               </a>
+              <Link
+                href="/help"
+                onClick={() => setOpen(false)}
+                className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                Help Center
+              </Link>
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
                 className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
               >

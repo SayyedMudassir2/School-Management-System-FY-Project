@@ -7,10 +7,11 @@ import { Logo } from "@/components/logo";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const quickLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Features", href: "#features" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/#home" },
+    { name: "Features", href: "/#features" },
+    { name: "Testimonials", href: "/#testimonials" },
+    { name: "Help Center", href: "/help" },
+    { name: "Contact", href: "/#contact" },
 ];
 
 const socialLinks = [
