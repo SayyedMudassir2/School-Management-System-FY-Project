@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { LifeBuoy, ArrowRight, Search } from 'lucide-react';
+import { LifeBuoy, ArrowRight, Search, Mail, MessageSquare, Phone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Footer } from '../components/footer';
 import { Logo } from '@/components/logo';
@@ -130,23 +130,63 @@ export default function HelpPage() {
                         </div>
                     </div>
 
-                    <Card className="glassmorphic mt-24 max-w-3xl mx-auto">
-                        <CardHeader className="text-center">
-                            <LifeBuoy className="mx-auto h-8 w-8 text-primary" />
-                            <CardTitle className="mt-2">Still Need Help?</CardTitle>
-                            <CardDescription>If you can't find the answer you're looking for, please don't hesitate to contact us.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                    <Button asChild size="lg" className="flex-1">
-                                    <Link href="/#contact">Contact Support</Link>
-                                </Button>
-                                    <Button variant="outline" size="lg" className="flex-1" asChild>
-                                    <a href="mailto:support@aedura.elite">Email us at support@aedura.elite</a>
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <div id="contact" className="mt-24">
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Get in Touch</h2>
+                            <p className="mt-4 text-lg text-muted-foreground">We're here to help and answer any question you might have.</p>
+                        </div>
+
+                        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            <Card className="glassmorphic text-center flex flex-col">
+                                <CardHeader>
+                                    <div className="mx-auto bg-primary/10 p-3 rounded-lg">
+                                        <Mail className="h-6 w-6 text-primary" />
+                                    </div>
+                                    <CardTitle className="mt-4">Email Support</CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-grow">
+                                    <p className="text-muted-foreground">Get in touch with our support team via email</p>
+                                </CardContent>
+                                <div className="p-6 pt-0">
+                                    <Button variant="outline" asChild className="w-full">
+                                        <a href="mailto:contact@aedura.elite">Send Email</a>
+                                    </Button>
+                                </div>
+                            </Card>
+                            <Card className="glassmorphic text-center flex flex-col">
+                                <CardHeader>
+                                    <div className="mx-auto bg-accent/10 p-3 rounded-lg">
+                                        <MessageSquare className="h-6 w-6 text-accent" />
+                                    </div>
+                                    <CardTitle className="mt-4">Live Chat</CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-grow">
+                                    <p className="text-muted-foreground">Chat with our support team in real-time</p>
+                                </CardContent>
+                                <div className="p-6 pt-0">
+                                    <Button variant="outline" asChild className="w-full">
+                                        <Link href="#">Start Chat</Link>
+                                    </Button>
+                                </div>
+                            </Card>
+                            <Card className="glassmorphic text-center flex flex-col">
+                                <CardHeader>
+                                    <div className="mx-auto bg-green-500/10 p-3 rounded-lg">
+                                        <Phone className="h-6 w-6 text-green-500" />
+                                    </div>
+                                    <CardTitle className="mt-4">Phone Support</CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-grow">
+                                    <p className="text-muted-foreground">Call us directly for immediate assistance</p>
+                                </CardContent>
+                                <div className="p-6 pt-0">
+                                    <Button variant="outline" asChild className="w-full">
+                                        <a href="tel:+1234567890">Call Now</a>
+                                    </Button>
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
                 </div>
             </main>
 
