@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { LifeBuoy, ArrowRight } from 'lucide-react';
-import { PageHeader } from '../dashboard/components/page-header';
+import { LifeBuoy, ArrowRight, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { Footer } from '../components/footer';
 import { Logo } from '@/components/logo';
 import { DesktopNav } from '../components/desktop-nav';
@@ -35,6 +35,24 @@ const faqs = [
     {
         question: "Who should I contact for technical support?",
         answer: "If you encounter any technical issues, please reach out to our support team by using the contact form at the bottom of this page or by emailing support@aedura.elite."
+    }
+];
+
+const helpArticles = [
+    {
+        title: "Getting Started Guide",
+        description: "Learn the basics of using our platform",
+        href: "#"
+    },
+    {
+        title: "Account Management",
+        description: "How to manage your account settings",
+        href: "#"
+    },
+    {
+        title: "Troubleshooting Common Issues",
+        description: "Solutions to frequent problems",
+        href: "#"
     }
 ];
 
@@ -67,49 +85,68 @@ export default function HelpPage() {
             <main className="flex-1 py-16 sm:py-24">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <LifeBuoy className="mx-auto h-12 w-12 text-primary" />
-                        <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Help Center</h1>
-                        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                            Find answers to frequently asked questions and get in touch with our support team.
+                        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Help Center & Resources</h1>
+                        <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                            Find answers, learn best practices, and discover how to get the most out of your Aedura system. Browse through our frequently asked questions or explore our helpful articles to enhance your experience.
                         </p>
                     </div>
-
-                    <div className="mt-16 max-w-3xl mx-auto">
-                        <Card className="glassmorphic">
-                            <CardHeader>
-                                <CardTitle>Frequently Asked Questions</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <Accordion type="single" collapsible className="w-full">
-                                    {faqs.map((faq, index) => (
-                                        <AccordionItem key={index} value={`item-${index}`}>
-                                            <AccordionTrigger>{faq.question}</AccordionTrigger>
-                                            <AccordionContent>
-                                                {faq.answer}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))}
-                                </Accordion>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="glassmorphic mt-12">
-                            <CardHeader>
-                                <CardTitle>Still Need Help?</CardTitle>
-                                <CardDescription>If you can't find the answer you're looking for, please don't hesitate to contact us.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                     <Button asChild size="lg" className="flex-1">
-                                        <Link href="/#contact">Contact Support</Link>
-                                    </Button>
-                                     <Button variant="outline" size="lg" className="flex-1">
-                                        Email us at support@aedura.elite
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
+                    
+                    <div className="mt-16 max-w-4xl mx-auto">
+                        <h2 className="text-2xl font-semibold mb-4">Help Articles</h2>
+                        <div className="relative mb-8">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                            <Input placeholder="Search articles..." className="pl-10 h-12 text-base" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {helpArticles.map(article => (
+                                <Link href={article.href} key={article.title}>
+                                    <Card className="glassmorphic h-full hover:bg-muted/30 transition-colors">
+                                        <CardContent className="p-6">
+                                            <h3 className="font-semibold text-foreground">{article.title}</h3>
+                                            <p className="text-sm text-muted-foreground mt-1">{article.description}</p>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
+
+                    <div className="mt-24 bg-secondary/30 rounded-xl p-8 md:p-16">
+                         <div className="max-w-3xl mx-auto">
+                            <div className="text-center">
+                                <p className="font-semibold text-primary">FREQUENTLY ASKED QUESTIONS</p>
+                                <h2 className="text-3xl sm:text-4xl font-bold mt-2">You ask? We answer</h2>
+                            </div>
+                            <Accordion type="single" collapsible className="w-full mt-8">
+                                {faqs.map((faq, index) => (
+                                    <AccordionItem key={index} value={`item-${index}`} className="bg-background/50 rounded-lg px-6 mb-2">
+                                        <AccordionTrigger className="text-left hover:no-underline">{faq.question}</AccordionTrigger>
+                                        <AccordionContent>
+                                            {faq.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </div>
+                    </div>
+
+                    <Card className="glassmorphic mt-24 max-w-3xl mx-auto">
+                        <CardHeader className="text-center">
+                            <LifeBuoy className="mx-auto h-8 w-8 text-primary" />
+                            <CardTitle className="mt-2">Still Need Help?</CardTitle>
+                            <CardDescription>If you can't find the answer you're looking for, please don't hesitate to contact us.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                    <Button asChild size="lg" className="flex-1">
+                                    <Link href="/#contact">Contact Support</Link>
+                                </Button>
+                                    <Button variant="outline" size="lg" className="flex-1" asChild>
+                                    <a href="mailto:support@aedura.elite">Email us at support@aedura.elite</a>
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </main>
 
