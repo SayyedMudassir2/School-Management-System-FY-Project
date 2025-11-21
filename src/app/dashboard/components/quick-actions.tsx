@@ -11,10 +11,10 @@ import { UserPlus, Library, Megaphone, BookPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const actions = [
-  { title: "Add New Student", icon: UserPlus, color: "bg-blue-500", href: "/dashboard/users" },
-  { title: "Add New Class", icon: Library, color: "bg-purple-500", href: "/dashboard/setup" },
+  { title: "New Student", icon: UserPlus, color: "bg-blue-500", href: "/dashboard/users" },
+  { title: "New Class", icon: Library, color: "bg-purple-500", href: "/dashboard/setup" },
   { title: "New Announcement", icon: Megaphone, color: "bg-green-500", href: "/dashboard/communication" },
-  { title: "Add New Book", icon: BookPlus, color: "bg-orange-500", href: "/dashboard/library" },
+  { title: "New Book", icon: BookPlus, color: "bg-orange-500", href: "/dashboard/library" },
 ];
 
 export function QuickActions() {
