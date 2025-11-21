@@ -1,12 +1,12 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
-  title: 'Aedura Elite',
-  description: 'It\'s the elite school management system.',
+  title: 'Aedura - Elite School Management',
+  description: "Aedura is our school’s centralized, all-in-one digital system.",
 };
 
 export default function RootLayout({
@@ -19,13 +19,14 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
       </head>
       <body className={cn(
-        "font-body text-foreground/90 antialiased"
+        "font-sans antialiased"
       )} suppressHydrationWarning>
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
