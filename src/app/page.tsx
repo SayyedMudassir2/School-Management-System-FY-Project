@@ -62,7 +62,7 @@ export default function LandingPage() {
                 The Official Management Portal <br /> of Our School
               </h1>
               
-              <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-secondary sm:text-xl">
+              <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
                 Aedura is our school’s centralized, all-in-one digital system.  It's designed to simplify communication, academics, administration, and daily school operations.  It provides a seamless experience for students, parents, teachers, and administrators.
               </p>
 
