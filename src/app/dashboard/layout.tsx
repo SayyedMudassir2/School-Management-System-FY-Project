@@ -31,11 +31,13 @@ import { navItems } from "@/lib/dashboard-nav-items";
 import type { NavItem } from "@/lib/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Breadcrumb } from "./components/breadcrumb";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
 type Role = 'admin' | 'parent' | 'student';
 
@@ -79,6 +81,7 @@ export default function DashboardLayout({
   const [currentNavItems, setCurrentNavItems] = useState<NavItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<Role | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -193,12 +196,37 @@ export default function DashboardLayout({
               <SidebarTrigger />
               <Breadcrumb />
               <div className="relative ml-auto flex-1 md:grow-0">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search..."
-                  className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                />
+                <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+                  <PopoverTrigger asChild>
+                    <div className="relative">
+                       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                       <Input
+                         type="search"
+                         placeholder="Search..."
+                         className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+                         onFocus={() => setSearchOpen(true)}
+                       />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[320px] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search pages..." />
+                      <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup heading="Pages">
+                          {currentNavItems.map(item => (
+                             <Link key={item.href} href={item.href} onClick={() => setSearchOpen(false)}>
+                                <CommandItem>
+                                  <item.icon className="mr-2 h-4 w-4" />
+                                  <span>{item.title}</span>
+                                </CommandItem>
+                            </Link>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <Tooltip>
                 <TooltipTrigger asChild>
