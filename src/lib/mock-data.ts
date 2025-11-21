@@ -108,4 +108,22 @@ export const bookIssuances = [
   { id: 'I011', bookId: 'B005', studentId: 'S003', issueDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), dueDate: new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(new Date().getDate() + 14)).toISOString(), returnDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), fine: 0, finePaid: false },
 ];
 
+export type AdmissionRequest = {
+  id: string;
+  studentName: string;
+  applyingForClass: string;
+  parentName: string;
+  submittedDate: string;
+  status: 'Pending' | 'Verified' | 'Accepted' | 'Rejected';
+};
+
+export const admissionRequests: AdmissionRequest[] = [
+    { id: 'AD001', studentName: 'Liam Smith', applyingForClass: 'Class 1', parentName: 'Olivia Smith', submittedDate: '2024-07-20', status: 'Pending' },
+    { id: 'AD002', studentName: 'Noah Johnson', applyingForClass: 'Class 5', parentName: 'Emma Johnson', submittedDate: '2024-07-19', status: 'Verified' },
+    { id: 'AD003', studentName: 'Ava Williams', applyingForClass: 'Class 9', parentName: 'James Williams', submittedDate: '2024-07-18', status: 'Accepted' },
+    { id: 'AD004', studentName: 'Oliver Brown', applyingForClass: 'Class 3', parentName: 'Sophia Brown', submittedDate: '2024-07-17', status: 'Rejected' },
+    { id: 'AD005', studentName: 'Elijah Jones', applyingForClass: 'Class 1', parentName: 'Isabella Jones', submittedDate: '2024-07-21', status: 'Pending' },
+    { id: 'AD006', studentName: 'Charlotte Garcia', applyingForClass: 'Class 10', parentName: 'William Garcia', submittedDate: '2024-07-16', status: 'Accepted' },
+    { id: 'AD007', studentName: 'Henry Miller', applyingForClass: 'Class 7', parentName: 'Mia Miller', submittedDate: '2024-07-20', status: 'Verified' },
+];
     
