@@ -1,11 +1,8 @@
 
 import type { NavItem } from "@/lib/types";
 import {
-    BookMarked,
     Building2,
-    LayoutDashboard,
     MessageCircle,
-    Presentation,
     Users,
     Banknote,
     User,
@@ -13,6 +10,7 @@ import {
     Shield,
     BookOpen,
     Settings,
+    CalendarCheck
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -26,5 +24,6 @@ export const navItems: NavItem[] = [
     { title: "Fees Management", href: "/dashboard/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/library", icon: BookOpen },
+    { title: "Attendance", href: "/dashboard/attendance", icon: CalendarCheck },
     { title: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

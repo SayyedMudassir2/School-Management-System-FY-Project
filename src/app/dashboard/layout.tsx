@@ -59,9 +59,9 @@ const getFilteredNavItems = (role: Role | null): NavItem[] => {
     );
   }
   const forbiddenLinks: { [key in Role]: string[] } = {
-    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher"],
-    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management"],
-    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management"],
+    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher", "/dashboard/attendance"],
+    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
+    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
     teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student"],
   };
 
