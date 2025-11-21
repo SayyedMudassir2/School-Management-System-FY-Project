@@ -21,7 +21,6 @@ export const navItems: NavItem[] = [
     { title: "Parent", href: "/dashboard/parent", icon: User },
     { title: "Student", href: "/dashboard/student", icon: User },
     { title: "School Setup", href: "/dashboard/setup", icon: Building2 },
-    { title: "Attendance", href: "/dashboard/attendance", icon: Presentation },
     { title: "Student Management", href: "/dashboard/student-management", icon: Users },
     { title: "Teacher Management", href: "/dashboard/teacher-management", icon: UserCog },
     { title: "Fees Management", href: "/dashboard/fees", icon: Banknote },
