@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
+import { ProgressBar } from '@/components/ui/progress-bar';
 
 export const metadata: Metadata = {
   title: 'Aedura - Elite School Management',
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={cn(
         "font-sans antialiased"
       )} suppressHydrationWarning>
+        <ProgressBar />
         {children}
         <Toaster />
         <Analytics />
