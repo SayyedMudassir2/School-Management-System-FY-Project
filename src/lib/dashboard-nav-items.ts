@@ -26,8 +26,6 @@ export const navItems: NavItem[] = [
     { title: "School Setup", href: "/dashboard/admin/setup", icon: Building2 },
     { title: "Student Management", href: "/dashboard/admin/student-management", icon: Users },
     { title: "Teacher Management", href: "/dashboard/admin/teacher-management", icon: UserCog },
-    { title: "Syllabus", href: "/dashboard/admin/syllabus", icon: NotebookText },
-    { title: "Assignments", href: "/dashboard/admin/assignments", icon: ClipboardCheck },
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
