@@ -22,7 +22,7 @@ const studentActions = [
     {
         title: "Admissions",
         description: "Manage new student registrations and enrollment workflows.",
-        href: "#",
+        href: "/dashboard/admin/student-management/admissions",
         icon: School,
     },
     {
