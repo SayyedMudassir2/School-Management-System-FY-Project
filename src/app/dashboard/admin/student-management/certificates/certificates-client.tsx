@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,17 +27,19 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
   
   const selectedStudent = students.find(s => s.id === selectedStudentId);
 
+  // This effect will run after the state has been updated and the component has re-rendered.
+  useEffect(() => {
+    if (printableDoc && selectedStudent) {
+      window.print();
+      // Reset the printable doc so it doesn't print again on re-renders.
+      setPrintableDoc(null);
+    }
+  }, [printableDoc, selectedStudent]);
+
   const handlePrint = (docType: PrintableDocument) => {
     if (!selectedStudent) return;
-    
+    // This just sets the state. The useEffect hook will handle the printing.
     setPrintableDoc(docType);
-
-    // Allow state to update and component to re-render before printing
-    setTimeout(() => {
-      window.print();
-      // Reset after printing
-      setPrintableDoc(null);
-    }, 100);
   };
 
 
