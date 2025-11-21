@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, Component } from 'react';
+import { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,25 +21,12 @@ type CertificatesClientProps = {
   students: StudentProfile[];
 };
 
-// Wrapper class components to solve the findDOMNode issue with react-to-print
-class IDCardWrapper extends Component<{ student: StudentProfile }> {
-  render() {
-    return <IdCardTemplate student={this.props.student} />;
-  }
-}
-
-class TCWrapper extends Component<{ student: StudentProfile }> {
-  render() {
-    return <TcTemplate student={this.props.student} />;
-  }
-}
-
 export function CertificatesClient({ students }: CertificatesClientProps) {
   const [selectedStudentId, setSelectedStudentId] = useState<string>('');
   const [dialogContent, setDialogContent] = useState<'id-card' | 'tc' | null>(null);
 
-  const idCardRef = useRef<IDCardWrapper>(null);
-  const tcRef = useRef<TCWrapper>(null);
+  const idCardRef = useRef<HTMLDivElement>(null);
+  const tcRef = useRef<HTMLDivElement>(null);
 
   const selectedStudent = students.find(s => s.id === selectedStudentId);
 
@@ -101,19 +88,15 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
             </DialogTitle>
           </DialogHeader>
           <div className="px-6 max-h-[70vh] overflow-y-auto">
-            <div style={{ display: 'none' }}>
-              {selectedStudent && (
-                <>
-                  <IDCardWrapper ref={idCardRef} student={selectedStudent} />
-                  <TCWrapper ref={tcRef} student={selectedStudent} />
-                </>
-              )}
-            </div>
-            {selectedStudent && dialogContent === 'id-card' && (
-                <IdCardTemplate student={selectedStudent} />
-            )}
-            {selectedStudent && dialogContent === 'tc' && (
-                <TcTemplate student={selectedStudent} />
+            {selectedStudent && (
+              <>
+                <div ref={idCardRef} className={dialogContent === 'id-card' ? '' : 'hidden'}>
+                  <IdCardTemplate student={selectedStudent} />
+                </div>
+                <div ref={tcRef} className={dialogContent === 'tc' ? '' : 'hidden'}>
+                  <TcTemplate student={selectedStudent} />
+                </div>
+              </>
             )}
           </div>
           <DialogFooter className="p-6 pt-0">
