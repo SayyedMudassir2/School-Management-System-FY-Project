@@ -7,7 +7,7 @@ export default function UsersPage() {
     <>
       <PageHeader
         title="User Management"
-        description="You can administer roles and permissions for all users."
+        description="Administer roles and permissions for all users."
       />
       <UsersClient />
     </>
