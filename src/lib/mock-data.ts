@@ -107,3 +107,5 @@ export const bookIssuances = [
   // For B005
   { id: 'I011', bookId: 'B005', studentId: 'S003', issueDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), dueDate: new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(new Date().getDate() + 14)).toISOString(), returnDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), fine: 0, finePaid: false },
 ];
+
+    

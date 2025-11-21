@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -22,6 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { StudentEnrollmentChart } from "../components/student-enrollment-chart";
 import { RevenueOverviewChart } from "../components/revenue-overview-chart";
 import { DashboardFilter } from "../components/dashboard-filter";
+import { AttendanceChart } from '../components/attendance-chart';
 
 const dashboardData = {
     'this-week': {
@@ -65,6 +67,12 @@ const dashboardData = {
         upcomingEventsChange: 'Annual day preparations'
     }
 };
+
+const announcements = [
+    { title: 'Parent-Teacher Meeting', description: 'This is scheduled for next Friday.', type: 'General', variant: 'secondary' as const },
+    { title: 'Annual Sports Day', description: 'Registrations are now open.', type: 'Event', variant: 'default' as const },
+    { title: 'Library Renovation', description: 'The library will be closed this weekend.', type: 'Notice', variant: 'outline' as const },
+];
 
 
 export function AdminDashboardClient() {
@@ -145,7 +153,37 @@ export function AdminDashboardClient() {
             <RevenueOverviewChart />
           </CardContent>
         </Card>
+        <Card className="glassmorphic">
+            <CardHeader>
+                <CardTitle>Weekly Attendance</CardTitle>
+                <CardDescription>Here's an overview of student attendance for the current week.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <AttendanceChart />
+            </CardContent>
+        </Card>
+        <Card className="glassmorphic">
+            <CardHeader>
+                <CardTitle>Recent Announcements</CardTitle>
+                <CardDescription>Here are the latest updates and news for the school community.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                    {announcements.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">{item.title}</p>
+                                <p className="text-sm text-muted-foreground">{item.description}</p>
+                            </div>
+                            <Badge variant={item.variant} className={item.type === 'Event' ? 'bg-accent text-accent-foreground' : ''}>{item.type}</Badge>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
       </div>
     </>
   );
 }
+
+    

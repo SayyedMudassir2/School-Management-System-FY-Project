@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -48,3 +49,5 @@ export function AttendanceChart() {
     </ChartContainer>
   );
 }
+
+    
