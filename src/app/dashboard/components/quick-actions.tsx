@@ -7,14 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus, Download, Eye, DollarSign } from "lucide-react";
+import { UserPlus, Library, Megaphone, BookPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const actions = [
-  { title: "Add New Student", icon: Plus, color: "bg-blue-500", href: "/dashboard/users" },
-  { title: "Generate Report", icon: Download, color: "bg-green-500", href: "#" },
-  { title: "View Analytics", icon: Eye, color: "bg-purple-500", href: "#" },
-  { title: "Manage Fees", icon: DollarSign, color: "bg-orange-500", href: "/dashboard/fees" },
+  { title: "Add New Student", icon: UserPlus, color: "bg-blue-500", href: "/dashboard/users" },
+  { title: "Add New Class", icon: Library, color: "bg-purple-500", href: "/dashboard/setup" },
+  { title: "New Announcement", icon: Megaphone, color: "bg-green-500", href: "/dashboard/communication" },
+  { title: "Add New Book", icon: BookPlus, color: "bg-orange-500", href: "/dashboard/library" },
 ];
 
 export function QuickActions() {
