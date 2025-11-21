@@ -1,5 +1,5 @@
 
-import { PageHeader } from "../components/page-header";
+import { PageHeader } from "../../components/page-header";
 import { FeesClient } from "./fees-client";
 
 export default function FeesPage() {

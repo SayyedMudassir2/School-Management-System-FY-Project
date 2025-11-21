@@ -42,10 +42,10 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 type Role = 'admin' | 'parent' | 'student' | 'teacher';
 
 const getRoleFromPath = (path: string): Role | null => {
-  if (path.startsWith('/dashboard/admin')) return 'admin';
-  if (path.startsWith('/dashboard/parent')) return 'parent';
-  if (path.startsWith('/dashboard/student')) return 'student';
-  if (path.startsWith('/dashboard/teacher')) return 'teacher';
+  const segments = path.split('/');
+  if (segments.length > 2 && ['admin', 'parent', 'student', 'teacher'].includes(segments[2])) {
+    return segments[2] as Role;
+  }
   return null;
 }
 
@@ -54,18 +54,18 @@ const getFilteredNavItems = (role: Role | null): NavItem[] => {
   
   if (!role) {
     // If no role, show generic items, hide all role-specific dashboards
-    return navItems.filter(item => !roleDashboards.includes(item.href));
+    return navItems.filter(item => !roleDashboards.includes(item.href) && !item.href.startsWith('/dashboard/admin/') && !item.href.startsWith('/dashboard/teacher/'));
   }
 
   const forbiddenLinks: { [key in Role]: string[] } = {
-    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher"],
-    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
-    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
+    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher", "/dashboard/teacher/attendance"],
+    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", ],
+    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", ],
     teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student"],
   };
 
   // Filter out forbidden links for the current role AND all other role-specific dashboard entries
-  const linksToHide = [...forbiddenLinks[role], ...roleDashboards.filter(d => d !== `/dashboard/${role}`)];
+  const linksToHide = [...(forbiddenLinks[role] || []), ...roleDashboards.filter(d => d !== `/dashboard/${role}`)];
 
   return navItems.filter(item => !linksToHide.includes(item.href));
 };

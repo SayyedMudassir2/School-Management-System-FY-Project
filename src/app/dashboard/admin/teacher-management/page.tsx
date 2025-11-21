@@ -1,5 +1,5 @@
 
-import { PageHeader } from "../components/page-header";
+import { PageHeader } from "../../components/page-header";
 import { TeacherManagementClient } from "./teacher-management-client";
 
 export default function TeacherManagementPage() {

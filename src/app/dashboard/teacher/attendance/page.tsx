@@ -1,5 +1,5 @@
 
-import { PageHeader } from "../components/page-header";
+import { PageHeader } from "../../components/page-header";
 import { AttendanceClient } from "./attendance-client";
 import { classes, students } from "@/lib/mock-data";
 

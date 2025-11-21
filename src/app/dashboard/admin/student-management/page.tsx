@@ -1,5 +1,5 @@
 
-import { PageHeader } from "../components/page-header";
+import { PageHeader } from "../../components/page-header";
 import { StudentManagementClient } from "./student-management-client";
 
 export default function StudentManagementPage() {

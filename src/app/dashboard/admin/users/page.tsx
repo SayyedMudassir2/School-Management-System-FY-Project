@@ -1,5 +1,5 @@
 
-import { PageHeader } from "../components/page-header";
+import { PageHeader } from "../../components/page-header";
 import { UsersClient } from "./users-client";
 
 export default function UsersPage() {
