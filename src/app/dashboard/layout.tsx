@@ -104,7 +104,7 @@ export default function DashboardLayout({
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <Sidebar>
+        <Sidebar collapsible="icon">
           <SidebarRail />
           <SidebarHeader>
             <div className="flex items-center gap-2">
