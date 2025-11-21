@@ -29,6 +29,7 @@ import type { NavItem } from "@/lib/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Breadcrumb } from "./components/breadcrumb";
 import { useEffect, useState } from "react";
+import { useSidebar } from "@/components/ui/sidebar";
 
 type Role = 'admin' | 'parent' | 'student';
 
@@ -55,6 +56,11 @@ const getFilteredNavItems = (role: Role | null): NavItem[] => {
 
   return navItems.filter(item => !forbiddenLinks[role].includes(item.href));
 };
+
+function DashboardLogo() {
+    const { state } = useSidebar();
+    return <Logo hideText={state === 'collapsed'} />
+}
 
 
 export default function DashboardLayout({
@@ -107,11 +113,8 @@ export default function DashboardLayout({
         <Sidebar collapsible="icon">
           <SidebarRail />
           <SidebarHeader>
-            <div className="flex items-center justify-center gap-2 p-2 group-data-[collapsible=icon]:-ml-2">
-                <Logo className="h-10 w-auto group-data-[collapsible=icon]:hidden" />
-                <div className="hidden group-data-[collapsible=icon]:flex">
-                    <Logo className="h-10 w-auto" />
-                </div>
+             <div className="flex h-16 items-center justify-center p-2">
+                <DashboardLogo />
             </div>
           </SidebarHeader>
           <SidebarContent>
