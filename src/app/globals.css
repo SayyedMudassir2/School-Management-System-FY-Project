@@ -110,7 +110,7 @@
   }
   
   .text-secondary {
-      @apply text-foreground/75;
+      @apply text-muted-foreground;
   }
 }
 
