@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ReactToPrint from 'react-to-print';
 import { IdCard, FileText } from 'lucide-react';
 import { IdCardTemplate } from './id-card-template';
 import { TcTemplate } from './tc-template';
@@ -20,30 +19,36 @@ type CertificatesClientProps = {
   students: StudentProfile[];
 };
 
+type PrintableDocument = 'idCard' | 'tc' | null;
+
 export function CertificatesClient({ students }: CertificatesClientProps) {
   const [selectedStudentId, setSelectedStudentId] = useState<string>('');
+  const [printableDoc, setPrintableDoc] = useState<PrintableDocument>(null);
   
-  const idCardRef = useRef<HTMLDivElement>(null);
-  const tcRef = useRef<HTMLDivElement>(null);
-
   const selectedStudent = students.find(s => s.id === selectedStudentId);
+
+  const handlePrint = (docType: PrintableDocument) => {
+    if (!selectedStudent) return;
+    
+    setPrintableDoc(docType);
+
+    // Allow state to update and component to re-render before printing
+    setTimeout(() => {
+      window.print();
+      // Reset after printing
+      setPrintableDoc(null);
+    }, 100);
+  };
+
 
   return (
     <>
-      <div style={{ display: 'none' }}>
-        {selectedStudent && (
-          <>
-            <div ref={idCardRef}>
-              <IdCardTemplate student={selectedStudent} />
-            </div>
-            <div ref={tcRef}>
-              <TcTemplate student={selectedStudent} />
-            </div>
-          </>
-        )}
+      <div className="printable-area">
+        {selectedStudent && printableDoc === 'idCard' && <IdCardTemplate student={selectedStudent} />}
+        {selectedStudent && printableDoc === 'tc' && <TcTemplate student={selectedStudent} />}
       </div>
 
-      <Card className="glassmorphic">
+      <Card className="glassmorphic non-printable">
         <CardHeader>
           <CardTitle>Document Generator</CardTitle>
           <CardDescription>Select a student to generate an ID card or a Transfer Certificate.</CardDescription>
@@ -60,22 +65,12 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
           </div>
         </CardContent>
         <CardFooter className="gap-4">
-          <ReactToPrint
-            trigger={() => (
-              <Button disabled={!selectedStudent}>
-                <IdCard className="mr-2 h-4 w-4" /> Generate & Print ID Card
-              </Button>
-            )}
-            content={() => idCardRef.current}
-          />
-          <ReactToPrint
-            trigger={() => (
-              <Button disabled={!selectedStudent} variant="secondary">
-                <FileText className="mr-2 h-4 w-4" /> Generate & Print TC
-              </Button>
-            )}
-            content={() => tcRef.current}
-          />
+          <Button disabled={!selectedStudent} onClick={() => handlePrint('idCard')}>
+            <IdCard className="mr-2 h-4 w-4" /> Generate & Print ID Card
+          </Button>
+          <Button disabled={!selectedStudent} variant="secondary" onClick={() => handlePrint('tc')}>
+            <FileText className="mr-2 h-4 w-4" /> Generate & Print TC
+          </Button>
         </CardFooter>
       </Card>
     </>
