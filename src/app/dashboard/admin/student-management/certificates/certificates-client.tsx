@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useReactToPrint } from 'react-to-print';
+import ReactToPrint from 'react-to-print';
 import { IdCard, FileText } from 'lucide-react';
 import { IdCardTemplate } from './id-card-template';
 import { TcTemplate } from './tc-template';
@@ -28,18 +28,9 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
 
   const selectedStudent = students.find(s => s.id === selectedStudentId);
 
-  const handlePrintIdCard = useReactToPrint({
-    content: () => idCardRef.current,
-  });
-  
-  const handlePrintTc = useReactToPrint({
-    content: () => tcRef.current,
-  });
-
   return (
     <>
-      {/* Hidden container for printing. It's always in the DOM but not visible. */}
-      <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+      <div style={{ display: 'none' }}>
         {selectedStudent && (
           <>
             <div ref={idCardRef}>
@@ -69,12 +60,22 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
           </div>
         </CardContent>
         <CardFooter className="gap-4">
-          <Button onClick={handlePrintIdCard} disabled={!selectedStudent}>
-            <IdCard className="mr-2 h-4 w-4" /> Generate & Print ID Card
-          </Button>
-          <Button onClick={handlePrintTc} disabled={!selectedStudent} variant="secondary">
-            <FileText className="mr-2 h-4 w-4" /> Generate & Print TC
-          </Button>
+          <ReactToPrint
+            trigger={() => (
+              <Button disabled={!selectedStudent}>
+                <IdCard className="mr-2 h-4 w-4" /> Generate & Print ID Card
+              </Button>
+            )}
+            content={() => idCardRef.current}
+          />
+          <ReactToPrint
+            trigger={() => (
+              <Button disabled={!selectedStudent} variant="secondary">
+                <FileText className="mr-2 h-4 w-4" /> Generate & Print TC
+              </Button>
+            )}
+            content={() => tcRef.current}
+          />
         </CardFooter>
       </Card>
     </>
