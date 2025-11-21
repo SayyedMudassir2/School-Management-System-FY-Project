@@ -34,7 +34,7 @@ const studentActions = [
     {
         title: "Promotion Management",
         description: "Promote students to the next academic level.",
-        href: "#",
+        href: "/dashboard/admin/student-management/promotion",
         icon: UserCheck,
     },
     {

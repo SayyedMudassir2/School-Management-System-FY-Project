@@ -3,9 +3,12 @@ import { AttendanceRecordSchema } from "@/ai/flows/attendance-insights";
 import { z } from "zod";
 
 export const classes = [
+  { id: '8a', name: 'Class 8-A' },
+  { id: '8b', name: 'Class 8-B' },
+  { id: '9a', name: 'Class 9-A' },
+  { id: '9b', name: 'Class 9-B' },
   { id: '10a', name: 'Class 10-A' },
   { id: '10b', name: 'Class 10-B' },
-  { id: '9a', name: 'Class 9-A' },
 ];
 
 export const students = [
@@ -62,6 +65,18 @@ export const studentDirectory: StudentProfile[] = [
         ],
         attendance: { total: 180, present: 160, absent: 20 },
         fees: { total: 5000, paid: 2500, due: 2500, status: 'Overdue' }
+    },
+    {
+        id: 'S004', admissionNo: 'AD1004', name: 'David Miller', class: '9', section: 'A', email: 'david.m@example.com', dateOfBirth: '2009-01-10', gender: 'Male', parentName: 'Daniel Miller', parentContact: '+1-234-567-8904', address: '101 Birch Rd', status: 'Active', avatar: 'https://picsum.photos/seed/student6/100/100',
+        academicHistory: [{ year: '2022-23', class: '8', percentage: 90, rank: 4 }],
+        attendance: { total: 180, present: 178, absent: 2 },
+        fees: { total: 4500, paid: 4500, due: 0, status: 'Paid' }
+    },
+    {
+        id: 'S005', admissionNo: 'AD1005', name: 'Eve Davis', class: '9', section: 'A', email: 'eve.d@example.com', dateOfBirth: '2009-07-30', gender: 'Female', parentName: 'Emily Davis', parentContact: '+1-234-567-8905', address: '212 Cedar Blvd', status: 'Active', avatar: 'https://picsum.photos/seed/student7/100/100',
+        academicHistory: [{ year: '2022-23', class: '8', percentage: 94, rank: 2 }],
+        attendance: { total: 180, present: 179, absent: 1 },
+        fees: { total: 4500, paid: 4500, due: 0, status: 'Paid' }
     },
     {
         id: 'S006', admissionNo: 'AD1006', name: 'Diana Prince', class: 'N/A', section: 'N/A', email: 'diana.p@example.com', dateOfBirth: '2007-11-10', gender: 'Female', parentName: 'Queen Hippolyta', parentContact: '+1-234-567-8906', address: 'Themyscira Island', status: 'Alumni', avatar: 'https://picsum.photos/seed/student4/100/100',
