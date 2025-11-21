@@ -198,15 +198,13 @@ export default function DashboardLayout({
               <div className="relative ml-auto flex-1 md:grow-0">
                 <Popover open={searchOpen} onOpenChange={setSearchOpen}>
                   <PopoverTrigger asChild>
-                    <div className="relative">
-                       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                       <Input
-                         type="search"
-                         placeholder="Search..."
-                         className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                         onFocus={() => setSearchOpen(true)}
-                       />
-                    </div>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px] text-muted-foreground"
+                    >
+                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                      Search...
+                    </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[320px] p-0" align="start">
                     <Command>
