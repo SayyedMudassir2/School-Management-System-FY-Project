@@ -28,7 +28,7 @@ const studentActions = [
     {
         title: "Student Directory",
         description: "Complete listing of all active and archived students.",
-        href: "#",
+        href: "/dashboard/admin/student-management/directory",
         icon: UserCircle,
     },
     {

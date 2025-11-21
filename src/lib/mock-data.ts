@@ -16,6 +16,67 @@ export const students = [
   { id: 'S005', name: 'Eve Davis', classId: '9a' },
 ];
 
+export type StudentProfile = {
+  id: string;
+  admissionNo: string;
+  name: string;
+  class: string;
+  section: string;
+  email: string;
+  dateOfBirth: string;
+  gender: string;
+  parentName: string;
+  parentContact: string;
+  address: string;
+  status: 'Active' | 'Alumni' | 'Transferred' | 'Archived';
+  avatar: string;
+  academicHistory: { year: string; class: string; percentage: number; rank: number }[];
+  attendance: { total: number; present: number; absent: number };
+  fees: { total: number; paid: number; due: number; status: 'Paid' | 'Pending' | 'Overdue' };
+};
+
+export const studentDirectory: StudentProfile[] = [
+    {
+        id: 'S001', admissionNo: 'AD1001', name: 'Alice Johnson', class: '10', section: 'A', email: 'alice.j@example.com', dateOfBirth: '2008-05-15', gender: 'Female', parentName: 'John Johnson', parentContact: '+1-234-567-8901', address: '123 Maple St', status: 'Active', avatar: 'https://picsum.photos/seed/student1/100/100',
+        academicHistory: [
+            { year: '2023-24', class: '9', percentage: 92, rank: 3 },
+            { year: '2022-23', class: '8', percentage: 88, rank: 5 },
+        ],
+        attendance: { total: 180, present: 175, absent: 5 },
+        fees: { total: 5000, paid: 5000, due: 0, status: 'Paid' }
+    },
+    {
+        id: 'S002', admissionNo: 'AD1002', name: 'Bob Williams', class: '10', section: 'A', email: 'bob.w@example.com', dateOfBirth: '2008-03-22', gender: 'Male', parentName: 'Robert Williams', parentContact: '+1-234-567-8902', address: '456 Oak Ave', status: 'Active', avatar: 'https://picsum.photos/seed/student2/100/100',
+        academicHistory: [
+            { year: '2023-24', class: '9', percentage: 85, rank: 10 },
+            { year: '2022-23', class: '8', percentage: 82, rank: 12 },
+        ],
+        attendance: { total: 180, present: 170, absent: 10 },
+        fees: { total: 5000, paid: 4000, due: 1000, status: 'Pending' }
+    },
+    {
+        id: 'S003', admissionNo: 'AD1003', name: 'Charlie Brown', class: '10', section: 'B', email: 'charlie.b@example.com', dateOfBirth: '2008-09-01', gender: 'Male', parentName: 'Charles Brown Sr.', parentContact: '+1-234-567-8903', address: '789 Pine Ln', status: 'Active', avatar: 'https://picsum.photos/seed/student3/100/100',
+        academicHistory: [
+            { year: '2023-24', class: '9', percentage: 78, rank: 15 },
+            { year: '2022-23', class: '8', percentage: 75, rank: 18 },
+        ],
+        attendance: { total: 180, present: 160, absent: 20 },
+        fees: { total: 5000, paid: 2500, due: 2500, status: 'Overdue' }
+    },
+    {
+        id: 'S006', admissionNo: 'AD1006', name: 'Diana Prince', class: 'N/A', section: 'N/A', email: 'diana.p@example.com', dateOfBirth: '2007-11-10', gender: 'Female', parentName: 'Queen Hippolyta', parentContact: '+1-234-567-8906', address: 'Themyscira Island', status: 'Alumni', avatar: 'https://picsum.photos/seed/student4/100/100',
+        academicHistory: [ { year: '2022-23', class: '10', percentage: 95, rank: 1 } ],
+        attendance: { total: 200, present: 198, absent: 2 },
+        fees: { total: 5000, paid: 5000, due: 0, status: 'Paid' }
+    },
+    {
+        id: 'S007', admissionNo: 'AD1007', name: 'Bruce Wayne', class: 'N/A', section: 'N/A', email: 'bruce.w@example.com', dateOfBirth: '2007-02-19', gender: 'Male', parentName: 'Thomas Wayne', parentContact: '+1-234-567-8907', address: 'Wayne Manor', status: 'Archived', avatar: 'https://picsum.photos/seed/student5/100/100',
+        academicHistory: [ { year: '2021-22', class: '9', percentage: 80, rank: 11 } ],
+        attendance: { total: 200, present: 180, absent: 20 },
+        fees: { total: 5000, paid: 5000, due: 0, status: 'Paid' }
+    }
+];
+
 const generateAttendance = (): z.infer<typeof AttendanceRecordSchema>[] => {
   const records: z.infer<typeof AttendanceRecordSchema>[] = [];
   const today = new Date();
