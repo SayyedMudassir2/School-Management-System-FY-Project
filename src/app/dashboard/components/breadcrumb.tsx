@@ -28,8 +28,9 @@ export function Breadcrumb() {
     return { href, title, isLast };
   });
 
-  // Don't show breadcrumbs on the main dashboard page
-  if (pathname === '/dashboard') {
+  const dashboardHome = `/${segments.slice(0, 1).join('/')}`;
+
+  if (segments.length <= 1) {
     return (
         <nav aria-label="Breadcrumb" className="hidden md:flex items-center text-sm font-medium text-muted-foreground">
             <Home className="h-4 w-4" />
@@ -39,13 +40,10 @@ export function Breadcrumb() {
 
   return (
     <nav aria-label="Breadcrumb" className="hidden md:flex items-center text-sm font-medium text-muted-foreground">
-      <Link href="/dashboard" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+      <Link href={dashboardHome} className="flex items-center gap-1.5 hover:text-foreground transition-colors">
         <Home className="h-4 w-4" />
       </Link>
-      {breadcrumbs.map((breadcrumb, index) => {
-        // We don't want to show the 'Dashboard' part of the breadcrumb after home
-        if (breadcrumb.title === 'Dashboard') return null;
-
+      {breadcrumbs.slice(1).map((breadcrumb, index) => {
         return (
             <React.Fragment key={breadcrumb.href}>
                 <ChevronRight className="h-4 w-4 mx-1" />

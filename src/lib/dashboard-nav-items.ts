@@ -11,11 +11,11 @@ import {
     User,
     UserCog,
     Shield,
-    BookOpen
+    BookOpen,
+    Settings,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
-    { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { title: "Admin", href: "/dashboard/admin", icon: Shield },
     { title: "Parent", href: "/dashboard/parent", icon: User },
     { title: "Student", href: "/dashboard/student", icon: UserCog },
@@ -25,4 +25,5 @@ export const navItems: NavItem[] = [
     { title: "Fees Management", href: "/dashboard/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/library", icon: BookOpen },
+    { title: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

@@ -154,14 +154,6 @@ export default function DashboardLayout({
             <Separator className="my-2 bg-sidebar-border" />
             <SidebarMenu>
                <SidebarMenuItem>
-                  <Link href="/dashboard/settings">
-                    <SidebarMenuButton tooltip="Settings" isActive={pathname === '/dashboard/settings'}>
-                      <Settings/>
-                      <span>Settings</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-               <SidebarMenuItem>
                   <Link href="/login">
                     <SidebarMenuButton tooltip="Logout">
                       <LogOut/>
