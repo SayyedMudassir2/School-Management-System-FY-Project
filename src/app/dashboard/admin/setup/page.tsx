@@ -16,12 +16,12 @@ export default function SetupPage() {
     <>
       <PageHeader
         title="School Setup"
-        description="You can manage academic years, classes, subjects, and timetables."
+        description="Manage academic years, classes, subjects, and timetables."
       />
-      <Tabs defaultValue="academic-year">
+      <Tabs defaultValue="academic-year" className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto mb-4">
           <TabsTrigger value="academic-year">Academic Year</TabsTrigger>
-          <TabsTrigger value="classes">Classes</TabsTrigger>
+          <TabsTrigger value="classes">Classes & Sections</TabsTrigger>
           <TabsTrigger value="subjects">Subjects</TabsTrigger>
           <TabsTrigger value="timetable">Timetable</TabsTrigger>
         </TabsList>
