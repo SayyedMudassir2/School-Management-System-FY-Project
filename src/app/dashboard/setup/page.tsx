@@ -19,7 +19,7 @@ export default function SetupPage() {
         description="You can manage academic years, classes, subjects, and timetables."
       />
       <Tabs defaultValue="academic-year">
-        <TabsList className="grid w-full max-w-md grid-cols-2 md:grid-cols-4">
+        <TabsList>
           <TabsTrigger value="academic-year">Academic Year</TabsTrigger>
           <TabsTrigger value="classes">Classes</TabsTrigger>
           <TabsTrigger value="subjects">Subjects</TabsTrigger>
