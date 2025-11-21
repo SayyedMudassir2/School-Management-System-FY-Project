@@ -107,8 +107,11 @@ export default function DashboardLayout({
         <Sidebar collapsible="icon">
           <SidebarRail />
           <SidebarHeader>
-            <div className="flex items-center gap-2">
-              <Logo className="h-10 w-auto" />
+            <div className="flex items-center justify-center gap-2 p-2 group-data-[collapsible=icon]:-ml-2">
+                <Logo className="h-10 w-auto group-data-[collapsible=icon]:hidden" />
+                <div className="hidden group-data-[collapsible=icon]:flex">
+                    <Logo className="h-10 w-auto" />
+                </div>
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -163,7 +166,7 @@ export default function DashboardLayout({
                       <AvatarImage src="https://picsum.photos/seed/1/100/100" alt="Admin" data-ai-hint="person portrait"/>
                       <AvatarFallback>{currentUser.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                   </Avatar>
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden group-data-[collapsible=icon]:hidden">
                       <p className="font-semibold text-sm truncate">{currentUser.name}</p>
                       <p className="text-xs text-sidebar-foreground/70 truncate">{currentUser.role}</p>
                   </div>
