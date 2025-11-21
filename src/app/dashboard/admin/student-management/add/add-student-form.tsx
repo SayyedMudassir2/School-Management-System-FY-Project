@@ -30,6 +30,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 const studentSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -49,6 +50,7 @@ type StudentFormValues = z.infer<typeof studentSchema>;
 
 export function AddStudentForm() {
   const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<StudentFormValues>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
@@ -69,7 +71,7 @@ export function AddStudentForm() {
       title: 'Student Added Successfully!',
       description: `${data.firstName} ${data.lastName} has been enrolled.`,
     });
-    form.reset();
+    router.push('/dashboard/admin/student-management');
   }
 
   return (
@@ -204,7 +206,7 @@ export function AddStudentForm() {
                             </FormControl>
                             <SelectContent>
                                 {classes.map(c => (
-                                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                                    <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
