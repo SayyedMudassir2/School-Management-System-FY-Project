@@ -24,6 +24,8 @@ import { StudentEnrollmentChart } from "../components/student-enrollment-chart";
 import { RevenueOverviewChart } from "../components/revenue-overview-chart";
 import { DashboardFilter } from "../components/dashboard-filter";
 import { AttendanceChart } from '../components/attendance-chart';
+import { QuickActions } from '../components/quick-actions';
+import { RecentActivity } from '../components/recent-activity';
 
 const dashboardData = {
     'this-week': {
@@ -128,62 +130,47 @@ export function AdminDashboardClient() {
         </Card>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card className="glassmorphic">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-                <CardTitle>Student Enrollment</CardTitle>
-                <CardDescription>Monthly enrollment trends</CardDescription>
-            </div>
-            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pl-2">
-            <StudentEnrollmentChart />
-          </CardContent>
-        </Card>
-        <Card className="glassmorphic">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-                <CardTitle>Revenue Overview</CardTitle>
-                <CardDescription>Monthly revenue analysis</CardDescription>
-            </div>
-            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pl-2">
-            <RevenueOverviewChart />
-          </CardContent>
-        </Card>
-        <Card className="glassmorphic">
-            <CardHeader>
-                <CardTitle>Weekly Attendance</CardTitle>
-                <CardDescription>Here's an overview of student attendance for the current week.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <AttendanceChart />
-            </CardContent>
-        </Card>
-        <Card className="glassmorphic">
-            <CardHeader>
-                <CardTitle>Recent Announcements</CardTitle>
-                <CardDescription>Here are the latest updates and news for the school community.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                    {announcements.map((item, index) => (
-                        <div key={index} className="flex items-center justify-between">
-                            <div>
-                                <p className="font-medium">{item.title}</p>
-                                <p className="text-sm text-muted-foreground">{item.description}</p>
-                            </div>
-                            <Badge variant={item.variant} className={item.type === 'Event' ? 'bg-accent text-accent-foreground' : ''}>{item.type}</Badge>
-                        </div>
-                    ))}
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-6">
+            <Card className="glassmorphic">
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Student Enrollment</CardTitle>
+                    <CardDescription>Monthly enrollment trends</CardDescription>
                 </div>
+                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent className="pl-2">
+                <StudentEnrollmentChart />
             </CardContent>
-        </Card>
+            </Card>
+            <Card className="glassmorphic">
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Revenue Overview</CardTitle>
+                    <CardDescription>Monthly revenue analysis</CardDescription>
+                </div>
+                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent className="pl-2">
+                <RevenueOverviewChart />
+            </CardContent>
+            </Card>
+            <Card className="glassmorphic">
+                <CardHeader>
+                    <CardTitle>Weekly Attendance</CardTitle>
+                    <CardDescription>Here's an overview of student attendance for the current week.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <AttendanceChart />
+                </CardContent>
+            </Card>
+        </div>
+        <div className="lg:col-span-1 space-y-6">
+            <QuickActions />
+            <RecentActivity />
+        </div>
       </div>
     </>
   );
 }
-
-    
