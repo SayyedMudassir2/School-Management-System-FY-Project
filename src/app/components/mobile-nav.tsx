@@ -23,26 +23,26 @@ const features = [
     {
       name: 'Attendance Tracking',
       description: 'You can monitor student attendance with ease.',
-      href: '/dashboard/attendance',
+      href: '/login',
       icon: Users,
     },
     {
       name: 'Fee Management',
       description: 'You can streamline fee collection and reporting.',
-      href: '/dashboard/fees',
+      href: '/login',
       icon: Banknote,
     },
     {
       name: 'Gradebooks',
       description: 'You can manage grades and academic performance.',
-      href: '#',
+      href: '/login',
       icon: BookOpen,
     },
     {
       name: 'Dashboards',
       description: 'You can get a complete overview of your institution.',
-      href: '/dashboard',
-icon: LayoutDashboard,
+      href: '/login',
+      icon: LayoutDashboard,
     }
   ];
 
@@ -124,7 +124,7 @@ export function MobileNav() {
               <Link
                 href="/help"
                 onClick={() => setOpen(false)}
-                className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="block w-full rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-muted hovertext-foreground"
               >
                 Help Center
               </Link>
