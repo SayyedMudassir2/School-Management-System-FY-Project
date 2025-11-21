@@ -11,7 +11,8 @@ import {
     BookOpen,
     Settings,
     CalendarCheck,
-    GraduationCap
+    GraduationCap,
+    Bus
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -26,6 +27,7 @@ export const navItems: NavItem[] = [
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
+    { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
     { title: "User Management", href: "/dashboard/admin/users", icon: Users },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
     { title: "Settings", href: "/dashboard/settings", icon: Settings },
