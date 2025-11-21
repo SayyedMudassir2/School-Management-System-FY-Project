@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search, AlertCircle, FileWarning, BadgeDollarSign, Star } from "lucide-react";
+import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search, AlertCircle, FileWarning, BadgeDollarSign, Star, ArrowRight } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -72,6 +72,29 @@ type LibraryClientProps = {
   students: { id: string; name: string }[];
   initialIssuances: BookIssuance[];
 };
+
+const libraryActions = [
+    {
+        title: "Books Catalog",
+        description: "Manage the collection of books and digital resources.",
+        icon: Book,
+    },
+    {
+        title: "Issue/Return Books",
+        description: "Track borrowed books and manage returns.",
+        icon: BookUp,
+    },
+    {
+        title: "Members",
+        description: "View and manage all library members.",
+        icon: Users,
+    },
+    {
+        title: "Fine Management",
+        description: "Handle overdue fines and payments.",
+        icon: BadgeDollarSign,
+    }
+];
 
 export function LibraryClient({ initialBooks, students, initialIssuances }: LibraryClientProps) {
   const [books, setBooks] = useState<Book[]>(initialBooks);
@@ -262,6 +285,24 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                     <p className="text-xs text-muted-foreground">Across all subjects</p>
                 </CardContent>
             </Card>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {libraryActions.map((action) => (
+                <Card key={action.title} className="glassmorphic">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3">
+                            <action.icon className="h-6 w-6 text-primary" />
+                            {action.title}
+                        </CardTitle>
+                        <CardDescription>{action.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button variant="outline">
+                            Manage <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </CardContent>
+                </Card>
+            ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
