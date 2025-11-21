@@ -59,9 +59,9 @@ const getFilteredNavItems = (role: Role | null): NavItem[] => {
 
   const forbiddenLinks: { [key in Role]: string[] } = {
     admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher", "/dashboard/teacher/attendance"],
-    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", ],
-    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", ],
-    teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student"],
+    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", ],
+    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", ],
+    teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", ],
   };
 
   // Filter out forbidden links for the current role AND all other role-specific dashboard entries
@@ -157,6 +157,14 @@ export default function DashboardLayout({
           <SidebarFooter>
             <Separator className="my-2 bg-sidebar-border" />
             <SidebarMenu>
+               <SidebarMenuItem>
+                  <Link href="/dashboard/settings">
+                    <SidebarMenuButton tooltip="Settings">
+                      <Settings/>
+                      <span>Settings</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
                <SidebarMenuItem>
                   <Link href="/login">
                     <SidebarMenuButton tooltip="Logout">

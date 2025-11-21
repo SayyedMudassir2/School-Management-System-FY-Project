@@ -9,7 +9,6 @@ import {
     UserCog,
     Shield,
     BookOpen,
-    Settings,
     CalendarCheck,
     GraduationCap,
     Bus
@@ -29,5 +28,4 @@ export const navItems: NavItem[] = [
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
-    { title: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
