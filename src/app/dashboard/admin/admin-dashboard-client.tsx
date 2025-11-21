@@ -9,17 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { PageHeader } from "../components/page-header";
 import { Users, BookOpen, Banknote, CalendarDays, MoreHorizontal } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { StudentEnrollmentChart } from "../components/student-enrollment-chart";
 import { RevenueOverviewChart } from "../components/revenue-overview-chart";
 import { DashboardFilter } from "../components/dashboard-filter";
@@ -69,13 +60,6 @@ const dashboardData = {
         upcomingEventsChange: 'Annual day preparations'
     }
 };
-
-const announcements = [
-    { title: 'Parent-Teacher Meeting', description: 'This is scheduled for next Friday.', type: 'General', variant: 'secondary' as const },
-    { title: 'Annual Sports Day', description: 'Registrations are now open.', type: 'Event', variant: 'default' as const },
-    { title: 'Library Renovation', description: 'The library will be closed this weekend.', type: 'Notice', variant: 'outline' as const },
-];
-
 
 export function AdminDashboardClient() {
     const [filter, setFilter] = useState<keyof typeof dashboardData>('this-month');
@@ -130,32 +114,35 @@ export function AdminDashboardClient() {
         </Card>
       </div>
 
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Card className="glassmorphic">
+          <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                  <CardTitle>Student Enrollment</CardTitle>
+                  <CardDescription>Monthly enrollment trends</CardDescription>
+              </div>
+              <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent className="pl-2">
+              <StudentEnrollmentChart />
+          </CardContent>
+          </Card>
+          <Card className="glassmorphic">
+          <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                  <CardTitle>Revenue Overview</CardTitle>
+                  <CardDescription>Monthly revenue analysis</CardDescription>
+              </div>
+              <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent className="pl-2">
+              <RevenueOverviewChart />
+          </CardContent>
+          </Card>
+      </div>
+
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
-            <Card className="glassmorphic">
-            <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                    <CardTitle>Student Enrollment</CardTitle>
-                    <CardDescription>Monthly enrollment trends</CardDescription>
-                </div>
-                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent className="pl-2">
-                <StudentEnrollmentChart />
-            </CardContent>
-            </Card>
-            <Card className="glassmorphic">
-            <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                    <CardTitle>Revenue Overview</CardTitle>
-                    <CardDescription>Monthly revenue analysis</CardDescription>
-                </div>
-                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent className="pl-2">
-                <RevenueOverviewChart />
-            </CardContent>
-            </Card>
+        <div className="lg:col-span-2">
             <Card className="glassmorphic">
                 <CardHeader>
                     <CardTitle>Weekly Attendance</CardTitle>
@@ -167,10 +154,14 @@ export function AdminDashboardClient() {
             </Card>
         </div>
         <div className="lg:col-span-1 space-y-6">
-            <QuickActions />
             <RecentActivity />
         </div>
       </div>
+
+      <div className="mt-6">
+        <QuickActions />
+      </div>
+
     </>
   );
 }
