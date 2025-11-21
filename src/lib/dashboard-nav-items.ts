@@ -28,6 +28,5 @@ export const navItems: NavItem[] = [
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
-    { title: "Settings", href: "/dashboard/admin/settings", icon: Settings },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];
