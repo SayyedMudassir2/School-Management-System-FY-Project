@@ -32,10 +32,12 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
 
   const handlePrintIdCard = useReactToPrint({
     content: () => idCardRef.current,
+    bodyClass: 'print-body',
   });
   
   const handlePrintTc = useReactToPrint({
     content: () => tcRef.current,
+    bodyClass: 'print-body',
   });
 
   const handleGenerate = (type: 'id-card' | 'tc') => {
@@ -44,6 +46,14 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
 
   return (
     <>
+      <style>{`
+        @media print {
+          .print-body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+        }
+      `}</style>
       <Card className="glassmorphic">
         <CardHeader>
           <CardTitle>Document Generator</CardTitle>
