@@ -31,8 +31,8 @@ export function AcademicsClient() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {academicActions.map((action) => (
-                <Card key={action.title} className="glassmorphic">
-                    <CardHeader>
+                <Card key={action.title} className="glassmorphic flex flex-col">
+                    <CardHeader className="flex-grow">
                         <CardTitle className="flex items-center gap-3">
                             <action.icon className="h-6 w-6 text-primary" />
                             {action.title}
