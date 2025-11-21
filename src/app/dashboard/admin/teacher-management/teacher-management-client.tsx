@@ -7,12 +7,20 @@ import { ArrowRight } from "lucide-react";
 
 const teacherActions = [
     {
-        title: "Teacher Directory",
-        description: "View and manage all faculty records."
+        title: "Teacher/Staff List",
+        description: "View, edit, and manage all faculty and staff records.",
     },
     {
-        title: "Assignments & Allocations",
-        description: "Assign teachers to classes and subjects."
+        title: "Add New Teacher/Staff",
+        description: "Onboard a new faculty or staff member.",
+    },
+    {
+        title: "Bulk Import Staff",
+        description: "Import staff data from a CSV file for quick setup.",
+    },
+    {
+        title: "Assign Class Teacher / Subjects",
+        description: "Allocate teachers to classes and assign subjects.",
     }
 ];
 
