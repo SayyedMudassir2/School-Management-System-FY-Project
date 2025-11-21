@@ -10,7 +10,8 @@ import {
     Shield,
     BookOpen,
     Settings,
-    CalendarCheck
+    CalendarCheck,
+    GraduationCap
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -19,6 +20,7 @@ export const navItems: NavItem[] = [
     { title: "Parent", href: "/dashboard/parent", icon: User },
     { title: "Student", href: "/dashboard/student", icon: User },
     { title: "School Setup", href: "/dashboard/admin/setup", icon: Building2 },
+    { title: "Academics", href: "/dashboard/admin/academics", icon: GraduationCap },
     { title: "Student Management", href: "/dashboard/admin/student-management", icon: Users },
     { title: "Teacher Management", href: "/dashboard/admin/teacher-management", icon: UserCog },
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
