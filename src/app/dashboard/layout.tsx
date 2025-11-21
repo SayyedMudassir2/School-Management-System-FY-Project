@@ -39,12 +39,13 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
-type Role = 'admin' | 'parent' | 'student';
+type Role = 'admin' | 'parent' | 'student' | 'teacher';
 
 const getRoleFromPath = (path: string): Role | null => {
   if (path.startsWith('/dashboard/admin')) return 'admin';
   if (path.startsWith('/dashboard/parent')) return 'parent';
   if (path.startsWith('/dashboard/student')) return 'student';
+  if (path.startsWith('/dashboard/teacher')) return 'teacher';
   return null;
 }
 
@@ -53,13 +54,15 @@ const getFilteredNavItems = (role: Role | null): NavItem[] => {
     return navItems.filter(item => 
         item.href !== '/dashboard/admin' &&
         item.href !== '/dashboard/parent' &&
-        item.href !== '/dashboard/student'
+        item.href !== '/dashboard/student' &&
+        item.href !== '/dashboard/teacher'
     );
   }
   const forbiddenLinks: { [key in Role]: string[] } = {
-    admin: ["/dashboard/parent", "/dashboard/student"],
-    parent: ["/dashboard/admin", "/dashboard/student"],
-    student: ["/dashboard/admin", "/dashboard/parent"],
+    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher"],
+    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management"],
+    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management"],
+    teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student"],
   };
 
   return navItems.filter(item => !forbiddenLinks[role].includes(item.href));
@@ -90,7 +93,7 @@ export default function DashboardLayout({
     // Fallback to search param if not in path
     if (!activeRole) {
       const roleFromParam = searchParams.get('role') as Role;
-      if (roleFromParam && ['admin', 'parent', 'student'].includes(roleFromParam)) {
+      if (roleFromParam && ['admin', 'parent', 'student', 'teacher'].includes(roleFromParam)) {
         activeRole = roleFromParam;
       }
     }
@@ -111,7 +114,8 @@ export default function DashboardLayout({
   const userDetails = {
     admin: { name: 'Alex Doe', role: 'Administrator' },
     parent: { name: 'Jane Doe', role: 'Parent' },
-    student: { name: 'John Doe', role: 'Student' }
+    student: { name: 'John Doe', role: 'Student' },
+    teacher: { name: 'Mr. Smith', role: 'Teacher' }
   };
 
   const currentUser = userDetails[role || 'admin'];

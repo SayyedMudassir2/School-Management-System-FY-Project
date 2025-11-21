@@ -102,6 +102,7 @@ function LoginPageContent() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">Administrator</SelectItem>
+                    <SelectItem value="teacher">Teacher</SelectItem>
                     <SelectItem value="parent">Parent</SelectItem>
                     <SelectItem value="student">Student</SelectItem>
                   </SelectContent>

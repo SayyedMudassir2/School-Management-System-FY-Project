@@ -17,8 +17,9 @@ import {
 
 export const navItems: NavItem[] = [
     { title: "Admin", href: "/dashboard/admin", icon: Shield },
+    { title: "Teacher", href: "/dashboard/teacher", icon: UserCog },
     { title: "Parent", href: "/dashboard/parent", icon: User },
-    { title: "Student", href: "/dashboard/student", icon: UserCog },
+    { title: "Student", href: "/dashboard/student", icon: User },
     { title: "School Setup", href: "/dashboard/setup", icon: Building2 },
     { title: "Attendance", href: "/dashboard/attendance", icon: Presentation },
     { title: "Student Management", href: "/dashboard/student-management", icon: Users },
