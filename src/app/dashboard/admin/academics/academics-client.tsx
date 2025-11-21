@@ -3,23 +3,33 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookCheck, ClipboardList, NotebookText } from "lucide-react";
+import { ArrowRight, Library, NotebookText, Calendar, BookCopy, ClipboardCheck } from "lucide-react";
 
 const academicActions = [
     {
-        title: "Manage Examinations",
-        description: "Schedule exams, create papers, and manage results.",
-        icon: ClipboardList,
+        title: "Classes & Sections",
+        description: "Manage classes and their respective sections (e.g., Class 10-A, 10-B).",
+        icon: Library,
     },
     {
-        title: "Grading & Reports",
-        description: "Define grading systems and generate student report cards.",
-        icon: BookCheck,
-    },
-    {
-        title: "Syllabus & Curriculum",
-        description: "Track syllabus progress and manage curriculum details.",
+        title: "Subjects Management",
+        description: "Define and manage all subjects offered by the school.",
         icon: NotebookText,
+    },
+    {
+        title: "Class Routine / Timetable",
+        description: "Create and manage weekly schedules for all classes.",
+        icon: Calendar,
+    },
+    {
+        title: "Syllabus / Lesson Plan",
+        description: "Track syllabus progress and manage curriculum details.",
+        icon: BookCopy,
+    },
+    {
+        title: "Assignments / Homework",
+        description: "Create, distribute, and track student assignments.",
+        icon: ClipboardCheck,
     }
 ];
 
