@@ -50,22 +50,24 @@ const getRoleFromPath = (path: string): Role | null => {
 }
 
 const getFilteredNavItems = (role: Role | null): NavItem[] => {
+  const roleDashboards = ['/dashboard/admin', '/dashboard/parent', '/dashboard/student', '/dashboard/teacher'];
+  
   if (!role) {
-    return navItems.filter(item => 
-        item.href !== '/dashboard/admin' &&
-        item.href !== '/dashboard/parent' &&
-        item.href !== '/dashboard/student' &&
-        item.href !== '/dashboard/teacher'
-    );
+    // If no role, show generic items, hide all role-specific dashboards
+    return navItems.filter(item => !roleDashboards.includes(item.href));
   }
+
   const forbiddenLinks: { [key in Role]: string[] } = {
-    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher", "/dashboard/attendance"],
+    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher"],
     parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
     student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/setup", "/dashboard/student-management", "/dashboard/teacher-management", "/dashboard/attendance"],
     teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student"],
   };
 
-  return navItems.filter(item => !forbiddenLinks[role].includes(item.href));
+  // Filter out forbidden links for the current role AND all other role-specific dashboard entries
+  const linksToHide = [...forbiddenLinks[role], ...roleDashboards.filter(d => d !== `/dashboard/${role}`)];
+
+  return navItems.filter(item => !linksToHide.includes(item.href));
 };
 
 function DashboardLogo() {
@@ -88,27 +90,25 @@ export default function DashboardLayout({
 
   useEffect(() => {
     setLoading(true);
-    let activeRole = getRoleFromPath(pathname);
     
-    // Fallback to search param if not in path
-    if (!activeRole) {
-      const roleFromParam = searchParams.get('role') as Role;
-      if (roleFromParam && ['admin', 'parent', 'student', 'teacher'].includes(roleFromParam)) {
-        activeRole = roleFromParam;
+    // Determine the active role
+    const pathRole = getRoleFromPath(pathname);
+    const paramRole = searchParams.get('role') as Role;
+    
+    // Priority: path > param > stored state
+    const activeRole = pathRole || paramRole || role;
+
+    if (activeRole && ['admin', 'parent', 'student', 'teacher'].includes(activeRole)) {
+      if(activeRole !== role) {
+          setRole(activeRole);
       }
     }
     
-    // Persist role in state
-    if (activeRole) {
-      setRole(activeRole);
-    }
-    
-    const filteredItems = getFilteredNavItems(activeRole || role);
+    const filteredItems = getFilteredNavItems(activeRole);
     setCurrentNavItems(filteredItems);
     
-    if (filteredItems.length > 0) {
-        setLoading(false);
-    }
+    setLoading(false);
+
   }, [pathname, searchParams, role]);
 
   const userDetails = {
