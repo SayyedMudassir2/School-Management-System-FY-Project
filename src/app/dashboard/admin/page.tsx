@@ -18,13 +18,11 @@ import { PageHeader } from "../components/page-header";
 import { Users, BookOpen, Banknote, CalendarDays } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AttendanceChart } from "../components/attendance-chart";
-import { Sitemap } from "../components/sitemap";
 
 export default function AdminDashboardPage() {
   return (
     <>
-      <Sitemap />
-      <PageHeader title="Welcome, Administrator!" description="Here's a summary of your school's activities." className="mt-8"/>
+      <PageHeader title="Welcome, Administrator!" description="Here's a summary of your school's activities." />
       
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="glassmorphic">
