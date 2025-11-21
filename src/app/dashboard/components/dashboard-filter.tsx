@@ -9,9 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function DashboardFilter() {
+type DashboardFilterProps = {
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+export function DashboardFilter({ value, onValueChange }: DashboardFilterProps) {
   return (
-    <Select defaultValue="this-week">
+    <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Filter by period" />
       </SelectTrigger>
