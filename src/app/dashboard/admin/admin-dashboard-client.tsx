@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -18,9 +17,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PageHeader } from "../components/page-header";
-import { Users, BookOpen, Banknote, CalendarDays } from "lucide-react";
+import { Users, BookOpen, Banknote, CalendarDays, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { AttendanceChart } from "../components/attendance-chart";
+import { StudentEnrollmentChart } from "../components/student-enrollment-chart";
+import { RevenueOverviewChart } from "../components/revenue-overview-chart";
 import { DashboardFilter } from "../components/dashboard-filter";
 
 const dashboardData = {
@@ -68,7 +68,7 @@ const dashboardData = {
 
 
 export function AdminDashboardClient() {
-    const [filter, setFilter] = useState<keyof typeof dashboardData>('this-week');
+    const [filter, setFilter] = useState<keyof typeof dashboardData>('this-month');
     const data = dashboardData[filter];
 
   return (
@@ -120,57 +120,29 @@ export function AdminDashboardClient() {
         </Card>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5">
-        <Card className="lg:col-span-3 glassmorphic">
-          <CardHeader>
-            <CardTitle>Weekly Attendance</CardTitle>
-            <CardDescription>
-              Here's an overview of student attendance for the current week.
-            </CardDescription>
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card className="glassmorphic">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+                <CardTitle>Student Enrollment</CardTitle>
+                <CardDescription>Monthly enrollment trends</CardDescription>
+            </div>
+            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="pl-2">
-            <AttendanceChart />
+            <StudentEnrollmentChart />
           </CardContent>
         </Card>
-        <Card className="lg:col-span-2 glassmorphic">
-          <CardHeader>
-            <CardTitle>Recent Announcements</CardTitle>
-            <CardDescription>
-              Here are the latest updates and news for the school community.
-            </CardDescription>
+        <Card className="glassmorphic">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+                <CardTitle>Revenue Overview</CardTitle>
+                <CardDescription>Monthly revenue analysis</CardDescription>
+            </div>
+            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <Table>
-                <TableBody>
-                    <TableRow className="border-none">
-                        <TableCell className="p-2">
-                            <p className="font-medium">Parent-Teacher Meeting</p>
-                            <p className="text-xs text-muted-foreground">This is scheduled for next Friday.</p>
-                        </TableCell>
-                        <TableCell className="p-2 text-right">
-                           <Badge variant="secondary">General</Badge>
-                        </TableCell>
-                    </TableRow>
-                     <TableRow className="border-none">
-                        <TableCell className="p-2">
-                            <p className="font-medium">Annual Sports Day</p>
-                            <p className="text-xs text-muted-foreground">Registrations are now open.</p>
-                        </TableCell>
-                        <TableCell className="p-2 text-right">
-                           <Badge variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">Event</Badge>
-                        </TableCell>
-                    </TableRow>
-                     <TableRow className="border-none">
-                        <TableCell className="p-2">
-                            <p className="font-medium">Library Renovation</p>
-                            <p className="text-xs text-muted-foreground">The library will be closed this weekend.</p>
-                        </TableCell>
-                        <TableCell className="p-2 text-right">
-                           <Badge variant="secondary">Notice</Badge>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+          <CardContent className="pl-2">
+            <RevenueOverviewChart />
           </CardContent>
         </Card>
       </div>

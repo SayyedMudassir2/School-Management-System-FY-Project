@@ -52,6 +52,25 @@ export const attendanceChartData = [
   { date: 'Sun', attendance: 100 },
 ];
 
+export const studentEnrollmentData = [
+    { month: "Jan", enrollment: 1200 },
+    { month: "Feb", enrollment: 1350 },
+    { month: "Mar", enrollment: 1250 },
+    { month: "Apr", enrollment: 1400 },
+    { month: "May", enrollment: 1380 },
+    { month: "Jun", enrollment: 1450 },
+];
+
+export const revenueOverviewData = [
+    { month: "Jan", revenue: 15000 },
+    { month: "Feb", revenue: 22000 },
+    { month: "Mar", revenue: 18000 },
+    { month: "Apr", revenue: 35000 },
+    { month: "May", revenue: 42000 },
+    { month: "Jun", revenue: 67000 },
+];
+
+
 export const books = [
   { id: 'B001', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', subject: 'Literature', isbn: '978-0743273565', quantity: 5, available: 2 },
   { id: 'B002', title: 'To Kill a Mockingbird', author: 'Harper Lee', subject: 'Literature', isbn: '978-0061120084', quantity: 3, available: 1 },
