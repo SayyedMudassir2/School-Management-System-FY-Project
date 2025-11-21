@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,7 +39,7 @@ const studentActions = [
     {
         title: "ID Cards & Transfer Certificates",
         description: "Generate and issue student identification documents.",
-        href: "#",
+        href: "/dashboard/admin/student-management/certificates",
         icon: Award,
     }
 ];
