@@ -128,29 +128,29 @@ export function AdminDashboardClient() {
           </CardContent>
           </Card>
           <Card className="glassmorphic">
-          <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                  <CardTitle>Revenue Overview</CardTitle>
-                  <CardDescription>Monthly revenue analysis</CardDescription>
-              </div>
-              <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pl-2">
-              <RevenueOverviewChart />
-          </CardContent>
+            <CardHeader>
+                <CardTitle>Weekly Attendance</CardTitle>
+                <CardDescription>Here's an overview of student attendance for the current week.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <AttendanceChart />
+            </CardContent>
           </Card>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
             <Card className="glassmorphic">
-                <CardHeader>
-                    <CardTitle>Weekly Attendance</CardTitle>
-                    <CardDescription>Here's an overview of student attendance for the current week.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <AttendanceChart />
-                </CardContent>
+              <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                      <CardTitle>Revenue Overview</CardTitle>
+                      <CardDescription>Monthly revenue analysis</CardDescription>
+                  </div>
+                  <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="pl-2">
+                  <RevenueOverviewChart />
+              </CardContent>
             </Card>
         </div>
         <div className="lg:col-span-1 space-y-6">
