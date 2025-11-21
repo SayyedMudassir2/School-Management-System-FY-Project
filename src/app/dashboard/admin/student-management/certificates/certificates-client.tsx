@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, ReactInstance } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +54,21 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
           }
         }
       `}</style>
+
+      {/* Hidden container for printing */}
+      <div className="hidden">
+        {selectedStudent && (
+          <>
+            <div ref={idCardRef}>
+              <IdCardTemplate student={selectedStudent} />
+            </div>
+            <div ref={tcRef}>
+              <TcTemplate student={selectedStudent} />
+            </div>
+          </>
+        )}
+      </div>
+
       <Card className="glassmorphic">
         <CardHeader>
           <CardTitle>Document Generator</CardTitle>
@@ -89,14 +104,7 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
           </DialogHeader>
           <div className="px-6 max-h-[70vh] overflow-y-auto">
             {selectedStudent && (
-              <>
-                <div ref={idCardRef} className={dialogContent === 'id-card' ? '' : 'hidden'}>
-                  <IdCardTemplate student={selectedStudent} />
-                </div>
-                <div ref={tcRef} className={dialogContent === 'tc' ? '' : 'hidden'}>
-                  <TcTemplate student={selectedStudent} />
-                </div>
-              </>
+                dialogContent === 'id-card' ? <IdCardTemplate student={selectedStudent} /> : <TcTemplate student={selectedStudent} />
             )}
           </div>
           <DialogFooter className="p-6 pt-0">
