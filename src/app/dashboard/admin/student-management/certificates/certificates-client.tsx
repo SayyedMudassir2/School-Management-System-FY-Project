@@ -25,19 +25,17 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
   const [selectedStudentId, setSelectedStudentId] = useState<string>('');
   const [dialogContent, setDialogContent] = useState<'id-card' | 'tc' | null>(null);
 
-  const idCardRef = useRef(null);
-  const tcRef = useRef(null);
+  const idCardRef = useRef<HTMLDivElement>(null);
+  const tcRef = useRef<HTMLDivElement>(null);
 
   const selectedStudent = students.find(s => s.id === selectedStudentId);
 
   const handlePrintIdCard = useReactToPrint({
     content: () => idCardRef.current,
-    bodyClass: 'print-body',
   });
   
   const handlePrintTc = useReactToPrint({
     content: () => tcRef.current,
-    bodyClass: 'print-body',
   });
 
   const handleGenerate = (type: 'id-card' | 'tc') => {
@@ -48,7 +46,7 @@ export function CertificatesClient({ students }: CertificatesClientProps) {
     <>
       <style>{`
         @media print {
-          .print-body {
+          body {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
