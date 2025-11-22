@@ -27,8 +27,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
-import { navItems } from "@/lib/dashboard-nav-items";
-import type { NavItem } from "@/lib/types";
+import { getNavItemsForRole } from "@/lib/dashboard-nav-items";
+import type { NavItem, UserRole } from "@/lib/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Breadcrumb } from "./components/breadcrumb";
 import { useEffect, useState, useMemo } from "react";
@@ -39,36 +39,13 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
-type Role = 'admin' | 'parent' | 'student' | 'teacher';
-
-const getRoleFromPath = (path: string): Role | null => {
+const getRoleFromPath = (path: string): UserRole | null => {
   const segments = path.split('/');
   if (segments.length > 2 && ['admin', 'parent', 'student', 'teacher'].includes(segments[2])) {
-    return segments[2] as Role;
+    return segments[2] as UserRole;
   }
   return null;
 }
-
-const getFilteredNavItems = (role: Role | null): NavItem[] => {
-  const roleDashboards = ['/dashboard/admin', '/dashboard/parent', '/dashboard/student', '/dashboard/teacher'];
-  
-  if (!role) {
-    // If no role, show generic items, hide all role-specific dashboards
-    return navItems.filter(item => !roleDashboards.includes(item.href) && !item.href.startsWith('/dashboard/admin/') && !item.href.startsWith('/dashboard/teacher/'));
-  }
-
-  const forbiddenLinks: { [key in Role]: string[] } = {
-    admin: ["/dashboard/parent", "/dashboard/student", "/dashboard/teacher", "/dashboard/teacher/attendance"],
-    parent: ["/dashboard/admin", "/dashboard/student", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", "/dashboard/admin/settings", "/dashboard/admin/syllabus", "/dashboard/admin/assignments"],
-    student: ["/dashboard/admin", "/dashboard/parent", "/dashboard/teacher", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/teacher/attendance", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", "/dashboard/admin/settings", "/dashboard/admin/syllabus", "/dashboard/admin/assignments"],
-    teacher: ["/dashboard/admin", "/dashboard/parent", "/dashboard/student", "/dashboard/admin/setup", "/dashboard/admin/student-management", "/dashboard/admin/teacher-management", "/dashboard/admin/users", "/dashboard/admin/academics", "/dashboard/admin/fees", "/dashboard/admin/communication", "/dashboard/admin/library", "/dashboard/admin/transport", "/dashboard/admin/settings", "/dashboard/admin/syllabus", "/dashboard/admin/assignments"],
-  };
-
-  // Filter out forbidden links for the current role AND all other role-specific dashboard entries
-  const linksToHide = [...(forbiddenLinks[role] || []), ...roleDashboards.filter(d => d !== `/dashboard/${role}`)];
-
-  return navItems.filter(item => !linksToHide.includes(item.href));
-};
 
 function DashboardLogo() {
     const { state } = useSidebar();
@@ -85,27 +62,27 @@ export default function DashboardLayout({
   const searchParams = useSearchParams();
   const [currentNavItems, setCurrentNavItems] = useState<NavItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState<Role | null>(null);
+  const [role, setRole] = useState<UserRole>('admin'); // Default to admin
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     
-    // Determine the active role
     const pathRole = getRoleFromPath(pathname);
-    const paramRole = searchParams.get('role') as Role;
-    
-    // Priority: path > param > stored state
+    const paramRole = searchParams.get('role') as UserRole;
     const activeRole = pathRole || paramRole || role;
 
     if (activeRole && ['admin', 'parent', 'student', 'teacher'].includes(activeRole)) {
-      if(activeRole !== role) {
-          setRole(activeRole);
-      }
+        if(activeRole !== role) {
+            setRole(activeRole);
+        }
+        const filteredItems = getNavItemsForRole(activeRole);
+        setCurrentNavItems(filteredItems);
+    } else {
+        // Fallback for paths without a clear role
+        const defaultItems = getNavItemsForRole('admin');
+        setCurrentNavItems(defaultItems);
     }
-    
-    const filteredItems = getFilteredNavItems(activeRole);
-    setCurrentNavItems(filteredItems);
     
     setLoading(false);
 
@@ -142,7 +119,7 @@ export default function DashboardLayout({
                 </>
               ) : (
                 currentNavItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.href}>
                     <Link href={item.href}>
                       <SidebarMenuButton tooltip={item.title} isActive={pathname.startsWith(item.href)}>
                         <item.icon />
