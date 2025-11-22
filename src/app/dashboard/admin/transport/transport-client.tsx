@@ -51,7 +51,7 @@ const tripStatusData = [
 ];
 
 const transportManagementLinks = [
-    { title: "Routes & Stops", icon: Map, href: "#" },
+    { title: "Routes & Stops", icon: Map, href: "/dashboard/admin/transport/routes" },
     { title: "Vehicle Management", icon: Bus, href: "#" },
     { title: "Student Transport Assignment", icon: UserCog, href: "#" },
     { title: "Live Tracking & GPS", icon: MapPin, href: "#" },

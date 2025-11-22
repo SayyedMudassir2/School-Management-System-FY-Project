@@ -18,6 +18,7 @@ import {
     TrendingDown,
     BarChart2,
     BookUp,
+    Map,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -35,5 +36,6 @@ export const navItems: NavItem[] = [
     // { title: "Issue/Return Books", href: "/dashboard/admin/library/issue-return", icon: BookUp },
     // { title: "Library Members", href: "/dashboard/admin/library/members", icon: Users },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
+    { title: "Routes & Stops", href: "/dashboard/admin/transport/routes", icon: Map },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];

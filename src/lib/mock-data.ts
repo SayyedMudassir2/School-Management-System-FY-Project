@@ -68,17 +68,19 @@ export const feeStructures: FeeStructure[] = [
 ];
 
 export const teacherDirectory: TeacherProfile[] = [
-    { id: 'T01', employeeId: 'EMP101', name: 'Mr. John Smith', avatar: 'https://picsum.photos/seed/teacher1/100/100', designation: 'Head of Science', department: 'Academics', phone: '+1-111-222-3333', email: 'john.smith@aedura.elite', joinDate: '2018-08-15', status: 'Active' },
-    { id: 'T02', employeeId: 'EMP102', name: 'Ms. Emily White', avatar: 'https://picsum.photos/seed/teacher2/100/100', designation: 'Mathematics Teacher', department: 'Academics', phone: '+1-222-333-4444', email: 'emily.white@aedura.elite', joinDate: '2020-03-10', status: 'Active' },
-    { id: 'T03', employeeId: 'EMP103', name: 'Mr. Robert Brown', avatar: 'https://picsum.photos/seed/teacher3/100/100', designation: 'Librarian', department: 'Administration', phone: '+1-333-444-5555', email: 'robert.brown@aedura.elite', joinDate: '2019-11-20', status: 'Active' },
-    { id: 'T04', employeeId: 'EMP104', name: 'Mrs. Linda Davis', avatar: 'https://picsum.photos/seed/teacher4/100/100', designation: 'Accountant', department: 'Finance', phone: '+1-444-555-6666', email: 'linda.davis@aedura.elite', joinDate: '2021-07-01', status: 'Active' },
-    { id: 'T05', employeeId: 'EMP105', name: 'Mr. James Wilson', avatar: 'https://picsum.photos/seed/teacher5/100/100', designation: 'History Teacher', department: 'Academics', phone: '+1-555-666-7777', email: 'james.wilson@aedura.elite', joinDate: '2022-09-01', status: 'Inactive' },
+    { id: 'T01', employeeId: 'EMP101', name: 'Mr. John Smith', avatar: 'https://picsum.photos/seed/teacher1/100/100', designation: 'Head of Science', department: 'Academics', phone: '+91 98765 43210', email: 'john.smith@aedura.elite', joinDate: '2018-08-15', status: 'Active' },
+    { id: 'T02', employeeId: 'EMP102', name: 'Ms. Emily White', avatar: 'https://picsum.photos/seed/teacher2/100/100', designation: 'Mathematics Teacher', department: 'Academics', phone: '+91 98765 43211', email: 'emily.white@aedura.elite', joinDate: '2020-03-10', status: 'Active' },
+    { id: 'T03', employeeId: 'EMP103', name: 'Mr. Robert Brown', avatar: 'https://picsum.photos/seed/teacher3/100/100', designation: 'Librarian', department: 'Administration', phone: '+91 98765 43212', email: 'robert.brown@aedura.elite', joinDate: '2019-11-20', status: 'Active' },
+    { id: 'T04', employeeId: 'EMP104', name: 'Mrs. Linda Davis', avatar: 'https://picsum.photos/seed/teacher4/100/100', designation: 'Accountant', department: 'Finance', phone: '+91 98765 43213', email: 'linda.davis@aedura.elite', joinDate: '2021-07-01', status: 'Active' },
+    { id: 'T05', employeeId: 'EMP105', name: 'Mr. James Wilson', avatar: 'https://picsum.photos/seed/teacher5/100/100', designation: 'History Teacher', department: 'Academics', phone: '+91 98765 43214', email: 'james.wilson@aedura.elite', joinDate: '2022-09-01', status: 'Inactive' },
+    { id: 'T06', employeeId: 'EMP106', name: 'Mr. Sanjay Kumar', avatar: 'https://picsum.photos/seed/driver1/100/100', designation: 'Bus Driver', department: 'Transport', phone: '+91 98765 43215', email: 'sanjay.k@aedura.elite', joinDate: '2017-05-20', status: 'Active' },
+    { id: 'T07', employeeId: 'EMP107', name: 'Mr. Rajesh Singh', avatar: 'https://picsum.photos/seed/driver2/100/100', designation: 'Bus Driver', department: 'Transport', phone: '+91 98765 43216', email: 'rajesh.s@aedura.elite', joinDate: '2019-02-18', status: 'Active' },
 ];
 
 
 export const studentDirectory: StudentProfile[] = [
     {
-        id: 'S001', admissionNo: 'AD1001', name: 'Alice Johnson', class: '10', section: 'A', email: 'alice.j@example.com', dateOfBirth: '2008-05-15', gender: 'Female', parentName: 'John Johnson', parentContact: '+1-234-567-8901', address: '123 Maple St', status: 'Active', avatar: 'https://picsum.photos/seed/student1/100/100',
+        id: 'S001', admissionNo: 'AD1001', name: 'Alice Johnson', class: '10', section: 'A', email: 'alice.j@example.com', dateOfBirth: '2008-05-15', gender: 'Female', parentName: 'John Johnson', parentContact: '+1-234-567-8901', address: '123 Maple St, New Delhi', status: 'Active', avatar: 'https://picsum.photos/seed/student1/100/100',
         academicHistory: [
             { year: '2023-24', class: '9', percentage: 92, rank: 3 },
             { year: '2022-23', class: '8', percentage: 88, rank: 5 },
@@ -87,7 +89,7 @@ export const studentDirectory: StudentProfile[] = [
         fees: { total: 5000, paid: 5000, due: 0, status: 'Paid' }
     },
     {
-        id: 'S002', admissionNo: 'AD1002', name: 'Bob Williams', class: '10', section: 'A', email: 'bob.w@example.com', dateOfBirth: '2008-03-22', gender: 'Male', parentName: 'Robert Williams', parentContact: '+1-234-567-8902', address: '456 Oak Ave', status: 'Active', avatar: 'https://picsum.photos/seed/student2/100/100',
+        id: 'S002', admissionNo: 'AD1002', name: 'Bob Williams', class: '10', section: 'A', email: 'bob.w@example.com', dateOfBirth: '2008-03-22', gender: 'Male', parentName: 'Robert Williams', parentContact: '+1-234-567-8902', address: '456 Oak Ave, Mumbai', status: 'Active', avatar: 'https://picsum.photos/seed/student2/100/100',
         academicHistory: [
             { year: '2023-24', class: '9', percentage: 85, rank: 10 },
             { year: '2022-23', class: '8', percentage: 82, rank: 12 },
@@ -96,7 +98,7 @@ export const studentDirectory: StudentProfile[] = [
         fees: { total: 5000, paid: 4000, due: 1000, status: 'Pending' }
     },
     {
-        id: 'S003', admissionNo: 'AD1003', name: 'Charlie Brown', class: '10', section: 'B', email: 'charlie.b@example.com', dateOfBirth: '2008-09-01', gender: 'Male', parentName: 'Charles Brown Sr.', parentContact: '+1-234-567-8903', address: '789 Pine Ln', status: 'Active', avatar: 'https://picsum.photos/seed/student3/100/100',
+        id: 'S003', admissionNo: 'AD1003', name: 'Charlie Brown', class: '10', section: 'B', email: 'charlie.b@example.com', dateOfBirth: '2008-09-01', gender: 'Male', parentName: 'Charles Brown Sr.', parentContact: '+1-234-567-8903', address: '789 Pine Ln, Kolkata', status: 'Active', avatar: 'https://picsum.photos/seed/student3/100/100',
         academicHistory: [
             { year: '2023-24', class: '9', percentage: 78, rank: 15 },
             { year: '2022-23', class: '8', percentage: 75, rank: 18 },
@@ -105,13 +107,13 @@ export const studentDirectory: StudentProfile[] = [
         fees: { total: 5000, paid: 2500, due: 2500, status: 'Overdue' }
     },
     {
-        id: 'S004', admissionNo: 'AD1004', name: 'David Miller', class: '9', section: 'A', email: 'david.m@example.com', dateOfBirth: '2009-01-10', gender: 'Male', parentName: 'Daniel Miller', parentContact: '+1-234-567-8904', address: '101 Birch Rd', status: 'Active', avatar: 'https://picsum.photos/seed/student6/100/100',
+        id: 'S004', admissionNo: 'AD1004', name: 'David Miller', class: '9', section: 'A', email: 'david.m@example.com', dateOfBirth: '2009-01-10', gender: 'Male', parentName: 'Daniel Miller', parentContact: '+1-234-567-8904', address: '101 Birch Rd, Chennai', status: 'Active', avatar: 'https://picsum.photos/seed/student6/100/100',
         academicHistory: [{ year: '2022-23', class: '8', percentage: 90, rank: 4 }],
         attendance: { total: 180, present: 178, absent: 2 },
         fees: { total: 4500, paid: 4500, due: 0, status: 'Paid' }
     },
     {
-        id: 'S005', admissionNo: 'AD1005', name: 'Eve Davis', class: '9', section: 'A', email: 'eve.d@example.com', dateOfBirth: '2009-07-30', gender: 'Female', parentName: 'Emily Davis', parentContact: '+1-234-567-8905', address: '212 Cedar Blvd', status: 'Active', avatar: 'https://picsum.photos/seed/student7/100/100',
+        id: 'S005', admissionNo: 'AD1005', name: 'Eve Davis', class: '9', section: 'A', email: 'eve.d@example.com', dateOfBirth: '2009-07-30', gender: 'Female', parentName: 'Emily Davis', parentContact: '+1-234-567-8905', address: '212 Cedar Blvd, Bangalore', status: 'Active', avatar: 'https://picsum.photos/seed/student7/100/100',
         academicHistory: [{ year: '2022-23', class: '8', percentage: 94, rank: 2 }],
         attendance: { total: 180, present: 179, absent: 1 },
         fees: { total: 4500, paid: 4500, due: 0, status: 'Paid' }
@@ -351,4 +353,60 @@ export const mockExpenseSummary = [
   { month: "May", expenses: 190000 },
   { month: "Jun", expenses: 205000 },
   { month: "Jul", expenses: 213000 },
+];
+
+export type Vehicle = {
+    id: string;
+    number: string;
+    capacity: number;
+};
+
+export const vehicles: Vehicle[] = [
+    { id: 'V01', number: 'DL-01-AB-1234', capacity: 40 },
+    { id: 'V02', number: 'HR-02-CD-5678', capacity: 50 },
+    { id: 'V03', number: 'UP-03-EF-9012', capacity: 40 },
+];
+
+export type TransportRoute = {
+    id: string;
+    name: string;
+    stops: { name: string; landmark?: string; time: string; distance?: string; coordinates?: string }[];
+    vehicleId: string;
+    driverId: string;
+    pickupTime: string;
+    dropTime: string;
+    fare: number;
+    totalStudents?: number;
+};
+
+export const transportRoutes: TransportRoute[] = [
+    { 
+        id: 'R01', 
+        name: 'Sector-56 to School', 
+        pickupTime: '07:00 AM', 
+        dropTime: '03:00 PM',
+        vehicleId: 'V01',
+        driverId: 'T06',
+        fare: 1500,
+        totalStudents: 35,
+        stops: [
+            { name: 'Sector-56 Market', time: '07:05 AM' },
+            { name: 'Medanta Hospital', time: '07:15 AM' },
+            { name: 'Rajiv Chowk', time: '07:25 AM' },
+        ]
+    },
+    { 
+        id: 'R02', 
+        name: 'South City to School', 
+        pickupTime: '07:10 AM', 
+        dropTime: '03:10 PM',
+        vehicleId: 'V02',
+        driverId: 'T07',
+        fare: 1800,
+        totalStudents: 48,
+        stops: [
+            { name: 'South City-1 Gate', time: '07:15 AM' },
+            { name: 'Huda City Centre', time: '07:30 AM' },
+        ]
+    }
 ];
