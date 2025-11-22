@@ -297,3 +297,19 @@ export const mockReceipts: PaymentDetails[] = [
         paymentDate: '2024-08-03'
     },
 ];
+
+export type Expense = {
+    id: string;
+    date: string;
+    amount: number;
+    category: 'Salary' | 'Utilities' | 'Maintenance' | 'Stationery' | 'Transport' | 'Miscellaneous';
+    payee: string;
+    paymentMode: 'Cash' | 'Cheque' | 'Bank Transfer';
+};
+
+export const expenses: Expense[] = [
+    { id: 'EXP001', date: '2024-07-28', amount: 150000, category: 'Salary', payee: 'Staff Payroll', paymentMode: 'Bank Transfer' },
+    { id: 'EXP002', date: '2024-07-25', amount: 25000, category: 'Utilities', payee: 'City Electric Board', paymentMode: 'Bank Transfer' },
+    { id: 'EXP003', date: '2024-07-22', amount: 5000, category: 'Maintenance', payee: 'General Repairs Co.', paymentMode: 'Cheque' },
+    { id: 'EXP004', date: '2024-07-20', amount: 2000, category: 'Stationery', payee: 'Office Supplies Inc.', paymentMode: 'Cash' },
+];

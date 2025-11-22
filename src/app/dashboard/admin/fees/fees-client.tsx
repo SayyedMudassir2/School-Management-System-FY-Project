@@ -35,6 +35,7 @@ const feeActions = [
         title: "Expense Management",
         description: "Record and categorize all school expenditures.",
         icon: TrendingDown,
+        href: "/dashboard/admin/fees/expenses",
     },
     {
         title: "Income–Expense Report",

@@ -15,6 +15,7 @@ import {
     Settings,
     NotebookText,
     ClipboardCheck,
+    TrendingDown,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -27,6 +28,7 @@ export const navItems: NavItem[] = [
     { title: "Student Management", href: "/dashboard/admin/student-management", icon: Users },
     { title: "Teacher Management", href: "/dashboard/admin/teacher-management", icon: UserCog },
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
+    { title: "Expenses", href: "/dashboard/admin/fees/expenses", icon: TrendingDown },
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
