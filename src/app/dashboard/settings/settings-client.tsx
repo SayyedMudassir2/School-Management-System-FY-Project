@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,10 +18,12 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 export function SettingsClient() {
     const { toast } = useToast();
     const { user, loading, updateUserProfile, changeUserPassword, reauthenticate } = useCurrentUser();
+    const fileInputRef = useRef<HTMLInputElement>(null);
     
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [avatar, setAvatar] = useState('');
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -49,9 +51,22 @@ export function SettingsClient() {
         }
     }, [user]);
 
+    const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setAvatarFile(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setAvatar(e.target?.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSaveChanges = async () => {
         if (!user) return;
         try {
+            // In a real app, you'd upload avatarFile to storage here and get a URL
             await updateUserProfile(name);
             toast({
                 title: "Settings Saved",
@@ -136,7 +151,14 @@ export function SettingsClient() {
                                 <AvatarImage src={avatar} alt={name} data-ai-hint="person portrait"/>
                                 <AvatarFallback>{name ? name.substring(0,2).toUpperCase() : '...'}</AvatarFallback>
                             </Avatar>
-                            <Button variant="outline" disabled>
+                            <Input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleAvatarChange}
+                                className="hidden"
+                                accept="image/png, image/jpeg, image/gif"
+                            />
+                            <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
                                 <Upload className="mr-2 h-4 w-4" />
                                 Change Photo
                             </Button>
@@ -305,3 +327,5 @@ const SettingsSkeleton = () => (
         </div>
     </div>
 )
+
+    
