@@ -19,6 +19,7 @@ import {
     BarChart2,
     BookUp,
     Map,
+    MapPin,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -37,5 +38,6 @@ export const navItems: NavItem[] = [
     { title: "Routes & Stops", href: "/dashboard/admin/transport/routes", icon: Map },
     { title: "Vehicle Management", href: "/dashboard/admin/transport/vehicles", icon: Bus },
     { title: "Student Assignment", href: "/dashboard/admin/transport/student-assignment", icon: UserCog },
+    { title: "Live Tracking", href: "/dashboard/admin/transport/live-tracking", icon: MapPin },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];
