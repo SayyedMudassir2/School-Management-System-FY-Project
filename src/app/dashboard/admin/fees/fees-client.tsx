@@ -29,6 +29,7 @@ const feeActions = [
         title: "Pending/Due Fees",
         description: "Track all outstanding and overdue payments.",
         icon: FileWarning,
+        href: "/dashboard/admin/fees/dues",
     },
     {
         title: "Expense Management",
