@@ -29,7 +29,7 @@ const teacherActions = [
         title: "Assign Class Teacher / Subjects",
         description: "Allocate teachers to classes and assign subjects.",
         icon: BookUser,
-        href: "#"
+        href: "/dashboard/admin/teacher-management/assign"
     }
 ];
 
