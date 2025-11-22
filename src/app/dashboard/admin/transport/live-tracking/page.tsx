@@ -1,7 +1,6 @@
 
 import { PageHeader } from "../../../components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 
 export default function LiveTrackingPage() {
   return (
@@ -19,12 +18,12 @@ export default function LiveTrackingPage() {
         </CardHeader>
         <CardContent>
             <div className="relative w-full h-[600px] bg-muted rounded-lg overflow-hidden border">
-                <Image
-                    src="https://images.unsplash.com/photo-1549468057-5b7fa1a41d75?q=80&w=1920&auto=format&fit=crop"
-                    alt="Live map of a city"
-                    fill
-                    data-ai-hint="satellite map city"
-                    className="object-cover"
+                <video
+                    src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    className="absolute inset-0 w-full h-full object-cover"
                 />
                  <div className="absolute inset-0 bg-black/50"></div>
                  <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold bg-black/50 p-4 rounded-md">
