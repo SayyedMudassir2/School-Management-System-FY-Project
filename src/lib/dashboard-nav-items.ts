@@ -20,6 +20,7 @@ import {
     BookUp,
     Map,
     MapPin,
+    Wallet,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -39,5 +40,6 @@ export const navItems: NavItem[] = [
     { title: "Vehicle Management", href: "/dashboard/admin/transport/vehicles", icon: Bus },
     { title: "Student Assignment", href: "/dashboard/admin/transport/student-assignment", icon: UserCog },
     { title: "Live Tracking", href: "/dashboard/admin/transport/live-tracking", icon: MapPin },
+    { title: "Transport Fees", href: "/dashboard/admin/transport/fees", icon: Wallet },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];
