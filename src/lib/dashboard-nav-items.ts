@@ -37,12 +37,6 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle, roles: ["admin"] },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen, roles: ["admin", "teacher", "student"] },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus, roles: ["admin"] },
-    { title: "Routes & Stops", href: "/dashboard/admin/transport/routes", icon: Map, roles: ["admin"] },
-    { title: "Vehicle Management", href: "/dashboard/admin/transport/vehicles", icon: Bus, roles: ["admin"] },
-    { title: "Student Assignment", href: "/dashboard/admin/transport/student-assignment", icon: UserCog, roles: ["admin"] },
-    { title: "Live Tracking", href: "/dashboard/admin/transport/live-tracking", icon: MapPin, roles: ["admin", "parent"] },
-    { title: "Transport Fees", href: "/dashboard/admin/transport/fees", icon: Wallet, roles: ["admin"] },
-    { title: "Reports", href: "/dashboard/admin/transport/reports", icon: FileBarChart, roles: ["admin"] },
     { title: "Attendance Insights", href: "/dashboard/teacher/attendance", icon: CalendarCheck, roles: ["teacher"] },
 ];
 
