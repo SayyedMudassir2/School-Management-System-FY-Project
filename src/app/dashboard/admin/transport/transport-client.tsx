@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Map, Bus, Users, Clock, IndianRupee, AlertTriangle, UserPlus, FileSearch, MapPin, UserCog, FileBarChart, Wallet } from "lucide-react";
+import { ArrowRight, Map, Bus, Users, Clock, IndianRupee, AlertTriangle, UserPlus, FileBarChart, MapPin, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -54,7 +54,7 @@ const tripStatusData = [
 const transportManagementLinks = [
     { title: "Routes & Stops", icon: Map, href: "/dashboard/admin/transport/routes" },
     { title: "Vehicle Management", icon: Bus, href: "/dashboard/admin/transport/vehicles" },
-    { title: "Student Transport Assignment", icon: UserCog, href: "/dashboard/admin/transport/student-assignment" },
+    { title: "Student Transport Assignment", icon: UserPlus, href: "/dashboard/admin/transport/student-assignment" },
     { title: "Live Tracking & GPS", icon: MapPin, href: "/dashboard/admin/transport/live-tracking" },
     { title: "Transport Fees", icon: Wallet, href: "/dashboard/admin/transport/fees" },
     { title: "Reports & Registers", icon: FileBarChart, href: "#" },
