@@ -33,6 +33,7 @@ export const navItems: NavItem[] = [
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
     { title: "Issue/Return Books", href: "/dashboard/admin/library/issue-return", icon: BookUp },
+    { title: "Library Members", href: "/dashboard/admin/library/members", icon: Users },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];
