@@ -1,7 +1,10 @@
 
+'use client';
+
 import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import React from 'react';
 
 type Fee = {
     id?: string;
@@ -17,11 +20,11 @@ type InvoicePrintProps = {
   studentName: string;
 };
 
-export function InvoicePrint({ fee, studentName }: InvoicePrintProps) {
+export const InvoicePrint = React.forwardRef<HTMLDivElement, InvoicePrintProps>(({ fee, studentName }, ref) => {
   const today = new Date();
 
   return (
-    <div className="bg-white text-black p-8 font-sans">
+    <div ref={ref} className="bg-white text-black p-8 font-sans">
       <header className="flex justify-between items-center border-b-2 border-gray-200 pb-4">
         <div>
           <Logo />
@@ -95,4 +98,7 @@ export function InvoicePrint({ fee, studentName }: InvoicePrintProps) {
       </footer>
     </div>
   );
-}
+});
+
+InvoicePrint.displayName = 'InvoicePrint';
+

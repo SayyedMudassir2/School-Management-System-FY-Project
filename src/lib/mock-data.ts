@@ -240,6 +240,20 @@ export const admissionRequests: AdmissionRequest[] = [
     { id: 'AD006', studentName: 'Charlotte Garcia', applyingForClass: 'Class 10', parentName: 'William Garcia', submittedDate: '2024-07-16', status: 'Accepted' },
     { id: 'AD007', studentName: 'Henry Miller', applyingForClass: 'Class 7', parentName: 'Mia Miller', submittedDate: '2024-07-20', status: 'Verified' },
 ];
-    
 
-    
+export type Fee = {
+    id?: string;
+    studentId: string;
+    amount: number;
+    dueDate: string;
+    status: "Paid" | "Unpaid" | "Overdue";
+    invoiceNumber: string;
+};
+
+export const fees: Fee[] = [
+    { id: 'F001', studentId: 'S001', amount: 2500, dueDate: '2024-08-10', status: 'Paid', invoiceNumber: 'INV-2024-001' },
+    { id: 'F002', studentId: 'S002', amount: 2500, dueDate: '2024-08-10', status: 'Unpaid', invoiceNumber: 'INV-2024-002' },
+    { id: 'F003', studentId: 'S003', amount: 2500, dueDate: '2024-07-10', status: 'Overdue', invoiceNumber: 'INV-2024-003' },
+    { id: 'F004', studentId: 'S004', amount: 2200, dueDate: '2024-08-10', status: 'Paid', invoiceNumber: 'INV-2024-004' },
+    { id: 'F005', studentId: 'S005', amount: 2200, dueDate: '2024-08-10', status: 'Unpaid', invoiceNumber: 'INV-2024-005' },
+];
