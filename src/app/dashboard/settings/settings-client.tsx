@@ -24,6 +24,7 @@ export function SettingsClient() {
     const [email, setEmail] = useState('');
     const [avatar, setAvatar] = useState('');
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [isProfileLoading, setIsProfileLoading] = useState(false);
 
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -65,9 +66,10 @@ export function SettingsClient() {
 
     const handleSaveChanges = async () => {
         if (!user) return;
+        setIsProfileLoading(true);
         try {
             // In a real app, you'd upload avatarFile to storage here and get a URL
-            await updateUserProfile(name);
+            await updateUserProfile({ displayName: name });
             toast({
                 title: "Settings Saved",
                 description: "Your profile information has been updated.",
@@ -78,6 +80,8 @@ export function SettingsClient() {
                 title: "Update Failed",
                 description: error.message,
             });
+        } finally {
+            setIsProfileLoading(false);
         }
     };
     
@@ -182,7 +186,10 @@ export function SettingsClient() {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={handleSaveChanges}>Save Changes</Button>
+                            <Button onClick={handleSaveChanges} disabled={isProfileLoading}>
+                                {isProfileLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Save Changes
+                            </Button>
                         </CardFooter>
                     </Card>
 
@@ -327,5 +334,3 @@ const SettingsSkeleton = () => (
         </div>
     </div>
 )
-
-    

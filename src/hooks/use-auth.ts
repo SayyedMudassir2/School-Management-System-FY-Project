@@ -50,9 +50,9 @@ export function useAuth() {
 export function useCurrentUser() {
   const { auth, user, loading } = useAuth();
 
-  const updateUserProfile = async (displayName: string) => {
+  const updateUserProfile = async (profileData: { displayName?: string; photoURL?: string }) => {
     if (!auth.currentUser) throw new Error("Not authenticated");
-    await updateProfile(auth.currentUser, { displayName });
+    await updateProfile(auth.currentUser, profileData);
   };
   
   const reauthenticate = async (password: string) => {
