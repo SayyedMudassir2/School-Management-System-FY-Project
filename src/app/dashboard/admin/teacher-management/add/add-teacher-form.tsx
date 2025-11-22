@@ -63,7 +63,15 @@ export function AddTeacherForm() {
   });
 
   function onSubmit(data: TeacherFormValues) {
-    console.log(data);
+    const newTeacher = {
+        ...data,
+        id: `T${Date.now()}`,
+        joinDate: data.joinDate.toISOString(),
+        avatar: `https://picsum.photos/seed/${data.employeeId}/100/100`,
+    };
+    // Store in sessionStorage to be picked up by the list page
+    sessionStorage.setItem('newTeacher', JSON.stringify(newTeacher));
+    
     toast({
       title: 'Teacher Added Successfully!',
       description: `${data.name} has been added to the staff directory.`,

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -35,9 +35,24 @@ type ListClientProps = {
 type Status = 'Active' | 'Inactive' | 'All';
 
 export function ListClient({ teachers: initialTeachers }: ListClientProps) {
-  const [teachers] = useState<TeacherProfile[]>(initialTeachers);
+  const [teachers, setTeachers] = useState<TeacherProfile[]>(initialTeachers);
   const [filter, setFilter] = useState<Status>('All');
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const newTeacherData = sessionStorage.getItem('newTeacher');
+    if (newTeacherData) {
+      try {
+        const newTeacher = JSON.parse(newTeacherData);
+        // Add the new teacher to the start of the list
+        setTeachers(prevTeachers => [newTeacher, ...prevTeachers]);
+        // Clean up session storage
+        sessionStorage.removeItem('newTeacher');
+      } catch (error) {
+        console.error("Failed to parse new teacher data from sessionStorage", error);
+      }
+    }
+  }, []);
 
   const filteredTeachers = useMemo(() => {
     return teachers.filter(teacher => {
@@ -149,5 +164,3 @@ export function ListClient({ teachers: initialTeachers }: ListClientProps) {
     </Card>
   );
 }
-
-    
