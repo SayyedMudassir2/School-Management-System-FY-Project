@@ -5,11 +5,11 @@ import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
-import { navItems } from '@/lib/dashboard-nav-items';
+import { dashboardNavItems } from '@/lib/dashboard-nav-items';
 import { cn } from '@/lib/utils';
 
 // Create a map for quick lookup of page titles from the nav items
-const navItemMap = new Map(navItems.map(item => [item.href, item.title]));
+const navItemMap = new Map(dashboardNavItems.map(item => [item.href, item.title]));
 
 export function Breadcrumb() {
   const pathname = usePathname();
