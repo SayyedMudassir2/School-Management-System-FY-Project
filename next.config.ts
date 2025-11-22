@@ -37,6 +37,12 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'videos.pexels.com',
+    },
+  ],
 };
 
 export default nextConfig;
