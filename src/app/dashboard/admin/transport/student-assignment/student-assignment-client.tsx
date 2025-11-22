@@ -10,6 +10,7 @@ import { Search, User, Download, Upload } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { type StudentProfile, type TransportRoute } from '@/lib/mock-data';
+import Papa from 'papaparse';
 
 type StudentAssignment = {
     studentId: string;
@@ -36,8 +37,12 @@ export function StudentAssignmentClient({ allStudents, allRoutes }: StudentAssig
     
     const [selectedRouteId, setSelectedRouteId] = useState('');
     const [selectedStop, setSelectedStop] = useState('');
+    
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
     const routeMap = useMemo(() => new Map(allRoutes.map(r => [r.id, r])), [allRoutes]);
+    const routeNameMap = useMemo(() => new Map(allRoutes.map(r => [r.name.toLowerCase(), r])), [allRoutes]);
+    const studentAdmissionNoMap = useMemo(() => new Map(allStudents.map(s => [s.admissionNo, s])), [allStudents]);
     
     const filteredStudents = useMemo(() => {
         if (!searchTerm) return [];
@@ -89,6 +94,66 @@ export function StudentAssignmentClient({ allStudents, allRoutes }: StudentAssig
         });
         
         toast({ title: 'Success', description: `${selectedStudent.name} assigned to route.` });
+    };
+
+    const handleDownloadSample = () => {
+        const sampleData = [
+            { AdmissionNo: 'AD1001', RouteName: 'Sector-56 to School', StopName: 'Medanta Hospital' },
+            { AdmissionNo: 'AD1005', RouteName: 'South City to School', StopName: 'Huda City Centre' },
+        ];
+        const csv = Papa.unparse(sampleData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute('download', 'sample-transport-assignment.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    
+    const handleFileProcess = () => {
+        if (!uploadedFile) {
+            toast({ variant: 'destructive', title: 'No file selected', description: 'Please choose a CSV file to upload.' });
+            return;
+        }
+
+        Papa.parse(uploadedFile, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+                let successCount = 0;
+                let errorCount = 0;
+                const newAssignments: StudentAssignment[] = [...assignments];
+
+                for (const row of results.data as any[]) {
+                    const student = studentAdmissionNoMap.get(row.AdmissionNo);
+                    const route = routeNameMap.get(row.RouteName?.toLowerCase());
+                    const stopExists = route?.stops.some(s => s.name === row.StopName);
+
+                    if (student && route && stopExists) {
+                        const existingIndex = newAssignments.findIndex(a => a.studentId === student.id);
+                        const assignment = { studentId: student.id, routeId: route.id, stopName: row.StopName };
+                        if (existingIndex > -1) {
+                            newAssignments[existingIndex] = assignment;
+                        } else {
+                            newAssignments.push(assignment);
+                        }
+                        successCount++;
+                    } else {
+                        errorCount++;
+                    }
+                }
+                setAssignments(newAssignments);
+                toast({
+                    title: "Bulk Upload Complete",
+                    description: `${successCount} students assigned successfully. ${errorCount > 0 ? `${errorCount} rows had errors.` : ''}`
+                });
+                setUploadedFile(null);
+            },
+            error: (error) => {
+                toast({ variant: 'destructive', title: 'File Parsing Error', description: error.message });
+            }
+        });
     };
 
     return (
@@ -192,11 +257,16 @@ export function StudentAssignmentClient({ allStudents, allRoutes }: StudentAssig
                         <CardDescription>Upload an Excel/CSV file to assign multiple students to routes at once.</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col sm:flex-row items-center gap-4">
-                        <Button variant="outline"><Download className="mr-2 h-4 w-4" /> Download Sample File</Button>
-                        <Input type="file" className="max-w-xs" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                        <Button variant="outline" onClick={handleDownloadSample}><Download className="mr-2 h-4 w-4" /> Download Sample File</Button>
+                        <Input 
+                            type="file" 
+                            className="max-w-xs" 
+                            accept=".csv"
+                            onChange={(e) => setUploadedFile(e.target.files ? e.target.files[0] : null)}
+                         />
                     </CardContent>
                     <CardFooter>
-                        <Button><Upload className="mr-2 h-4 w-4" /> Upload & Process File</Button>
+                        <Button onClick={handleFileProcess} disabled={!uploadedFile}><Upload className="mr-2 h-4 w-4" /> Upload & Process File</Button>
                     </CardFooter>
                 </Card>
             </div>
