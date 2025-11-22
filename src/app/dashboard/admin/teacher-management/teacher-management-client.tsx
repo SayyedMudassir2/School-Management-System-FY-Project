@@ -1,29 +1,35 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, UserPlus, Users, Upload, BookUser } from "lucide-react";
+import Link from "next/link";
 
 const teacherActions = [
     {
         title: "Teacher/Staff List",
         description: "View, edit, and manage all faculty and staff records.",
         icon: Users,
+        href: "/dashboard/admin/teacher-management/list"
     },
     {
         title: "Add New Teacher/Staff",
         description: "Onboard a new faculty or staff member.",
         icon: UserPlus,
+        href: "#"
     },
     {
         title: "Bulk Import Staff",
         description: "Import staff data from a CSV file for quick setup.",
         icon: Upload,
+        href: "#"
     },
     {
         title: "Assign Class Teacher / Subjects",
         description: "Allocate teachers to classes and assign subjects.",
         icon: BookUser,
+        href: "#"
     }
 ];
 
@@ -40,8 +46,10 @@ export function TeacherManagementClient() {
                         <CardDescription>{action.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Button variant="outline">
-                            Manage <ArrowRight className="ml-2 h-4 w-4" />
+                        <Button variant="outline" asChild>
+                            <Link href={action.href}>
+                                Manage <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
                         </Button>
                     </CardContent>
                 </Card>
@@ -49,3 +57,5 @@ export function TeacherManagementClient() {
         </div>
     );
 }
+
+    

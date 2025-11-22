@@ -38,6 +38,28 @@ export type StudentProfile = {
   fees: { total: number; paid: number; due: number; status: 'Paid' | 'Pending' | 'Overdue' };
 };
 
+export type TeacherProfile = {
+    id: string;
+    employeeId: string;
+    name: string;
+    avatar: string;
+    designation: string;
+    department: string;
+    phone: string;
+    email: string;
+    joinDate: string;
+    status: 'Active' | 'Inactive';
+};
+
+export const teacherDirectory: TeacherProfile[] = [
+    { id: 'T01', employeeId: 'EMP101', name: 'Mr. John Smith', avatar: 'https://picsum.photos/seed/teacher1/100/100', designation: 'Head of Science', department: 'Academics', phone: '+1-111-222-3333', email: 'john.smith@aedura.elite', joinDate: '2018-08-15', status: 'Active' },
+    { id: 'T02', employeeId: 'EMP102', name: 'Ms. Emily White', avatar: 'https://picsum.photos/seed/teacher2/100/100', designation: 'Mathematics Teacher', department: 'Academics', phone: '+1-222-333-4444', email: 'emily.white@aedura.elite', joinDate: '2020-03-10', status: 'Active' },
+    { id: 'T03', employeeId: 'EMP103', name: 'Mr. Robert Brown', avatar: 'https://picsum.photos/seed/teacher3/100/100', designation: 'Librarian', department: 'Administration', phone: '+1-333-444-5555', email: 'robert.brown@aedura.elite', joinDate: '2019-11-20', status: 'Active' },
+    { id: 'T04', employeeId: 'EMP104', name: 'Mrs. Linda Davis', avatar: 'https://picsum.photos/seed/teacher4/100/100', designation: 'Accountant', department: 'Finance', phone: '+1-444-555-6666', email: 'linda.davis@aedura.elite', joinDate: '2021-07-01', status: 'Active' },
+    { id: 'T05', employeeId: 'EMP105', name: 'Mr. James Wilson', avatar: 'https://picsum.photos/seed/teacher5/100/100', designation: 'History Teacher', department: 'Academics', phone: '+1-555-666-7777', email: 'james.wilson@aedura.elite', joinDate: '2022-09-01', status: 'Inactive' },
+];
+
+
 export const studentDirectory: StudentProfile[] = [
     {
         id: 'S001', admissionNo: 'AD1001', name: 'Alice Johnson', class: '10', section: 'A', email: 'alice.j@example.com', dateOfBirth: '2008-05-15', gender: 'Female', parentName: 'John Johnson', parentContact: '+1-234-567-8901', address: '123 Maple St', status: 'Active', avatar: 'https://picsum.photos/seed/student1/100/100',
@@ -202,4 +224,6 @@ export const admissionRequests: AdmissionRequest[] = [
     { id: 'AD006', studentName: 'Charlotte Garcia', applyingForClass: 'Class 10', parentName: 'William Garcia', submittedDate: '2024-07-16', status: 'Accepted' },
     { id: 'AD007', studentName: 'Henry Miller', applyingForClass: 'Class 7', parentName: 'Mia Miller', submittedDate: '2024-07-20', status: 'Verified' },
 ];
+    
+
     
