@@ -151,7 +151,7 @@ export function TransportClient() {
                         {transportManagementLinks.map(link => (
                              <Button key={link.title} variant="outline" className="w-full justify-start gap-2" asChild>
                                 <Link href={link.href}>
-                                    <link.icon className="h-4 w-4"/> {link.title}
+                                    <link.icon className="h-4 w-4 md:hidden"/> {link.title}
                                 </Link>
                             </Button>
                         ))}
