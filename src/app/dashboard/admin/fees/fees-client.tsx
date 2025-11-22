@@ -23,6 +23,7 @@ const feeActions = [
         title: "Fee Receipts",
         description: "Generate and view payment receipts for students.",
         icon: FileText,
+        href: "/dashboard/admin/fees/receipts",
     },
     {
         title: "Pending/Due Fees",

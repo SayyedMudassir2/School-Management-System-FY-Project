@@ -257,3 +257,43 @@ export const fees: Fee[] = [
     { id: 'F004', studentId: 'S004', amount: 2200, dueDate: '2024-08-10', status: 'Paid', invoiceNumber: 'INV-2024-004' },
     { id: 'F005', studentId: 'S005', amount: 2200, dueDate: '2024-08-10', status: 'Unpaid', invoiceNumber: 'INV-2024-005' },
 ];
+
+export type PaymentDetails = {
+    receiptId: string;
+    invoiceNumber: string;
+    totalAmount: number;
+    amountPaid: number;
+    discount: number;
+    fine: number;
+    paymentMode: string;
+    student: StudentProfile;
+    fee: Fee;
+    paymentDate: string;
+};
+
+export const mockReceipts: PaymentDetails[] = [
+    {
+        receiptId: 'RCPT-1721898391',
+        invoiceNumber: 'INV-2024-001',
+        totalAmount: 2500,
+        amountPaid: 2500,
+        discount: 0,
+        fine: 0,
+        paymentMode: 'Cash',
+        student: studentDirectory.find(s => s.id === 'S001')!,
+        fee: fees.find(f => f.id === 'F001')!,
+        paymentDate: '2024-08-05'
+    },
+    {
+        receiptId: 'RCPT-1721898392',
+        invoiceNumber: 'INV-2024-004',
+        totalAmount: 2200,
+        amountPaid: 2200,
+        discount: 0,
+        fine: 0,
+        paymentMode: 'UPI',
+        student: studentDirectory.find(s => s.id === 'S004')!,
+        fee: fees.find(f => f.id === 'F004')!,
+        paymentDate: '2024-08-03'
+    },
+];
