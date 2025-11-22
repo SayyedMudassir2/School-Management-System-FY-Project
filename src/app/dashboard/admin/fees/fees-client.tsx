@@ -17,7 +17,7 @@ const feeActions = [
         title: "Collect Fees",
         description: "Process and record incoming fee payments.",
         icon: Banknote,
-        href: "/dashboard/admin/fees/collect",
+        href: "/dashboard/admin/fees/structure",
     },
     {
         title: "Fee Receipts",
