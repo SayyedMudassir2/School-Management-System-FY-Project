@@ -23,7 +23,7 @@ const teacherActions = [
         title: "Bulk Import Staff",
         description: "Import staff data from a CSV file for quick setup.",
         icon: Upload,
-        href: "#"
+        href: "/dashboard/admin/teacher-management/bulk-import"
     },
     {
         title: "Assign Class Teacher / Subjects",
