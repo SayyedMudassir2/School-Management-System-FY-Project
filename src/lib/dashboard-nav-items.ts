@@ -15,7 +15,6 @@ import {
     Settings,
     NotebookText,
     ClipboardCheck,
-    BookUser
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -27,7 +26,6 @@ export const navItems: NavItem[] = [
     { title: "School Setup", href: "/dashboard/admin/setup", icon: Building2 },
     { title: "Student Management", href: "/dashboard/admin/student-management", icon: Users },
     { title: "Teacher Management", href: "/dashboard/admin/teacher-management", icon: UserCog },
-    { title: "Assign Teachers", href: "/dashboard/admin/teacher-management/assign", icon: BookUser },
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },

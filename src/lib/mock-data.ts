@@ -51,6 +51,22 @@ export type TeacherProfile = {
     status: 'Active' | 'Inactive';
 };
 
+export type FeeStructure = {
+  id: string;
+  academicYear: string;
+  classId: string;
+  feeHead: string;
+  category: string;
+  amount: number;
+};
+
+export const feeStructures: FeeStructure[] = [
+    { id: 'FS01', academicYear: '2024-2025', classId: '10a', feeHead: 'Tuition Fee (Monthly)', category: 'Academic', amount: 2500 },
+    { id: 'FS02', academicYear: '2024-2025', classId: '10a', feeHead: 'Annual Fee', category: 'Academic', amount: 5000 },
+    { id: 'FS03', academicYear: '2024-2025', classId: '10a', feeHead: 'Lab Fee', category: 'Lab', amount: 1500 },
+    { id: 'FS04', academicYear: '2024-2025', classId: '9a', feeHead: 'Tuition Fee (Monthly)', category: 'Academic', amount: 2200 },
+];
+
 export const teacherDirectory: TeacherProfile[] = [
     { id: 'T01', employeeId: 'EMP101', name: 'Mr. John Smith', avatar: 'https://picsum.photos/seed/teacher1/100/100', designation: 'Head of Science', department: 'Academics', phone: '+1-111-222-3333', email: 'john.smith@aedura.elite', joinDate: '2018-08-15', status: 'Active' },
     { id: 'T02', employeeId: 'EMP102', name: 'Ms. Emily White', avatar: 'https://picsum.photos/seed/teacher2/100/100', designation: 'Mathematics Teacher', department: 'Academics', phone: '+1-222-333-4444', email: 'emily.white@aedura.elite', joinDate: '2020-03-10', status: 'Active' },
