@@ -36,5 +36,6 @@ export const navItems: NavItem[] = [
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },
     { title: "Routes & Stops", href: "/dashboard/admin/transport/routes", icon: Map },
     { title: "Vehicle Management", href: "/dashboard/admin/transport/vehicles", icon: Bus },
+    { title: "Student Assignment", href: "/dashboard/admin/transport/student-assignment", icon: UserCog },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];
