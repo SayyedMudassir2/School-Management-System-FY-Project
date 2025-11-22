@@ -1,7 +1,7 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,6 +51,7 @@ type StatusFilter = 'All' | 'Active' | 'Inactive' | 'Blocked';
 
 export function MembersClient({ students, teachers, issuances }: MembersClientProps) {
   const { toast } = useToast();
+  const router = useRouter();
   
   const combinedMembers = useMemo((): Member[] => {
     const studentMembers: Member[] = students.map(s => ({
@@ -112,6 +113,19 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
   const handleStatusChange = (memberId: string, newStatus: Member['status']) => {
     setMembers(members.map(m => m.id === memberId ? { ...m, status: newStatus } : m));
     toast({ title: 'Status Updated', description: `Member status has been changed to ${newStatus}.` });
+  };
+
+  const handleViewProfile = (member: Member) => {
+    if (member.type === 'Student') {
+      router.push(`/dashboard/admin/student-management/directory/${member.id}`);
+    } else {
+      // For now, teacher profile links to the main teacher list
+      router.push(`/dashboard/admin/teacher-management/list`);
+      toast({
+        title: 'Teacher Profile',
+        description: 'Teacher-specific profile pages are under development. Navigating to the staff directory.'
+      })
+    }
   };
 
   const handleExport = () => {
@@ -243,7 +257,7 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem><User className="mr-2 h-4 w-4" /> View Profile</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleViewProfile(member)}><User className="mr-2 h-4 w-4" /> View Profile</DropdownMenuItem>
                           {member.status !== 'Blocked' && 
                             <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleStatusChange(member.id, 'Blocked')}>
                               <UserX className="mr-2 h-4 w-4" /> Block Member
