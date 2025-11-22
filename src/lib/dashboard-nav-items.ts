@@ -21,6 +21,7 @@ import {
     Map,
     MapPin,
     Wallet,
+    FileBarChart,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -41,5 +42,6 @@ export const navItems: NavItem[] = [
     { title: "Student Assignment", href: "/dashboard/admin/transport/student-assignment", icon: UserCog },
     { title: "Live Tracking", href: "/dashboard/admin/transport/live-tracking", icon: MapPin },
     { title: "Transport Fees", href: "/dashboard/admin/transport/fees", icon: Wallet },
+    { title: "Reports", href: "/dashboard/admin/transport/reports", icon: FileBarChart },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck },
 ];

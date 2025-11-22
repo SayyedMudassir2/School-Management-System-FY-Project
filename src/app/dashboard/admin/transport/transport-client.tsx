@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -57,7 +56,7 @@ const transportManagementLinks = [
     { title: "Student Assignment", icon: UserPlus, href: "/dashboard/admin/transport/student-assignment" },
     { title: "Live Tracking & GPS", icon: MapPin, href: "/dashboard/admin/transport/live-tracking" },
     { title: "Transport Fees", icon: Wallet, href: "/dashboard/admin/transport/fees" },
-    { title: "Reports & Registers", icon: FileBarChart, href: "#" },
+    { title: "Reports & Registers", icon: FileBarChart, href: "/dashboard/admin/transport/reports" },
 ];
 
 const getStatusBadge = (status: string) => {
