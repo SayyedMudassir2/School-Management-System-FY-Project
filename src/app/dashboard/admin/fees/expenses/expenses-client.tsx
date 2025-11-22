@@ -76,7 +76,7 @@ export function ExpensesClient({ initialExpenses }: ExpensesClientProps) {
     } else {
       reset({
         date: format(new Date(), 'yyyy-MM-dd'),
-        amount: 0,
+        amount: undefined,
         category: 'Miscellaneous',
         payee: '',
         paymentMode: 'Cash',
