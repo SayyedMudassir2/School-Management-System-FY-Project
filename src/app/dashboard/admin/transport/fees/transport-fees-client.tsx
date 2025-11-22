@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -55,6 +54,12 @@ type RouteFeeFormValues = z.infer<typeof routeFeeSchema>;
 
 type RouteFee = RouteFeeFormValues & { id: string };
 
+type StudentWithDue = StudentProfile & {
+    routeId?: string;
+    routeName?: string;
+    dueAmount?: number;
+}
+
 type TransportFeesClientProps = {
   allRoutes: TransportRoute[];
   allStudents: StudentProfile[];
@@ -73,6 +78,9 @@ export function TransportFeesClient({ allRoutes, allStudents }: TransportFeesCli
   const [routeFees, setRouteFees] = useState<RouteFee[]>(initialFees);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingFee, setEditingFee] = useState<RouteFee | null>(null);
+  
+  const [isReminderOpen, setIsReminderOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<StudentWithDue | null>(null);
 
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm<RouteFeeFormValues>({
     resolver: zodResolver(routeFeeSchema),
@@ -81,7 +89,7 @@ export function TransportFeesClient({ allRoutes, allStudents }: TransportFeesCli
   const routeMap = useMemo(() => new Map(allRoutes.map(r => [r.id, r.name])), [allRoutes]);
   const routeFeeMap = useMemo(() => new Map(routeFees.map(rf => [rf.routeId, rf.fee])), [routeFees]);
 
-  const studentsWithDues = useMemo(() => {
+  const studentsWithDues: StudentWithDue[] = useMemo(() => {
     return allStudents.map(student => {
       // Fake assignment for demo
       const routeId = student.id === 'S001' || student.id === 'S002' ? 'R01' : 'R02';
@@ -126,6 +134,33 @@ export function TransportFeesClient({ allRoutes, allStudents }: TransportFeesCli
     setRouteFees(routeFees.filter(f => f.id !== feeId));
     toast({ variant: 'destructive', title: 'Deleted', description: 'Route fee has been removed.' });
   }
+
+  const handleOpenReminderDialog = (student: StudentWithDue) => {
+    setSelectedStudent(student);
+    setIsReminderOpen(true);
+  };
+
+  const handleSendEmail = () => {
+    if (!selectedStudent || !selectedStudent.dueAmount) return;
+    
+    const parentEmail = `parent.${selectedStudent.email.split('@')[0]}@example.com`;
+    const subject = `Transport Fee Reminder for ${selectedStudent.name}`;
+    const body = `
+Dear ${selectedStudent.parentName},
+
+This is a friendly reminder that the transport fee payment for ${selectedStudent.name} is outstanding.
+
+Amount Due: $${selectedStudent.dueAmount.toLocaleString()}
+
+Please make the payment at your earliest convenience.
+
+Thank you,
+Aedura Elite School
+    `.trim().replace(/\n/g, '%0A');
+
+    window.location.href = `mailto:${parentEmail}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    setIsReminderOpen(false);
+  };
 
   return (
     <div className="space-y-8">
@@ -184,7 +219,7 @@ export function TransportFeesClient({ allRoutes, allStudents }: TransportFeesCli
                                     <TableCell>{s.routeName}</TableCell>
                                     <TableCell><Badge variant="destructive">${s.dueAmount?.toLocaleString()}</Badge></TableCell>
                                     <TableCell className="text-right">
-                                        <Button size="sm" variant="outline"><Send className="h-3 w-3 mr-1.5"/> Reminder</Button>
+                                        <Button size="sm" variant="outline" onClick={() => handleOpenReminderDialog(s)}><Send className="h-3 w-3 mr-1.5"/> Reminder</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -236,6 +271,30 @@ export function TransportFeesClient({ allRoutes, allStudents }: TransportFeesCli
               <Button type="submit">Save Fee</Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+       <Dialog open={isReminderOpen} onOpenChange={setIsReminderOpen}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Send Transport Fee Reminder</DialogTitle>
+                <DialogDescription>
+                    You are about to send a fee reminder to the parent of <span className="font-semibold">{selectedStudent?.name}</span>.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 text-sm bg-muted/50 rounded-md p-4 border">
+                <h4 className="font-semibold mb-2">Email Preview:</h4>
+                <p><strong>To:</strong> {selectedStudent && `parent.${selectedStudent.email.split('@')[0]}@example.com`}</p>
+                <p><strong>Subject:</strong> Transport Fee Reminder for {selectedStudent?.name}</p>
+                <hr className="my-2"/>
+                <p>Dear {selectedStudent?.parentName},</p>
+                <p className="mt-2">This is a friendly reminder that the transport fee payment of ${selectedStudent?.dueAmount?.toLocaleString()} for {selectedStudent?.name} is outstanding.</p>
+                <p className="mt-2">Thank you.</p>
+            </div>
+            <DialogFooter>
+                <Button variant="ghost" onClick={() => setIsReminderOpen(false)}>Cancel</Button>
+                <Button onClick={handleSendEmail}><Send className="mr-2 h-4 w-4"/>Send Email</Button>
+            </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
