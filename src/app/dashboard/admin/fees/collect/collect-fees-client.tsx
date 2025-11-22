@@ -57,6 +57,37 @@ export function CollectFeesClient({ students: allStudents, initialFees }: Collec
   const handlePrint = () => {
     setPrintableDoc(receiptDetails);
   };
+
+  const handleEmailToParent = () => {
+    if (!receiptDetails) return;
+    
+    const { student, fee, ...payment } = receiptDetails;
+    const parentEmail = `parent.${student.email.split('@')[0]}@example.com`;
+    const subject = `Fee Payment Receipt for ${student.name}`;
+    const body = `
+Dear ${student.parentName},
+
+This is a receipt for the fee payment made for ${student.name}.
+
+Receipt Details:
+----------------
+Invoice Number: ${fee.invoiceNumber}
+Payment Date: ${format(new Date(), 'dd MMM, yyyy')}
+Payment Mode: ${payment.paymentMode}
+
+Tuition & Fees: $${fee.amount.toLocaleString()}
+Late Fine: $${payment.fine.toLocaleString()}
+Discount: -$${payment.discount.toLocaleString()}
+----------------
+Total Amount Paid: $${payment.amountPaid.toLocaleString()}
+----------------
+
+Thank you,
+Aedura Elite School
+    `.trim();
+
+    window.location.href = `mailto:${parentEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
   
   const filteredStudents = useMemo(() => {
     if (!searchTerm) return [];
@@ -268,7 +299,7 @@ export function CollectFeesClient({ students: allStudents, initialFees }: Collec
             )}
             <DialogFooter className="sm:justify-between">
                 <div className="flex gap-2">
-                    <Button variant="outline"><Send className="h-4 w-4 mr-2" />Email to Parent</Button>
+                    <Button variant="outline" onClick={handleEmailToParent}><Send className="h-4 w-4 mr-2" />Email to Parent</Button>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="ghost" onClick={() => setIsReceiptOpen(false)}>Close</Button>
