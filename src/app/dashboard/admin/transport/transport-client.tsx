@@ -2,9 +2,10 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Map, Bus, Users, Clock, IndianRupee, AlertTriangle, UserPlus, FileSearch, MapPin } from "lucide-react";
+import { ArrowRight, Map, Bus, Users, Clock, IndianRupee, AlertTriangle, UserPlus, FileSearch, MapPin, UserCog, FileBarChart, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 const kpiData = [
     {
@@ -47,6 +48,15 @@ const tripStatusData = [
     { route: "Route 8", status: "Reached School", variant: "default" },
     { route: "Route 3", status: "On Time", variant: "success" },
     { route: "Route 15", status: "Started", variant: "secondary" },
+];
+
+const transportManagementLinks = [
+    { title: "Routes & Stops", icon: Map, href: "#" },
+    { title: "Vehicle Management", icon: Bus, href: "#" },
+    { title: "Student Transport Assignment", icon: UserCog, href: "#" },
+    { title: "Live Tracking & GPS", icon: MapPin, href: "#" },
+    { title: "Transport Fees", icon: Wallet, href: "#" },
+    { title: "Reports & Registers", icon: FileBarChart, href: "#" },
 ];
 
 const getStatusBadge = (status: string) => {
@@ -133,12 +143,17 @@ export function TransportClient() {
                 </Card>
                  <Card className="glassmorphic">
                     <CardHeader>
-                        <CardTitle>Manage Transport</CardTitle>
-                        <CardDescription>Configure routes, vehicles and other transport settings.</CardDescription>
+                        <CardTitle>Transport Management</CardTitle>
+                        <CardDescription>Configure all transport settings.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                        <Button variant="outline" className="w-full justify-start gap-2"><Map className="h-4 w-4"/> Routes & Stops</Button>
-                        <Button variant="outline" className="w-full justify-start gap-2"><Bus className="h-4 w-4"/> Vehicle Management</Button>
+                        {transportManagementLinks.map(link => (
+                             <Button key={link.title} variant="outline" className="w-full justify-start gap-2" asChild>
+                                <Link href={link.href}>
+                                    <link.icon className="h-4 w-4"/> {link.title}
+                                </Link>
+                            </Button>
+                        ))}
                     </CardContent>
                 </Card>
             </div>
