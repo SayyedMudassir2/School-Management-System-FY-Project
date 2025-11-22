@@ -27,6 +27,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { type StudentProfile, type TeacherProfile, type BookIssuance } from '@/lib/mock-data';
 import { useToast } from '@/hooks/use-toast';
+import Papa from 'papaparse';
 
 type Member = {
   id: string;
@@ -37,6 +38,7 @@ type Member = {
   status: 'Active' | 'Inactive' | 'Blocked';
   issuedBooks: number;
   totalFine: number;
+  email: string; // Add email for export
 };
 
 type MembersClientProps = {
@@ -59,7 +61,8 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
       type: 'Student',
       status: s.status === 'Active' ? 'Active' : 'Inactive',
       issuedBooks: issuances.filter(i => i.studentId === s.id && !i.returnDate).length,
-      totalFine: issuances.filter(i => i.studentId === s.id && i.fine > 0 && !i.finePaid).reduce((sum, i) => sum + i.fine, 0)
+      totalFine: issuances.filter(i => i.studentId === s.id && i.fine > 0 && !i.finePaid).reduce((sum, i) => sum + i.fine, 0),
+      email: s.email,
     }));
 
     const teacherMembers: Member[] = teachers.map(t => ({
@@ -71,6 +74,7 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
       status: t.status,
       issuedBooks: 0, // Assuming teachers don't borrow for this example
       totalFine: 0,
+      email: t.email,
     }));
     
     return [...studentMembers, ...teacherMembers];
@@ -108,6 +112,35 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
   const handleStatusChange = (memberId: string, newStatus: Member['status']) => {
     setMembers(members.map(m => m.id === memberId ? { ...m, status: newStatus } : m));
     toast({ title: 'Status Updated', description: `Member status has been changed to ${newStatus}.` });
+  };
+
+  const handleExport = () => {
+    const dataToExport = filteredMembers.map(member => ({
+      'Member ID': member.memberId,
+      'Name': member.name,
+      'Email': member.email,
+      'Type': member.type,
+      'Status': member.status,
+      'Books Issued': member.issuedBooks,
+      'Fine Due ($)': member.totalFine,
+    }));
+
+    const csv = Papa.unparse(dataToExport);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'library-members.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+     toast({
+      title: 'Export Complete',
+      description: `${dataToExport.length} member records have been exported.`,
+    });
   };
 
   return (
@@ -166,7 +199,7 @@ export function MembersClient({ students, teachers, issuances }: MembersClientPr
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Button variant="outline"><FileText className="mr-2 h-4 w-4"/>Export</Button>
+              <Button variant="outline" onClick={handleExport}><FileText className="mr-2 h-4 w-4"/>Export</Button>
             </div>
           </div>
         </CardHeader>
