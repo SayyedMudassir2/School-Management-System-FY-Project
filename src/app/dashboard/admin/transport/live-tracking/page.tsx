@@ -20,14 +20,14 @@ export default function LiveTrackingPage() {
         <CardContent>
             <div className="relative w-full h-[600px] bg-muted rounded-lg overflow-hidden border">
                 <Image
-                    src="https://picsum.photos/seed/map/1920/1080"
-                    alt="Live Map"
+                    src="https://storage.googleapis.com/aieditor-code-gen-files/809c9584-6330-4e55-8025-b89155f973c7.png"
+                    alt="Live Map of city"
                     layout="fill"
                     objectFit="cover"
                     className="absolute inset-0"
                     data-ai-hint="satellite map"
                 />
-                 <div className="absolute inset-0 bg-black/50"></div>
+                 <div className="absolute inset-0 bg-black/20"></div>
                  <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold bg-black/50 p-4 rounded-md">
                     Live Map Interface
                  </p>
