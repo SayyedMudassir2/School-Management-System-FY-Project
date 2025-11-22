@@ -34,7 +34,7 @@ type CollectFeesClientProps = {
 };
 
 export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectFeesClientProps) {
-  const [selectedClass, setSelectedClass] = useState<string>('');
+  const [selectedClass, setSelectedClass] = useState<string>('all');
   const [students, setStudents] = useState<StudentProfile[]>(allStudents);
   const [fees, setFees] = useState<Fee[]>(allFees);
   const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
@@ -48,7 +48,7 @@ export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectF
   });
 
   const studentsInClass = useMemo(() => {
-    if (!selectedClass) return allStudents;
+    if (selectedClass === 'all') return allStudents;
     const classNameToMatch = allClasses.find(c => c.id === selectedClass)?.name;
     if (!classNameToMatch) return allStudents;
     const [grade, section] = classNameToMatch.split('-');
@@ -111,7 +111,7 @@ export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectF
                 <SelectValue placeholder="Select a class" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Classes</SelectItem>
+                <SelectItem value="all">All Classes</SelectItem>
                 {allClasses.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
               </SelectContent>
             </Select>
