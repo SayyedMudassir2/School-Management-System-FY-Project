@@ -41,6 +41,7 @@ const feeActions = [
         title: "Income–Expense Report",
         description: "Generate detailed financial reports and analytics.",
         icon: BarChart2,
+        href: "/dashboard/admin/fees/income-expense-report",
     }
 ];
 

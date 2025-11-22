@@ -16,6 +16,7 @@ import {
     NotebookText,
     ClipboardCheck,
     TrendingDown,
+    BarChart2,
   } from "lucide-react";
 
 export const navItems: NavItem[] = [
@@ -29,6 +30,7 @@ export const navItems: NavItem[] = [
     { title: "Teacher Management", href: "/dashboard/admin/teacher-management", icon: UserCog },
     { title: "Fees Management", href: "/dashboard/admin/fees", icon: Banknote },
     { title: "Expenses", href: "/dashboard/admin/fees/expenses", icon: TrendingDown },
+    { title: "Financial Report", href: "/dashboard/admin/fees/income-expense-report", icon: BarChart2 },
     { title: "Communication", href: "/dashboard/admin/communication", icon: MessageCircle },
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus },

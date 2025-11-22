@@ -313,3 +313,21 @@ export const expenses: Expense[] = [
     { id: 'EXP003', date: '2024-07-22', amount: 5000, category: 'Maintenance', payee: 'General Repairs Co.', paymentMode: 'Cheque' },
     { id: 'EXP004', date: '2024-07-20', amount: 2000, category: 'Stationery', payee: 'Office Supplies Inc.', paymentMode: 'Cash' },
 ];
+
+export const mockIncome = [
+  { month: "Feb", income: 210000 },
+  { month: "Mar", income: 215000 },
+  { month: "Apr", income: 230000 },
+  { month: "May", income: 225000 },
+  { month: "Jun", income: 240000 },
+  { month: "Jul", income: 255000 },
+];
+
+export const mockExpenseSummary = [
+  { month: "Feb", expenses: 180000 },
+  { month: "Mar", expenses: 185000 },
+  { month: "Apr", expenses: 195000 },
+  { month: "May", expenses: 190000 },
+  { month: "Jun", expenses: 205000 },
+  { month: "Jul", expenses: 213000 },
+];
