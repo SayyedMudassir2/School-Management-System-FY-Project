@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from "react";
@@ -9,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search, AlertCircle, FileWarning, BadgeDollarSign, Star, ArrowRight } from "lucide-react";
+import { PlusCircle, MoreHorizontal, BookUp, BookDown, BookOpen, Book, Users, Search, ArrowRight, BadgeDollarSign, FileWarning, Star } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -30,12 +31,12 @@ import {
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { format, isAfter, isThisMonth } from "date-fns";
+import { isAfter, isThisMonth } from "date-fns";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 const bookSchema = z.object({
   id: z.string().optional(),
@@ -48,13 +49,6 @@ const bookSchema = z.object({
 });
 
 type Book = z.infer<typeof bookSchema>;
-
-const issueSchema = z.object({
-  bookId: z.string().min(1, "A book is required"),
-  studentId: z.string().min(1, "A student is required"),
-});
-
-type IssueFormData = z.infer<typeof issueSchema>;
 
 type BookIssuance = {
   id: string;
@@ -74,12 +68,6 @@ type LibraryClientProps = {
 };
 
 const libraryActions = [
-    {
-        title: "Books Catalog",
-        description: "Manage the collection of books and digital resources.",
-        icon: Book,
-        href: "/dashboard/admin/library"
-    },
     {
         title: "Issue/Return Books",
         description: "Track borrowed books and manage returns.",
@@ -104,28 +92,23 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
   const [books, setBooks] = useState<Book[]>(initialBooks);
   const [issuances, setIssuances] = useState<BookIssuance[]>(initialIssuances);
   const [isBookDialogOpen, setIsBookDialogOpen] = useState(false);
-  const [isIssueDialogOpen, setIsIssueDialogOpen] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
-  const [issuingBook, setIssuingBook] = useState<Book | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { toast } = useToast();
 
-  const studentMap = new Map(students.map(s => [s.id, s.name]));
-  const bookMap = new Map(books.map(b => [b.id, b.title]));
+  const studentMap = useMemo(() => new Map(students.map(s => [s.id, s.name])), [students]);
+  const bookMap = useMemo(() => new Map(books.map(b => [b.id, b.title])), [books]);
 
-  const bookForm = useForm<Book>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Book>({
     resolver: zodResolver(bookSchema),
-  });
-
-  const issueForm = useForm<IssueFormData>({
-    resolver: zodResolver(issueSchema),
   });
 
   const handleOpenBookDialog = (book: Book | null = null) => {
     setEditingBook(book);
     if (book) {
-      bookForm.reset(book);
+      reset(book);
     } else {
-      bookForm.reset({ title: "", author: "", subject: "", isbn: "", quantity: 1, available: 1 });
+      reset({ title: "", author: "", subject: "", isbn: "", quantity: 1, available: 1 });
     }
     setIsBookDialogOpen(true);
   };
@@ -133,68 +116,19 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
   const onBookSubmit: SubmitHandler<Book> = (data) => {
     if (editingBook) {
       setBooks(books.map(b => b.id === editingBook.id ? { ...b, ...data } : b));
+      toast({ title: "Book Updated", description: `${data.title} has been updated.` });
     } else {
-      const newBook = { ...data, id: `B${(books.length + 10).toString().padStart(3, '0')}` };
-      setBooks([...books, newBook]);
+      const newBook = { ...data, id: `B${Date.now()}` };
+      setBooks([newBook, ...books]);
+      toast({ title: "Book Added", description: `${data.title} has been added to the catalog.` });
     }
     setIsBookDialogOpen(false);
-  };
-  
-  const handleOpenIssueDialog = (book: Book) => {
-    setIssuingBook(book);
-    issueForm.reset({ bookId: book.id, studentId: '' });
-    setIsIssueDialogOpen(true);
-  };
-
-  const onIssueSubmit: SubmitHandler<IssueFormData> = (data) => {
-    const issueDate = new Date();
-    const dueDate = new Date();
-    dueDate.setDate(issueDate.getDate() + 14); // 2-week borrowing period
-
-    const newIssuance: BookIssuance = {
-      id: `I${(issuances.length + 1).toString().padStart(3, '0')}`,
-      bookId: data.bookId,
-      studentId: data.studentId,
-      issueDate: issueDate.toISOString(),
-      dueDate: dueDate.toISOString(),
-      returnDate: null,
-      fine: 0,
-      finePaid: false
-    };
-    
-    setIssuances([...issuances, newIssuance]);
-    setBooks(books.map(b => b.id === data.bookId ? { ...b, available: b.available - 1 } : b));
-    setIsIssueDialogOpen(false);
-  };
-
-  const handleReturnBook = (issuanceId: string) => {
-    let bookToUpdate: string | null = null;
-    const updatedIssuances = issuances.map(i => {
-        if (i.id === issuanceId) {
-            bookToUpdate = i.bookId;
-            const isOverdue = isAfter(new Date(), new Date(i.dueDate));
-            // Simple fine calculation: $5 if overdue
-            const fine = isOverdue && i.fine === 0 ? 5 : i.fine;
-            return { ...i, returnDate: new Date().toISOString(), fine };
-        }
-        return i;
-    });
-
-    setIssuances(updatedIssuances);
-    if (bookToUpdate) {
-        setBooks(books.map(b => b.id === bookToUpdate ? { ...b, available: b.available + 1 } : b));
-    }
-  };
-
-  const handlePayFine = (issuanceId: string) => {
-    setIssuances(issuances.map(i => i.id === issuanceId ? { ...i, finePaid: true } : i));
   };
 
   const {
     totalBooks,
     pendingReturns,
     overdueBooks,
-    totalFine,
     fineCollectedThisMonth,
     mostBorrowed,
   } = useMemo(() => {
@@ -202,7 +136,6 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
     const currentIssuances = issuances.filter(i => !i.returnDate);
     
     const overdue = currentIssuances.filter(i => isAfter(now, new Date(i.dueDate)));
-    const totalFineAmt = overdue.reduce((sum, i) => sum + i.fine, 0);
 
     const collectedThisMonth = issuances.filter(i => 
       i.finePaid && i.returnDate && isThisMonth(new Date(i.returnDate))
@@ -219,30 +152,19 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
       .map(([bookId, count]) => ({ bookId, title: bookMap.get(bookId) || "Unknown Book", count }));
 
     return {
-      totalBooks: books.reduce((sum, book) => sum + book.quantity, 0),
+      totalBooks: books.reduce((sum, book) => sum + (book.quantity || 0), 0),
       pendingReturns: currentIssuances.length,
       overdueBooks: overdue.length,
-      totalFine: totalFineAmt,
       fineCollectedThisMonth: collectedThisMonth,
       mostBorrowed: topBorrowed,
     };
   }, [books, issuances, bookMap]);
 
-  const bookWithIssuance = useMemo(() => {
-    const issuanceMap = new Map<string, BookIssuance[]>();
-    issuances.filter(i => !i.returnDate).forEach(i => {
-      const bookIssuances = issuanceMap.get(i.bookId) || [];
-      bookIssuances.push(i);
-      issuanceMap.set(i.bookId, bookIssuances);
-    });
-    return issuanceMap;
-  }, [issuances]);
-
   const filteredBooks = useMemo(() => {
     return books.filter(book => 
       book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.subject.toLowerCase().includes(searchTerm.toLowerCase())
+      (book.subject && book.subject.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }, [books, searchTerm]);
 
@@ -256,7 +178,7 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{pendingReturns}</div>
-                    <p className="text-xs text-muted-foreground">Currently borrowed by students</p>
+                    <p className="text-xs text-muted-foreground">Currently borrowed books</p>
                 </CardContent>
             </Card>
             <Card className="glassmorphic">
@@ -266,16 +188,16 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{overdueBooks}</div>
-                    <p className="text-xs text-muted-foreground">Total outstanding fine: ${totalFine}</p>
+                     <p className="text-xs text-muted-foreground">Books not returned on time</p>
                 </CardContent>
             </Card>
             <Card className="glassmorphic">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Fine Collected</CardTitle>
+                    <CardTitle className="text-sm font-medium">Fine Collected</CardTitle>
                     <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">${fineCollectedThisMonth}</div>
+                    <div className="text-2xl font-bold">${fineCollectedThisMonth.toLocaleString()}</div>
                     <p className="text-xs text-muted-foreground">This month</p>
                 </CardContent>
             </Card>
@@ -285,14 +207,14 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                     <Book className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">{totalBooks}</div>
-                    <p className="text-xs text-muted-foreground">Across all subjects</p>
+                    <div className="text-2xl font-bold">{totalBooks.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground">Total unique titles: {books.length}</p>
                 </CardContent>
             </Card>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {libraryActions.map((action) => (
-                <Card key={action.title} className="glassmorphic">
+                <Card key={action.title} className="glassmorphic flex flex-col justify-between">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3">
                             <action.icon className="h-6 w-6 text-primary" />
@@ -316,12 +238,14 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                     <CardHeader>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                             <div>
-                                <CardTitle>Book Inventory</CardTitle>
+                                <CardTitle>Book Catalog</CardTitle>
                                 <CardDescription>A list of all books in the library.</CardDescription>
                             </div>
-                            <Button onClick={() => handleOpenBookDialog()}>
-                                <PlusCircle className="mr-2 h-4 w-4" /> Add New Book
-                            </Button>
+                             <div className="flex gap-2">
+                                <Button onClick={() => handleOpenBookDialog()} className="w-full sm:w-auto">
+                                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Book
+                                </Button>
+                             </div>
                         </div>
                         <div className="mt-4 flex flex-col sm:flex-row gap-4">
                             <div className="relative flex-1">
@@ -336,6 +260,7 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                         </div>
                     </CardHeader>
                     <CardContent>
+                        <div className="border rounded-md">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -347,15 +272,13 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {filteredBooks.map(book => {
-                                const isIssued = (bookWithIssuance.get(book.id!) || []).length > 0;
-                                return (
+                                {filteredBooks.map(book => (
                                     <TableRow key={book.id}>
                                         <TableCell className="font-medium">{book.title}</TableCell>
                                         <TableCell>{book.author}</TableCell>
                                         <TableCell>{book.subject}</TableCell>
                                         <TableCell>
-                                            <Badge variant={book.available > 0 ? 'default' : 'secondary'} className={book.available > 0 ? 'bg-green-500/20 text-green-700 border-green-500/20' : ''}>
+                                            <Badge variant={book.available > 0 ? 'default' : 'secondary'} className={book.available > 0 ? 'bg-green-500/20 text-green-700 border-green-500/20' : 'bg-destructive/20 text-destructive-foreground'}>
                                                 {book.available} / {book.quantity} Available
                                             </Badge>
                                         </TableCell>
@@ -369,31 +292,23 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem onClick={() => handleOpenIssueDialog(book)} disabled={book.available === 0}>
-                                                <BookUp className="mr-2 h-4 w-4" />
-                                                Issue Book
-                                            </DropdownMenuItem>
-                                            {isIssued && <DropdownMenuSeparator />}
-                                            {isIssued && <DropdownMenuLabel>Issued To</DropdownMenuLabel>}
-                                            {(bookWithIssuance.get(book.id!) || []).map(issuance => (
-                                                <DropdownMenuItem key={issuance.id} onClick={() => handleReturnBook(issuance.id)}>
-                                                    <BookDown className="mr-2 h-4 w-4" />
-                                                    <span>Return from {studentMap.get(issuance.studentId)}</span>
-                                                </DropdownMenuItem>
-                                            ))}
-                                            <DropdownMenuSeparator />
                                             <DropdownMenuItem onClick={() => handleOpenBookDialog(book)}>
                                                 <BookOpen className="mr-2 h-4 w-4" />
                                                 View/Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem disabled>
+                                                <BookUp className="mr-2 h-4 w-4" />
+                                                <span>Issue Book</span>
                                             </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                         </TableCell>
                                     </TableRow>
-                                );
-                                })}
+                                ))}
                             </TableBody>
                         </Table>
+                        </div>
                     </CardContent>
                 </Card>
             </div>
@@ -434,80 +349,45 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                     {editingBook ? "Update the details for this book." : "Enter details for a new book."}
                 </DialogDescription>
             </DialogHeader>
-            <form onSubmit={bookForm.handleSubmit(onBookSubmit)}>
+            <form onSubmit={handleSubmit(onBookSubmit)}>
                 <div className="grid gap-4 py-4">
                     <div className="space-y-2">
                         <Label htmlFor="title">Title</Label>
-                        <Input id="title" {...bookForm.register("title")} />
-                        {bookForm.formState.errors.title && <p className="text-destructive text-xs">{bookForm.formState.errors.title.message}</p>}
+                        <Input id="title" {...register("title")} />
+                        {errors.title && <p className="text-destructive text-xs">{errors.title.message}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="author">Author</Label>
-                        <Input id="author" {...bookForm.register("author")} />
-                        {bookForm.formState.errors.author && <p className="text-destructive text-xs">{bookForm.formState.errors.author.message}</p>}
+                        <Input id="author" {...register("author")} />
+                        {errors.author && <p className="text-destructive text-xs">{errors.author.message}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="subject">Subject</Label>
-                        <Input id="subject" {...bookForm.register("subject")} />
-                        {bookForm.formState.errors.subject && <p className="text-destructive text-xs">{bookForm.formState.errors.subject.message}</p>}
+                        <Input id="subject" {...register("subject")} />
+                        {errors.subject && <p className="text-destructive text-xs">{errors.subject.message}</p>}
                     </div>
                      <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="quantity">Total Quantity</Label>
-                            <Input id="quantity" type="number" {...bookForm.register("quantity")} />
-                            {bookForm.formState.errors.quantity && <p className="text-destructive text-xs">{bookForm.formState.errors.quantity.message}</p>}
+                            <Input id="quantity" type="number" {...register("quantity")} />
+                            {errors.quantity && <p className="text-destructive text-xs">{errors.quantity.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="available">Available</Label>
-                            <Input id="available" type="number" {...bookForm.register("available")} />
-                            {bookForm.formState.errors.available && <p className="text-destructive text-xs">{bookForm.formState.errors.available.message}</p>}
+                            <Label htmlFor="available">Available Copies</Label>
+                            <Input id="available" type="number" {...register("available")} />
+                            {errors.available && <p className="text-destructive text-xs">{errors.available.message}</p>}
                         </div>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="isbn">ISBN</Label>
-                        <Input id="isbn" {...bookForm.register("isbn")} />
+                        <Input id="isbn" {...register("isbn")} />
                     </div>
                 </div>
                 <DialogFooter>
                     <Button type="button" variant="ghost" onClick={() => setIsBookDialogOpen(false)}>Cancel</Button>
-                    <Button type="submit">Save Changes</Button>
+                    <Button type="submit">Save Book</Button>
                 </DialogFooter>
             </form>
-            </DialogContent>
-        </Dialog>
-        
-        <Dialog open={isIssueDialogOpen} onOpenChange={setIsIssueDialogOpen}>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Issue Book: {issuingBook?.title}</DialogTitle>
-                    <DialogDescription>Select a student to issue this book to.</DialogDescription>
-                </DialogHeader>
-                <form onSubmit={issueForm.handleSubmit(onIssueSubmit)}>
-                    <div className="grid gap-4 py-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="studentId">Student</Label>
-                            <Controller
-                                control={issueForm.control}
-                                name="studentId"
-                                render={({ field }) => (
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger id="studentId">
-                                        <SelectValue placeholder="Select a student" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {students.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                                )}
-                            />
-                            {issueForm.formState.errors.studentId && <p className="text-destructive text-xs">{issueForm.formState.errors.studentId.message}</p>}
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button type="button" variant="ghost" onClick={() => setIsIssueDialogOpen(false)}>Cancel</Button>
-                        <Button type="submit">Issue Book</Button>
-                    </DialogFooter>
-                </form>
             </DialogContent>
         </Dialog>
     </>

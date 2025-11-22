@@ -8,7 +8,7 @@ export default function LibraryPage() {
     <>
       <PageHeader
         title="Smart Library"
-        description="You can manage book repositories, track issues, and gain insights on borrowing."
+        description="Manage book repositories, track circulation, and gain insights."
       />
       <LibraryClient 
         initialBooks={books}

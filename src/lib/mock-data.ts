@@ -184,8 +184,17 @@ export const revenueOverviewData = [
     { month: "Jun", revenue: 67000 },
 ];
 
+export type Book = {
+  id?: string;
+  title: string;
+  author: string;
+  subject: string;
+  isbn?: string;
+  quantity: number;
+  available: number;
+};
 
-export const books = [
+export const books: Book[] = [
   { id: 'B001', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', subject: 'Literature', isbn: '978-0743273565', quantity: 5, available: 2 },
   { id: 'B002', title: 'To Kill a Mockingbird', author: 'Harper Lee', subject: 'Literature', isbn: '978-0061120084', quantity: 3, available: 1 },
   { id: 'B003', title: '1984', author: 'George Orwell', subject: 'Dystopian Fiction', isbn: '978-0451524935', quantity: 4, available: 4 },
@@ -194,7 +203,19 @@ export const books = [
   { id: 'B006', title: 'The Elements of Style', author: 'Strunk & White', subject: 'Writing', isbn: '978-0205309023', quantity: 8, available: 8 },
 ];
 
-export const bookIssuances = [
+export type BookIssuance = {
+  id: string;
+  bookId: string;
+  studentId: string;
+  issueDate: string;
+  dueDate: string;
+  returnDate: string | null;
+  fine: number;
+  finePaid: boolean;
+};
+
+
+export const bookIssuances: BookIssuance[] = [
   // --- Current Month ---
   // Overdue, not paid
   { id: 'I001', bookId: 'B001', studentId: 'S001', issueDate: new Date(new Date().setDate(new Date().getDate() - 20)).toISOString(), dueDate: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(), returnDate: null, fine: 10, finePaid: false },
