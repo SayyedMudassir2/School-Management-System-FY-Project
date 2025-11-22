@@ -76,7 +76,7 @@ export function ExpensesClient({ initialExpenses }: ExpensesClientProps) {
     } else {
       reset({
         date: format(new Date(), 'yyyy-MM-dd'),
-        amount: undefined,
+        amount: '' as any, // Reset to empty string
         category: 'Miscellaneous',
         payee: '',
         paymentMode: 'Cash',
@@ -225,7 +225,7 @@ export function ExpensesClient({ initialExpenses }: ExpensesClientProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="amount">Amount</Label>
-                <Input id="amount" type="number" {...register('amount')} placeholder="e.g., 5000" />
+                <Input id="amount" type="text" inputMode="decimal" {...register('amount')} placeholder="e.g., 5000" />
                 {errors.amount && <p className="text-destructive text-xs mt-1">{errors.amount.message}</p>}
               </div>
               <div className="space-y-2">
