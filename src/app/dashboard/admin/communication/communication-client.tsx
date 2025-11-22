@@ -111,7 +111,7 @@ export function CommunicationClient() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-        <div className="md:col-span-2">
+        <div className="lg:col-span-2">
             <Card className="glassmorphic">
                 <CardHeader>
                     <CardTitle>Quick Send</CardTitle>
@@ -241,12 +241,12 @@ export function CommunicationClient() {
                 </CardContent>
             </Card>
         </div>
-        <div className="md:col-span-1 space-y-8">
+        <div className="lg:col-span-1 space-y-8">
             <Card className="glassmorphic">
                 <CardHeader>
                     <CardTitle>Quick Stats (This Month)</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-3 gap-4 text-center">
+                <CardContent className="flex flex-col sm:flex-row sm:justify-around gap-4 text-center">
                     <div>
                         <p className="text-2xl font-bold">1,240</p>
                         <p className="text-xs text-muted-foreground">SMS Sent</p>
