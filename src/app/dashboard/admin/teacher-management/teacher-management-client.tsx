@@ -17,7 +17,7 @@ const teacherActions = [
         title: "Add New Teacher/Staff",
         description: "Onboard a new faculty or staff member.",
         icon: UserPlus,
-        href: "#"
+        href: "/dashboard/admin/teacher-management/add"
     },
     {
         title: "Bulk Import Staff",
