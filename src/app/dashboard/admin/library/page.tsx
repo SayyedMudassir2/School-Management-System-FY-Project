@@ -1,7 +1,7 @@
 
 import { PageHeader } from "../../components/page-header";
 import { LibraryClient } from "./library-client";
-import { books, students, bookIssuances } from "@/lib/mock-data";
+import { books, studentDirectory, bookIssuances } from "@/lib/mock-data";
 
 export default function LibraryPage() {
   return (
@@ -12,7 +12,7 @@ export default function LibraryPage() {
       />
       <LibraryClient 
         initialBooks={books}
-        students={students}
+        students={studentDirectory}
         initialIssuances={bookIssuances}
       />
     </>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -36,6 +35,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format, isAfter, isThisMonth } from "date-fns";
+import Link from "next/link";
 
 const bookSchema = z.object({
   id: z.string().optional(),
@@ -78,21 +78,25 @@ const libraryActions = [
         title: "Books Catalog",
         description: "Manage the collection of books and digital resources.",
         icon: Book,
+        href: "/dashboard/admin/library"
     },
     {
         title: "Issue/Return Books",
         description: "Track borrowed books and manage returns.",
         icon: BookUp,
+        href: "/dashboard/admin/library/issue-return"
     },
     {
         title: "Members",
         description: "View and manage all library members.",
         icon: Users,
+        href: "#"
     },
     {
         title: "Fine Management",
         description: "Handle overdue fines and payments.",
         icon: BadgeDollarSign,
+        href: "#"
     }
 ];
 
@@ -297,8 +301,10 @@ export function LibraryClient({ initialBooks, students, initialIssuances }: Libr
                         <CardDescription>{action.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Button variant="outline">
-                            Manage <ArrowRight className="ml-2 h-4 w-4" />
+                        <Button variant="outline" asChild>
+                            <Link href={action.href}>
+                                Manage <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
                         </Button>
                     </CardContent>
                 </Card>
