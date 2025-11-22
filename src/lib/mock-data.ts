@@ -358,13 +358,20 @@ export const mockExpenseSummary = [
 export type Vehicle = {
     id: string;
     number: string;
+    type: 'Bus' | 'Van' | 'Car';
     capacity: number;
+    driverId?: string;
+    routeId?: string;
+    insuranceDue: string;
+    pucDue: string;
+    status: 'Active' | 'In Service' | 'Inactive';
 };
 
 export const vehicles: Vehicle[] = [
-    { id: 'V01', number: 'DL-01-AB-1234', capacity: 40 },
-    { id: 'V02', number: 'HR-02-CD-5678', capacity: 50 },
-    { id: 'V03', number: 'UP-03-EF-9012', capacity: 40 },
+    { id: 'V01', number: 'DL-01-AB-1234', type: 'Bus', capacity: 40, driverId: 'T06', routeId: 'R01', insuranceDue: '2025-03-15', pucDue: '2024-09-20', status: 'Active' },
+    { id: 'V02', number: 'HR-02-CD-5678', type: 'Bus', capacity: 50, driverId: 'T07', routeId: 'R02', insuranceDue: '2024-08-10', pucDue: '2024-11-05', status: 'Active' },
+    { id: 'V03', number: 'UP-03-EF-9012', type: 'Van', capacity: 12, driverId: undefined, routeId: undefined, insuranceDue: '2025-01-20', pucDue: '2024-12-15', status: 'Inactive' },
+    { id: 'V04', number: 'MH-04-GH-3456', type: 'Bus', capacity: 45, driverId: undefined, routeId: undefined, insuranceDue: '2024-07-30', pucDue: '2024-10-10', status: 'In Service' },
 ];
 
 export type TransportRoute = {
