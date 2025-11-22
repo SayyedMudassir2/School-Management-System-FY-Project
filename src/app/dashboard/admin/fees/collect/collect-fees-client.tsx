@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +24,6 @@ import { FileText, Printer, DollarSign } from "lucide-react";
 import { useToast } from '@/hooks/use-toast';
 import { type StudentProfile, type Fee } from '@/lib/mock-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { useReactToPrint } from 'react-to-print';
 import { InvoicePrint } from '../invoice-print';
 
 type CollectFeesClientProps = {
@@ -41,11 +40,21 @@ export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectF
   const [selectedFee, setSelectedFee] = useState<Fee | null>(null);
   const { toast } = useToast();
 
-  const invoicePrintRef = useRef<HTMLDivElement>(null);
-  
-  const handlePrint = useReactToPrint({
-    content: () => invoicePrintRef.current,
-  });
+  const [printableDoc, setPrintableDoc] = useState<Fee | null>(null);
+
+  useEffect(() => {
+    if (printableDoc) {
+      window.print();
+      setPrintableDoc(null);
+    }
+  }, [printableDoc]);
+
+  const handlePrint = () => {
+    if (!selectedFee) return;
+    setPrintableDoc(selectedFee);
+    setIsInvoiceDialogOpen(false);
+  };
+
 
   const studentsInClass = useMemo(() => {
     if (selectedClass === 'all') return allStudents;
@@ -96,11 +105,18 @@ export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectF
   };
 
   const selectedStudent = allStudents.find(s => s.id === selectedFee?.studentId);
+  const printableStudent = allStudents.find(s => s.id === printableDoc?.studentId);
 
 
   return (
     <>
-      <Card className="glassmorphic">
+       <div className="printable-area">
+        {printableDoc && printableStudent && (
+          <InvoicePrint fee={printableDoc} studentName={printableStudent.name} />
+        )}
+      </div>
+
+      <Card className="glassmorphic non-printable">
         <CardHeader>
           <CardTitle>Student Fee Management</CardTitle>
           <CardDescription>Filter by class to view student fee statuses and take action.</CardDescription>
@@ -161,14 +177,6 @@ export function CollectFeesClient({ allClasses, allStudents, allFees }: CollectF
         </CardContent>
       </Card>
       
-      <div style={{ display: 'none' }}>
-        {selectedFee && selectedStudent && (
-            <div ref={invoicePrintRef}>
-                <InvoicePrint fee={selectedFee} studentName={selectedStudent.name} />
-            </div>
-        )}
-      </div>
-
       <Dialog open={isInvoiceDialogOpen} onOpenChange={setIsInvoiceDialogOpen}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
