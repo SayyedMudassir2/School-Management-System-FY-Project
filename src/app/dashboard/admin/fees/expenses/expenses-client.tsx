@@ -116,7 +116,7 @@ export function ExpensesClient({ initialExpenses }: ExpensesClientProps) {
     const end = endOfMonth(new Date());
     return filteredExpenses
         .filter(e => new Date(e.date) >= start && new Date(e.date) <= end)
-        .reduce((sum, e) => sum + e.amount, 0);
+        .reduce((sum, e) => sum + Number(e.amount), 0);
   }, [filteredExpenses]);
 
   return (
@@ -186,7 +186,7 @@ export function ExpensesClient({ initialExpenses }: ExpensesClientProps) {
                       <TableCell className="font-medium">{expense.payee}</TableCell>
                       <TableCell><Badge variant="secondary">{expense.category}</Badge></TableCell>
                       <TableCell>{expense.paymentMode}</TableCell>
-                      <TableCell className="text-right font-semibold">${expense.amount.toLocaleString()}</TableCell>
+                      <TableCell className="text-right font-semibold">${Number(expense.amount).toLocaleString()}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
