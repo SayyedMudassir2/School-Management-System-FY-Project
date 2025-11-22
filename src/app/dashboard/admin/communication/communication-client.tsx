@@ -110,8 +110,8 @@ export function CommunicationClient() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+        <div className="md:col-span-2">
             <Card className="glassmorphic">
                 <CardHeader>
                     <CardTitle>Quick Send</CardTitle>
@@ -207,7 +207,7 @@ export function CommunicationClient() {
                             />
                         </div>
                         {scheduleType === 'later' && (
-                             <div className="grid grid-cols-2 gap-4 animate-in fade-in-0 duration-300">
+                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in-0 duration-300">
                                 <Controller
                                     name="scheduleDate"
                                     control={control}
@@ -228,20 +228,20 @@ export function CommunicationClient() {
                                 <Input type="time" />
                             </div>
                         )}
-                         <CardFooter className="px-0 pt-6 flex flex-wrap gap-2 justify-between">
-                            <div>
+                         <CardFooter className="px-0 pt-6 flex flex-col sm:flex-row sm:justify-between gap-4">
+                            <div className="flex-shrink-0">
                                 <Button type="button" variant="ghost"><Save className="mr-2 h-4 w-4" /> Save as Template</Button>
                             </div>
-                            <div className="flex gap-2">
-                                <Button type="button" variant="outline"><Eye className="mr-2 h-4 w-4" /> Preview</Button>
-                                <Button type="submit"><Send className="mr-2 h-4 w-4" /> Send Message</Button>
+                            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                <Button type="button" variant="outline" className="w-full"><Eye className="mr-2 h-4 w-4" /> Preview</Button>
+                                <Button type="submit" className="w-full"><Send className="mr-2 h-4 w-4" /> Send Message</Button>
                             </div>
                          </CardFooter>
                     </form>
                 </CardContent>
             </Card>
         </div>
-        <div className="lg:col-span-1 space-y-8">
+        <div className="md:col-span-1 space-y-8">
             <Card className="glassmorphic">
                 <CardHeader>
                     <CardTitle>Quick Stats (This Month)</CardTitle>
