@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -92,25 +93,6 @@ export function TransportClient() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
-                 <Card className="glassmorphic">
-                    <CardHeader>
-                        <CardTitle>Quick Actions</CardTitle>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <Button variant="outline" size="lg" className="flex-col h-24">
-                           <UserPlus className="h-6 w-6 mb-2" />
-                           Assign Student
-                        </Button>
-                        <Button variant="outline" size="lg" className="flex-col h-24">
-                           <IndianRupee className="h-6 w-6 mb-2" />
-                           Collect Fee
-                        </Button>
-                         <Button variant="outline" size="lg" className="flex-col h-24">
-                           <MapPin className="h-6 w-6 mb-2" />
-                           View Live Map
-                        </Button>
-                    </CardContent>
-                </Card>
                 <Card className="glassmorphic">
                     <CardHeader>
                         <CardTitle>Today's Trip Status</CardTitle>
