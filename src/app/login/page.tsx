@@ -12,7 +12,7 @@ import { Logo } from '@/components/logo';
 import { useAuth } from '@/hooks/use-auth';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
-import { FirebaseProvider } from '@/firebase/index.tsx';
+import { FirebaseProvider } from '@/firebase/index';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function LoginPageContent() {
@@ -23,31 +23,26 @@ function LoginPageContent() {
   const { signInWithEmail, loading, auth } = useAuth();
   const router = useRouter();
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
     }
-    try {
-      await signInWithEmail(email, password);
-      router.push(`/dashboard?role=${role}`);
-    } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        // If user does not exist, try to create a new account
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          // After successful creation, Firebase automatically signs the user in.
-          router.push(`/dashboard?role=${role}`);
-        } catch (signUpError: any) {
-          setError(signUpError.message || 'An unexpected error occurred during sign-up.');
+    
+    signInWithEmail(email, password).catch((err: any) => {
+        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+            createUserWithEmailAndPassword(auth, email, password).catch((signUpError: any) => {
+                setError(signUpError.message || 'An unexpected error occurred during sign-up.');
+            });
+        } else {
+            setError(err.message || 'An unexpected error occurred.');
+            console.error(err);
         }
-      } else {
-        setError(err.message || 'An unexpected error occurred.');
-        console.error(err);
-      }
-    }
+    });
+
+    router.push(`/dashboard?role=${role}`);
   };
 
   return (

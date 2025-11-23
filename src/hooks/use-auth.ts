@@ -29,19 +29,20 @@ export function useAuth() {
     return () => unsubscribe();
   }, [auth]);
   
-  const signInWithEmail = async (email: string, password: string) => {
-    setLoading(true);
+  const signInWithEmail = (email: string, password: string): Promise<User> => {
     setError(null);
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-      return userCredential.user;
-    } catch (error: any) {
-      setError(error.message);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
+    // Return the promise without awaiting it here
+    return new Promise((resolve, reject) => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          setUser(userCredential.user);
+          resolve(userCredential.user);
+        })
+        .catch(error => {
+          setError(error.message);
+          reject(error);
+        });
+    });
   };
 
   return { user, loading, error, signInWithEmail, auth };
