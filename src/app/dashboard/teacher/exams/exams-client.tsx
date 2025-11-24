@@ -201,7 +201,7 @@ export function ExamsClient() {
                         <TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Class</TableHead><TableHead>Subject</TableHead><TableHead>Time</TableHead></TableRow></TableHeader>
                         <TableBody>
                             {filteredSchedule.length > 0 ? filteredSchedule.map(item => (
-                                <TableRow key={`${item.classId}-${item.subject}`}>
+                                <TableRow key={`${item.classId}-${item.subject}-${item.term}-${item.date}`}>
                                     <TableCell>{format(new Date(item.date), 'dd MMM, yyyy')}</TableCell>
                                     <TableCell>{classes.find(c => c.id === item.classId)?.name}</TableCell>
                                     <TableCell>{item.subject}</TableCell>
