@@ -40,15 +40,13 @@ const nextConfig: NextConfig = {
         hostname: 'storage.googleapis.com',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'videos.pexels.com',
+      },
     ],
   },
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'videos.pexels.com',
-    },
-  ],
 };
 
 export default nextConfig;
