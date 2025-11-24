@@ -69,8 +69,8 @@ export function ExamsClient() {
   const [marks, setMarks] = useState<Record<string, string>>({});
 
   // Schedule State
-  const [scheduleClass, setScheduleClass] = useState('');
-  const [scheduleTerm, setScheduleTerm] = useState('');
+  const [scheduleClass, setScheduleClass] = useState('all');
+  const [scheduleTerm, setScheduleTerm] = useState('all');
   
   // Reports State
   const [reportClass, setReportClass] = useState('');
@@ -128,8 +128,8 @@ export function ExamsClient() {
 
   const filteredSchedule = useMemo(() => {
     return mockSchedule.filter(item => 
-        (scheduleClass === '' || item.classId === scheduleClass) &&
-        (scheduleTerm === '' || item.term === scheduleTerm)
+        (scheduleClass === 'all' || item.classId === scheduleClass) &&
+        (scheduleTerm === 'all' || item.term === scheduleTerm)
     );
   }, [scheduleClass, scheduleTerm]);
 
@@ -176,7 +176,7 @@ export function ExamsClient() {
                     <div className="text-center py-12 text-muted-foreground"><p>Please select a class and subject to enter marks.</p></div>
                  )}
             </CardContent>
-            {selectedClass && selectedSubject && <CardContent><Button onClick={handleSaveMarks}>Save Marks</Button></CardContent>}
+            {selectedClass && selectedSubject && <CardFooter><Button onClick={handleSaveMarks}>Save Marks</Button></CardFooter>}
         </Card>
       </TabsContent>
       <TabsContent value="schedule" className="mt-4">
@@ -187,11 +187,11 @@ export function ExamsClient() {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <Select value={scheduleClass} onValueChange={setScheduleClass}>
                         <SelectTrigger className="w-full sm:w-[200px]"><SelectValue placeholder="Filter by Class" /></SelectTrigger>
-                        <SelectContent><SelectItem value="">All Classes</SelectItem>{classes.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
+                        <SelectContent><SelectItem value="all">All Classes</SelectItem>{classes.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
                     </Select>
                      <Select value={scheduleTerm} onValueChange={setScheduleTerm}>
                         <SelectTrigger className="w-full sm:w-[200px]"><SelectValue placeholder="Filter by Term" /></SelectTrigger>
-                        <SelectContent><SelectItem value="">All Terms</SelectItem>{terms.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+                        <SelectContent><SelectItem value="all">All Terms</SelectItem>{terms.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
                     </Select>
                 </div>
             </CardHeader>
