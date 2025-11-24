@@ -12,7 +12,7 @@ import { Logo } from '@/components/logo';
 import { useAuth } from '@/hooks/use-auth';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
-import { FirebaseProvider } from '@/firebase/index';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function LoginPageContent() {
@@ -116,8 +116,8 @@ function LoginPageContent() {
 
 export default function LoginPage() {
     return (
-        <FirebaseProvider>
+        <FirebaseClientProvider>
             <LoginPageContent />
-        </FirebaseProvider>
+        </FirebaseClientProvider>
     )
 }
