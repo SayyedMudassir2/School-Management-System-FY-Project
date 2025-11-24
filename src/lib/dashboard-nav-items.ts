@@ -55,6 +55,7 @@ export const dashboardNavItems: NavItem[] = [
 
     // Student
     { title: "Dashboard", href: "/dashboard/student", icon: User, roles: ["student"] },
+    { title: "My Timetable", href: "/dashboard/student/timetable", icon: CalendarClock, roles: ["student"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {
