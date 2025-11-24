@@ -22,9 +22,8 @@ export default function LiveTrackingPage() {
                 <Image
                     src="/images/live-map.png"
                     alt="Live Map of city"
-                    layout="fill"
-                    objectFit="cover"
-                    className="absolute inset-0"
+                    fill
+                    className="absolute inset-0 object-cover"
                     data-ai-hint="satellite map"
                 />
                  <div className="absolute inset-0 bg-black/20"></div>
