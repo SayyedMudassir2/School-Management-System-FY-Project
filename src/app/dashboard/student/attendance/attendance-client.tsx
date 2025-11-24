@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -59,12 +58,10 @@ export function AttendanceClient() {
         present: {
             borderColor: 'hsl(var(--primary))',
             borderWidth: '2px',
-            borderRadius: '50%',
         },
         absent: {
             borderColor: 'hsl(var(--destructive))',
             borderWidth: '2px',
-            borderRadius: '50%',
         },
     };
 
