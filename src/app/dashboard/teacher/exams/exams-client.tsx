@@ -23,11 +23,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilePen, Calendar, BarChart, Printer, Download } from 'lucide-react';
 import { classes, studentDirectory, teacherDirectory } from '@/lib/mock-data';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 
 const subjects = ["Mathematics", "Physics", "Chemistry", "Biology", "English", "History"];
 const terms = ["Term 1", "Term 2", "Finals"];
 
 export function ExamsClient() {
+  const { toast } = useToast();
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [marks, setMarks] = useState<Record<string, string>>({});
@@ -40,6 +42,15 @@ export function ExamsClient() {
 
   const handleMarkChange = (studentId: string, mark: string) => {
     setMarks(prev => ({ ...prev, [studentId]: mark }));
+  };
+
+  const handleSaveMarks = () => {
+    // Here you would typically save the marks to a database
+    console.log("Saving marks:", marks);
+    toast({
+      title: "Marks Saved",
+      description: `Marks for ${selectedSubject} in ${classes.find(c => c.id === selectedClass)?.name} have been saved.`,
+    });
   };
 
   return (
@@ -85,7 +96,7 @@ export function ExamsClient() {
                     <div className="text-center py-12 text-muted-foreground"><p>Please select a class and subject to enter marks.</p></div>
                  )}
             </CardContent>
-            {selectedClass && selectedSubject && <CardContent><Button>Save Marks</Button></CardContent>}
+            {selectedClass && selectedSubject && <CardContent><Button onClick={handleSaveMarks}>Save Marks</Button></CardContent>}
         </Card>
       </TabsContent>
       <TabsContent value="schedule" className="mt-4">
