@@ -41,6 +41,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Progress } from '@/components/ui/progress';
+import Link from 'next/link';
 
 const assignmentSchema = z.object({
   id: z.string().optional(),
@@ -164,7 +165,9 @@ export function AssignmentsClient({ initialAssignments, classes, students }: Ass
                         </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm">View Submissions</Button>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href={`/dashboard/teacher/assignments/${assignment.id}`}>View Submissions</Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
