@@ -7,11 +7,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Send, Paperclip, Smile } from "lucide-react";
+import { Search, Send, Paperclip, Smile, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 type User = {
     id: string;
@@ -41,7 +42,7 @@ type MessagesClientProps = {
 
 export function MessagesClient({ users, initialConversations }: MessagesClientProps) {
   const [conversations, setConversations] = useState(initialConversations);
-  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(initialConversations[0]?.id || null);
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
@@ -84,7 +85,7 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
 
     setConversations(prev => prev.map(convo => 
         convo.id === selectedConversationId 
-            ? { ...convo, messages: [...convo.messages, message] } 
+            ? { ...convo, messages: [...convo.messages, message], unreadCount: 0 } 
             : convo
     ));
     setNewMessage('');
@@ -104,6 +105,14 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
     });
   };
 
+  const formatTimestamp = (timestamp: string) => {
+    if (!isClient) return '';
+    const date = new Date(timestamp);
+    if (isToday(date)) return format(date, 'p');
+    if (isYesterday(date)) return 'Yesterday';
+    return format(date, 'dd/MM/yyyy');
+  };
+
   return (
     <Card className="glassmorphic grid grid-cols-1 md:grid-cols-4 h-[calc(100vh-12rem)] overflow-hidden">
         {/* Conversation List */}
@@ -113,7 +122,7 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                 <div className="relative mt-2">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
-                        placeholder="Search people..." 
+                        placeholder="Search or start new chat" 
                         className="pl-10"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -141,12 +150,12 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                             <div className="flex-1 overflow-hidden">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-sm truncate">{user.name}</h3>
-                                    <p className="text-xs text-muted-foreground shrink-0">{isClient ? format(new Date(lastMessage.timestamp), 'p') : ''}</p>
+                                    <p className="text-xs text-muted-foreground shrink-0">{formatTimestamp(lastMessage.timestamp)}</p>
                                 </div>
-                                <div className="flex justify-between items-start mt-1">
+                                <div className="flex justify-between items-start">
                                     <p className="text-xs text-muted-foreground truncate">{lastMessage.text}</p>
                                     {convo.unreadCount > 0 && (
-                                        <Badge className="h-5 w-5 flex items-center justify-center p-0 shrink-0">{convo.unreadCount}</Badge>
+                                        <Badge className="h-5 w-5 flex items-center justify-center p-0 shrink-0 bg-green-500 text-white">{convo.unreadCount}</Badge>
                                     )}
                                 </div>
                             </div>
@@ -171,8 +180,8 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                         <p className="text-xs text-muted-foreground">{userMap.get(selectedConversation.userId)?.role}</p>
                     </div>
                 </div>
-                <ScrollArea className="flex-1 p-6">
-                    <div className="space-y-6">
+                <ScrollArea className="flex-1 p-6 bg-[url('/images/chat-bg.png')] bg-contain">
+                    <div className="space-y-4">
                         {selectedConversation.messages.map(message => {
                             const isMe = message.senderId === 'T01';
                             return (
@@ -184,8 +193,8 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                                         </Avatar>
                                     )}
                                     <div className={cn(
-                                        "max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-xl",
-                                        isMe ? "bg-primary text-primary-foreground rounded-br-none" : "bg-muted/50 rounded-bl-none"
+                                        "max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-xl shadow-md",
+                                        isMe ? "bg-primary text-primary-foreground rounded-br-none" : "bg-card rounded-bl-none"
                                     )}>
                                         <p className="text-sm">{message.text}</p>
                                         <p className={cn("text-xs mt-1 text-right", isMe ? "text-primary-foreground/70" : "text-muted-foreground")}>{isClient ? format(new Date(message.timestamp), 'p') : ''}</p>
@@ -196,23 +205,34 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                         <div ref={messagesEndRef} />
                     </div>
                 </ScrollArea>
-                <div className="p-4 border-t border-border/20">
+                <div className="p-4 border-t border-border/20 bg-muted/30">
                     <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-                        <Button type="button" variant="ghost" size="icon" onClick={handleFileUpload}><Paperclip className="h-4 w-4" /></Button>
-                        <Button type="button" variant="ghost" size="icon"><Smile className="h-4 w-4" /></Button>
+                        <Button type="button" variant="ghost" size="icon" onClick={handleFileUpload}><Paperclip className="h-5 w-5 text-muted-foreground" /></Button>
+                        <Button type="button" variant="ghost" size="icon"><Smile className="h-5 w-5 text-muted-foreground" /></Button>
                         <Input 
                             value={newMessage}
                             onChange={(e) => setNewMessage(e.target.value)}
                             placeholder="Type a message..." 
-                            className="flex-1"
+                            className="flex-1 bg-background"
+                            autoComplete="off"
                         />
-                        <Button type="submit" size="icon"><Send className="h-4 w-4" /></Button>
+                        <Button type="submit" size="icon"><Send className="h-5 w-5" /></Button>
                     </form>
                 </div>
                 </>
             ) : (
-                <div className="flex h-full items-center justify-center text-muted-foreground">
-                    <p>Select a conversation to start chatting.</p>
+                <div className="flex h-full flex-col items-center justify-center text-center p-8 bg-card">
+                    <div className="relative h-48 w-48 text-primary">
+                        <Image src="/images/chat-placeholder.svg" alt="Chat placeholder" fill data-ai-hint="communication illustration"/>
+                    </div>
+                    <h2 className="text-3xl font-bold mt-6">Aedura Chat</h2>
+                    <p className="text-muted-foreground mt-2 max-w-sm">
+                        Send and receive messages with students, parents, and colleagues. Select a chat to get started.
+                    </p>
+                    <div className="mt-8 flex items-center gap-2 text-xs text-muted-foreground">
+                        <Lock className="h-3 w-3" />
+                        Your personal messages are end-to-end encrypted
+                    </div>
                 </div>
             )}
         </div>
