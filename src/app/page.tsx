@@ -82,7 +82,7 @@ export default function LandingPage() {
             <div className="mt-16 flow-root sm:mt-24 animate-in fade-in-0 slide-in-from-bottom-16 duration-1000 delay-300">
               <div className="-m-2 rounded-xl bg-white/5 p-2 ring-1 ring-inset ring-white/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
-                  src="https://storage.googleapis.com/aieditor-code-gen-files/3c401886-4f7f-44de-a28a-796720f18837.png"
+                  src="/images/aedura-dashboard.png"
                   alt="Aedura App Screenshot"
                   width={2432}
                   height={1442}

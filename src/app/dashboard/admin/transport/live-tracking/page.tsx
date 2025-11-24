@@ -20,7 +20,7 @@ export default function LiveTrackingPage() {
         <CardContent>
             <div className="relative w-full h-[600px] bg-muted rounded-lg overflow-hidden border">
                 <Image
-                    src="https://storage.googleapis.com/aieditor-code-gen-files/809c9584-6330-4e55-8025-b89155f973c7.png"
+                    src="/images/live-map.png"
                     alt="Live Map of city"
                     layout="fill"
                     objectFit="cover"
