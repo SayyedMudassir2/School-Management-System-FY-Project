@@ -109,7 +109,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
     setAttendanceStatus(newStatus);
   }
   
-  const handleSumbitAttendance = () => {
+  const handleSubmitAttendance = () => {
     const absentCount = Object.values(attendanceStatus).filter(s => s === 'absent').length;
     toast({
         title: "Attendance Submitted",
@@ -190,7 +190,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                  </CardContent>
             )}
             <CardFooter>
-                <Button onClick={handleSumbitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
+                <Button onClick={handleSubmitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
             </CardFooter>
         </Card>
       </TabsContent>
