@@ -1,6 +1,6 @@
 
-import { PageHeader } from "../components/page-header";
-import { SettingsClient } from "./settings-client";
+import { PageHeader } from "../../components/page-header";
+import { SettingsPageClient } from "./settings-page-client";
 import { FirebaseProvider } from "@/firebase";
 
 export default function SettingsPage() {
@@ -11,7 +11,7 @@ export default function SettingsPage() {
         description="You can manage your account and application preferences."
       />
       <FirebaseProvider>
-        <SettingsClient />
+        <SettingsPageClient />
       </FirebaseProvider>
     </>
   );

@@ -1,13 +1,56 @@
 
-import Link from 'next/link';
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Logo } from '@/components/logo';
+import { useAuth } from '@/hooks/use-auth';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from 'lucide-react';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-export default function LoginPage() {
+function LoginPageContent() {
+  const [email, setEmail] = useState('test@example.com');
+  const [password, setPassword] = useState('password');
+  const [role, setRole] = useState('admin');
+  const [error, setError] = useState<string | null>(null);
+  const { signInWithEmail, loading, auth } = useAuth();
+  const router = useRouter();
+
+  const handleSignIn = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+    
+    signInWithEmail(email, password)
+      .then(() => {
+        router.push(`/dashboard?role=${role}`);
+      })
+      .catch((err: any) => {
+        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+            createUserWithEmailAndPassword(auth, email, password)
+              .then(() => {
+                router.push(`/dashboard?role=${role}`);
+              })
+              .catch((signUpError: any) => {
+                  setError(signUpError.message || 'An unexpected error occurred during sign-up.');
+              });
+        } else {
+            setError(err.message || 'An unexpected error occurred.');
+            console.error(err);
+        }
+    });
+  };
+
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
       <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(at_top_left,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
@@ -21,50 +64,66 @@ export default function LoginPage() {
           <CardDescription>Please sign in to your account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form onSubmit={handleSignIn} className="grid gap-4">
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Login Failed</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="name@example.com" required />
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder="name@example.com" 
+                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link href="#" className="ml-auto inline-block text-sm underline">
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required />
+              <Label htmlFor="password">Password</Label>
+              <Input 
+                id="password" 
+                type="password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
 
             <div className="grid gap-2">
                 <Label htmlFor="role">Role</Label>
-                <Select defaultValue="admin">
+                <Select value={role} onValueChange={setRole}>
                   <SelectTrigger id="role">
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">Administrator</SelectItem>
                     <SelectItem value="teacher">Teacher</SelectItem>
-                    <SelectItem value="student">Student</SelectItem>
                     <SelectItem value="parent">Parent</SelectItem>
+                    <SelectItem value="student">Student</SelectItem>
                   </SelectContent>
                 </Select>
             </div>
             
-            <Button type="submit" className="w-full" asChild>
-              <Link href="/dashboard">Sign in</Link>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign in'}
             </Button>
-            
-            <div className="mt-4 text-center text-sm">
-              Don't have an account?  {' '}
-              <Link href="/signup" className="underline">
-                Sign up
-              </Link>
-            </div>
-          </div>
+          </form>
         </CardContent>
       </Card>
     </div>
   );
+}
+
+export default function LoginPage() {
+    return (
+        <FirebaseClientProvider>
+            <LoginPageContent />
+        </FirebaseClientProvider>
+    )
 }
