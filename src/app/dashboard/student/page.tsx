@@ -47,13 +47,6 @@ const exams = [
     { subject: "English Literature", type: "Mid-Term", date: "10 days" },
 ];
 
-const quickLinks = [
-    { title: "My Grades", href: "#"},
-    { title: "Attendance Details", href: "#"},
-    { title: "My Timetable", href: "#"},
-    { title: "Library", href: "#"},
-];
-
 export default function StudentDashboardPage() {
     const attendancePercentage = 95;
     const feeDue = 250;
@@ -167,19 +160,6 @@ export default function StudentDashboardPage() {
                         <p className="text-3xl font-bold">B+</p>
                         <p className="text-xs text-muted-foreground">Physics</p>
                     </div>
-                </CardContent>
-            </Card>
-
-             <Card className="glassmorphic lg:col-span-2">
-                <CardHeader>
-                    <CardTitle>Quick Links</CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-4">
-                    {quickLinks.map(link => (
-                        <Button key={link.title} variant="outline" asChild className="justify-between">
-                            <Link href={link.href}>{link.title} <ArrowRight className="h-4 w-4"/></Link>
-                        </Button>
-                    ))}
                 </CardContent>
             </Card>
         </div>
