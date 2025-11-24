@@ -1,4 +1,3 @@
-
 // src/hooks/use-auth.ts
 'use client';
 
@@ -15,7 +14,7 @@ import {
 import { useFirebase } from '@/firebase';
 
 export function useAuth() {
-  const { app } = useFirebase();
+  const { firebaseApp: app } = useFirebase();
   const auth = getAuth(app);
   const [user, setUser] = useState<User | null>(auth.currentUser);
   const [loading, setLoading] = useState(true);
