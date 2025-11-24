@@ -1,17 +1,17 @@
 
 import { PageHeader } from "../../components/page-header";
 import { AttendanceClient } from "./attendance-client";
-import { classes, students } from "@/lib/mock-data";
+import { classes, studentDirectory } from "@/lib/mock-data";
 
 export default function AttendancePage() {
   return (
     <>
       <PageHeader
-        title="Attendance Insights"
-        description="You can use AI to analyze attendance data, identify trends, and get actionable suggestions."
+        title="Attendance Management"
+        description="Mark daily attendance, view history, and generate AI-powered insights."
       />
-      <div className="max-w-4xl mx-auto">
-        <AttendanceClient classes={classes} students={students} />
+      <div className="mx-auto">
+        <AttendanceClient classes={classes} students={studentDirectory} />
       </div>
     </>
   );
