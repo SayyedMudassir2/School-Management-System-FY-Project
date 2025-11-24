@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import Papa from 'papaparse';
+import { Input } from '@/components/ui/input';
 
 type Class = { id: string; name: string };
 type Student = { id: string; name: string; avatar: string; admissionNo: string; classId?: string };
@@ -185,7 +186,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
     setAttendanceStatus(newStatus);
   }
   
-  const handleSumbitAttendance = () => {
+  const handleSubmitAttendance = () => {
     const className = classes.find(c => c.id === selectedClass)?.name;
     const absentCount = Object.values(attendanceStatus).filter(s => s === 'absent').length;
     toast({
@@ -305,7 +306,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                  </CardContent>
             )}
             <CardFooter>
-                <Button onClick={handleSumbitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
+                <Button onClick={handleSubmitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
             </CardFooter>
         </Card>
       </TabsContent>
