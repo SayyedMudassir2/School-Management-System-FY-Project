@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,6 +62,8 @@ const chartConfig = {
 
 export function ExamsClient() {
   const { toast } = useToast();
+  const printRef = useRef<HTMLDivElement>(null);
+
   // Marks Entry State
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
@@ -133,9 +134,13 @@ export function ExamsClient() {
     );
   }, [scheduleClass, scheduleTerm]);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <Tabs defaultValue="enter-marks" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-3 non-printable">
         <TabsTrigger value="enter-marks"><FilePen className="mr-2 h-4 w-4"/>Enter Marks</TabsTrigger>
         <TabsTrigger value="schedule"><Calendar className="mr-2 h-4 w-4"/>Exam Schedule</TabsTrigger>
         <TabsTrigger value="reports"><BarChart className="mr-2 h-4 w-4"/>Progress Reports</TabsTrigger>
@@ -215,7 +220,7 @@ export function ExamsClient() {
          </Card>
       </TabsContent>
       <TabsContent value="reports" className="mt-4">
-         <Card className="glassmorphic">
+         <Card className="glassmorphic non-printable">
             <CardHeader>
                 <CardTitle>Generate Progress Reports</CardTitle>
                 <CardDescription>Select a class and student to view their progress report.</CardDescription>
@@ -230,9 +235,9 @@ export function ExamsClient() {
                     </Select>
                 </div>
             </CardHeader>
-            <CardContent>
+            <CardContent ref={printRef}>
                 {selectedStudentData ? (
-                    <Card className="p-6">
+                    <Card className="p-6 printable-area">
                         <div className="flex justify-between items-start">
                             <div>
                                 <h3 className="text-2xl font-bold">{selectedStudentData.student.name}</h3>
@@ -281,7 +286,7 @@ export function ExamsClient() {
                     <div className="text-center py-12 text-muted-foreground"><p>Please select a class and student to view the report.</p></div>
                 )}
             </CardContent>
-            {selectedStudentData && <CardFooter><Button><Printer className="mr-2 h-4 w-4"/>Print Report</Button></CardFooter>}
+            {selectedStudentData && <CardFooter><Button onClick={handlePrint}><Printer className="mr-2 h-4 w-4"/>Print Report</Button></CardFooter>}
          </Card>
       </TabsContent>
     </Tabs>

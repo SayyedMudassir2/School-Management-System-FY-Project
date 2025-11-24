@@ -126,6 +126,17 @@
       top: 0;
       width: 100%;
     }
+    .non-printable {
+        display: none !important;
+    }
+    .glassmorphic {
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .printable-area .glassmorphic {
+        border: 1px solid #e5e7eb !important;
+    }
   }
 }
 
