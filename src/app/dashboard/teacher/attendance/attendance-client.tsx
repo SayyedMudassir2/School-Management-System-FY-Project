@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -118,6 +118,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
   }
 
   const allPresent = useMemo(() => {
+    if (Object.keys(attendanceStatus).length === 0) return true;
     return Object.values(attendanceStatus).every(s => s === 'present');
   }, [attendanceStatus]);
 
@@ -327,3 +328,5 @@ const ReportSkeleton = () => (
       </div>
     </CardContent>
   );
+
+    
