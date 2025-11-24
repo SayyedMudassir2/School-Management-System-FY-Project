@@ -84,8 +84,8 @@ export function ExamsClient() {
                     }
                 }
             `}</style>
-            <div className="space-y-8">
-                <div className="flex gap-2 non-printable">
+            <div className="space-y-8 non-printable">
+                <div className="flex gap-2">
                     {Object.keys(mockExamResults).map(term => (
                         <Button
                             key={term}
@@ -146,7 +146,7 @@ export function ExamsClient() {
                                 <p className="text-4xl font-bold">{summary.percentage.toFixed(2)}%</p>
                                 <p className={`text-lg font-semibold ${summary.result === 'Pass' ? 'text-green-500' : 'text-red-500'}`}>{summary.result}</p>
                             </CardContent>
-                            <CardFooter className="non-printable">
+                            <CardFooter>
                                 <Button className="w-full" onClick={handlePrint}><Printer className="mr-2 h-4 w-4"/> Download Report Card</Button>
                             </CardFooter>
                         </Card>
@@ -155,7 +155,7 @@ export function ExamsClient() {
             </div>
             
             <div className="hidden">
-                 <div ref={printRef}>
+                 <div ref={printRef} className="printable-area">
                     <ReportCardTemplate
                         term={selectedTerm}
                         results={examData}
@@ -166,4 +166,3 @@ export function ExamsClient() {
         </>
     );
 }
-
