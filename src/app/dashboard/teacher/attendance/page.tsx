@@ -17,7 +17,7 @@ export default function AttendancePage() {
     <>
       <PageHeader
         title="Attendance Management"
-        description="Mark daily attendance, view history, and generate AI-powered insights."
+        description="Mark daily attendance, view history, and generate reports & insights."
       />
       <div className="mx-auto">
         <AttendanceClient classes={classes} students={studentsWithDetails} />

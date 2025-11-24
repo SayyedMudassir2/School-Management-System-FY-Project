@@ -1,6 +1,11 @@
 
-import { AttendanceRecordSchema } from "@/ai/flows/attendance-insights";
 import { z } from "zod";
+
+export const AttendanceRecordSchema = z.object({
+  studentId: z.string().describe('Unique identifier for the student.'),
+  date: z.string().describe('Date of the attendance record (YYYY-MM-DD).'),
+  isPresent: z.boolean().describe('Whether the student was present or not.'),
+});
 
 export const classes = [
   { id: '8a', name: 'Class 8-A' },
@@ -132,10 +137,12 @@ export const studentDirectory: StudentProfile[] = [
     }
 ];
 
+const allStudents = [...studentDirectory];
+
 const generateAttendance = (): z.infer<typeof AttendanceRecordSchema>[] => {
   const records: z.infer<typeof AttendanceRecordSchema>[] = [];
   const today = new Date();
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 90; i++) { // Generate for 3 months
     const date = new Date(today);
     date.setDate(today.getDate() - i);
     const dateString = date.toISOString().split('T')[0];
@@ -143,7 +150,7 @@ const generateAttendance = (): z.infer<typeof AttendanceRecordSchema>[] => {
     // Skip weekends
     if (date.getDay() === 0 || date.getDay() === 6) continue;
 
-    for (const student of students) {
+    for (const student of allStudents) {
       // Make Charlie Brown absent more often
       const isPresent = student.id === 'S003' ? Math.random() > 0.4 : Math.random() > 0.1;
       records.push({
