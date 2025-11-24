@@ -46,6 +46,11 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   const userMap = useMemo(() => new Map(users.map(u => [u.id, u])), [users]);
 
@@ -136,9 +141,9 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                             <div className="flex-1 overflow-hidden">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-sm truncate">{user.name}</h3>
-                                    <p className="text-xs text-muted-foreground shrink-0">{format(new Date(lastMessage.timestamp), 'p')}</p>
+                                    <p className="text-xs text-muted-foreground shrink-0">{isClient ? format(new Date(lastMessage.timestamp), 'p') : ''}</p>
                                 </div>
-                                <div className="flex justify-between items-start">
+                                <div className="flex justify-between items-start mt-1">
                                     <p className="text-xs text-muted-foreground truncate">{lastMessage.text}</p>
                                     {convo.unreadCount > 0 && (
                                         <Badge className="h-5 w-5 flex items-center justify-center p-0 shrink-0">{convo.unreadCount}</Badge>
@@ -183,7 +188,7 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                                         isMe ? "bg-primary text-primary-foreground rounded-br-none" : "bg-muted/50 rounded-bl-none"
                                     )}>
                                         <p className="text-sm">{message.text}</p>
-                                        <p className={cn("text-xs mt-1", isMe ? "text-primary-foreground/70" : "text-muted-foreground")}>{format(new Date(message.timestamp), 'p')}</p>
+                                        <p className={cn("text-xs mt-1 text-right", isMe ? "text-primary-foreground/70" : "text-muted-foreground")}>{isClient ? format(new Date(message.timestamp), 'p') : ''}</p>
                                     </div>
                                 </div>
                             )
