@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Library, BookCopy, ClipboardCheck } from "lucide-react";
+import { ArrowRight, Library, BookCopy, ClipboardCheck, NotebookText } from "lucide-react";
 import Link from "next/link";
 
 const academicActions = [
@@ -24,6 +24,12 @@ const academicActions = [
         description: "Create, distribute, and track student assignments.",
         icon: ClipboardCheck,
         href: "/dashboard/admin/assignments",
+    },
+    {
+        title: "Examinations",
+        description: "Manage exam schedules, marks entry, and report cards.",
+        icon: NotebookText,
+        href: "/dashboard/admin/academics/exams",
     }
 ];
 
