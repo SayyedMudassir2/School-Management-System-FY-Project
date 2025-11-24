@@ -460,10 +460,10 @@ export const mockConversations: Conversation[] = [
         userId: 'S001',
         unreadCount: 2,
         messages: [
-            { id: 'M01', senderId: 'S001', text: 'Good morning, sir. I have a question about the physics homework.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
-            { id: 'M02', senderId: 'T01', text: 'Good morning, Alice. I am here to help. What is your question?', timestamp: new Date(Date.now() - 1000 * 60 * 50).toISOString() },
-            { id: 'M03', senderId: 'S001', text: 'I am having trouble with question 3.', timestamp: new Date(Date.now() - 1000 * 60 * 10).toISOString() },
-            { id: 'M04', senderId: 'S001', text: 'Can you please explain it again?', timestamp: new Date(Date.now() - 1000 * 60 * 9).toISOString() }
+            { id: 'M01', senderId: 'S001', text: 'Good morning, sir. I have a question about the physics homework.', timestamp: '2024-07-29T03:30:00.000Z' },
+            { id: 'M02', senderId: 'T01', text: 'Good morning, Alice. I am here to help. What is your question?', timestamp: '2024-07-29T04:20:00.000Z' },
+            { id: 'M03', senderId: 'S001', text: 'I am having trouble with question 3.', timestamp: '2024-07-29T09:00:00.000Z' },
+            { id: 'M04', senderId: 'S001', text: 'Can you please explain it again?', timestamp: '2024-07-29T09:01:00.000Z' }
         ]
     },
     {
@@ -471,8 +471,8 @@ export const mockConversations: Conversation[] = [
         userId: 'S002',
         unreadCount: 0,
         messages: [
-            { id: 'M05', senderId: 'T01', text: 'Hi Bob, please remember to submit your assignment by tomorrow.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
-            { id: 'M06', senderId: 'S002', text: 'Yes sir, I will.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 23).toISOString() }
+            { id: 'M05', senderId: 'T01', text: 'Hi Bob, please remember to submit your assignment by tomorrow.', timestamp: '2024-07-28T10:00:00.000Z' },
+            { id: 'M06', senderId: 'S002', text: 'Yes sir, I will.', timestamp: '2024-07-28T11:00:00.000Z' }
         ]
     },
      {
@@ -480,7 +480,7 @@ export const mockConversations: Conversation[] = [
         userId: 'T02',
         unreadCount: 1,
         messages: [
-            { id: 'M07', senderId: 'T02', text: 'Can we sync up on the curriculum for Class 10? I have some ideas.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString() }
+            { id: 'M07', senderId: 'T02', text: 'Can we sync up on the curriculum for Class 10? I have some ideas.', timestamp: '2024-07-29T05:00:00.000Z' }
         ]
     }
 ];
