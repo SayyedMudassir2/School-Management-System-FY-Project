@@ -13,7 +13,7 @@
     --popover: 222 84% 4.9%;
     --popover-foreground: 210 40% 98%;
     
-    --primary: 158 84% 35%; /* WhatsApp Green */
+    --primary: 229 84% 63%; /* Bright Blue */
     --primary-foreground: 210 40% 98%;
     
     --secondary: 217 33% 17%; /* A muted dark blue/gray */
@@ -30,7 +30,7 @@
     
     --border: 217 33% 22%; /* A slightly lighter border for cards */
     --input: 217 33% 22%;
-    --ring: 158 84% 45%;
+    --ring: 229 84% 63%;
     
     --radius: 0.75rem;
 
@@ -60,7 +60,7 @@
     --popover: 222 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 158 84% 35%; /* WhatsApp Green */
+    --primary: 229 84% 63%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 217 33% 17%;
@@ -77,7 +77,7 @@
 
     --border: 217 33% 22%;
     --input: 217 33% 22%;
-    --ring: 158 84% 45%;
+    --ring: 229 84% 63%;
     
     --sidebar-background: 222 84% 4.9%;
     --sidebar-foreground: 210 40% 98%;
