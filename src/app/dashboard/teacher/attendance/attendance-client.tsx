@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { getAttendanceInsights, type AttendanceInsightsOutput } from "@/ai/flows/attendance-insights";
 import { mockAttendanceRecords, studentDirectory as allStudentsData } from "@/lib/mock-data";
-import { Rocket, FileText, UserX, Lightbulb, Check, X, Calendar as CalendarIcon, UserCheck, Edit, History } from "lucide-react";
+import { Rocket, FileText, UserX, Lightbulb, Check, X, Calendar as CalendarIcon, UserCheck, Edit, History, Save } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -62,6 +62,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
   const [historyClass, setHistoryClass] = useState<string>("");
   const [historyDate, setHistoryDate] = useState<Date | undefined>(new Date());
   const [historyRecords, setHistoryRecords] = useState<AttendanceRecord[]>([]);
+  const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
 
   const studentsInClass = useMemo(() => {
     return allStudentsData
@@ -94,6 +95,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
             status: Math.random() > 0.1 ? 'present' : 'absent' // Randomly generate for demo
         }));
         setHistoryRecords(mockData);
+        setEditingStudentId(null); // Reset editing state when date/class changes
     } else {
         setHistoryRecords([]);
     }
@@ -138,13 +140,29 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
     setAttendanceStatus(newStatus);
   }
   
-  const handleSubmitAttendance = () => {
+  const handleSumbitAttendance = () => {
     const absentCount = Object.values(attendanceStatus).filter(s => s === 'absent').length;
     toast({
         title: "Attendance Submitted",
         description: `Attendance for Class ${selectedClass} on ${format(attendanceDate!, 'PPP')} has been recorded. ${absentCount} student(s) marked absent.`
     });
   }
+
+  const handleHistoryStatusChange = (studentId: string, newStatus: 'present' | 'absent') => {
+    setHistoryRecords(prev => prev.map(rec => 
+        rec.studentId === studentId ? { ...rec, status: newStatus } : rec
+    ));
+  };
+  
+  const handleSaveHistoryChange = (studentId: string) => {
+    const student = studentsInHistoryClass.find(s => s.id === studentId);
+    setEditingStudentId(null);
+    toast({
+        title: "Attendance Updated",
+        description: `Attendance for ${student?.name} has been updated.`,
+    })
+  };
+
 
   const allPresent = useMemo(() => {
     if (Object.keys(attendanceStatus).length === 0) return true;
@@ -225,7 +243,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                  </CardContent>
             )}
             <CardFooter>
-                <Button onClick={handleSubmitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
+                <Button onClick={handleSumbitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
             </CardFooter>
         </Card>
       </TabsContent>
@@ -266,15 +284,32 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                             <TableBody>
                                 {studentsInHistoryClass.map(student => {
                                     const record = historyRecords.find(r => r.studentId === student.id);
+                                    const isEditing = editingStudentId === student.id;
+
                                     return (
                                         <TableRow key={student.id}>
                                             <TableCell className="font-medium">{student.name}</TableCell>
                                             <TableCell>{student.admissionNo}</TableCell>
-                                            <TableCell>{record ? getStatusBadge(record.status) : <Badge variant="outline">N/A</Badge>}</TableCell>
+                                            <TableCell>
+                                                {isEditing ? (
+                                                    <div className="flex gap-2">
+                                                        <Button size="xs" variant={record?.status === 'present' ? 'default' : 'outline'} onClick={() => handleHistoryStatusChange(student.id, 'present')}>Present</Button>
+                                                        <Button size="xs" variant={record?.status === 'absent' ? 'destructive' : 'outline'} onClick={() => handleHistoryStatusChange(student.id, 'absent')}>Absent</Button>
+                                                    </div>
+                                                ) : (
+                                                    record ? getStatusBadge(record.status) : <Badge variant="outline">N/A</Badge>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right">
-                                                <Button variant="outline" size="sm" disabled>
-                                                    <Edit className="h-3 w-3 mr-1"/> Edit
-                                                </Button>
+                                                {isEditing ? (
+                                                    <Button variant="outline" size="sm" onClick={() => handleSaveHistoryChange(student.id)}>
+                                                        <Save className="h-3 w-3 mr-1"/> Save
+                                                    </Button>
+                                                ) : (
+                                                    <Button variant="outline" size="sm" onClick={() => setEditingStudentId(student.id)}>
+                                                        <Edit className="h-3 w-3 mr-1"/> Edit
+                                                    </Button>
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                     )
