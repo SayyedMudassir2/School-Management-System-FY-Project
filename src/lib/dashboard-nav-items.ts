@@ -24,7 +24,8 @@ import {
     FileBarChart,
     CalendarClock,
     Megaphone,
-    MessageSquare
+    MessageSquare,
+    Bell
   } from "lucide-react";
 
 export const dashboardNavItems: NavItem[] = [
@@ -60,6 +61,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Assignments", href: "/dashboard/student/assignments", icon: ClipboardCheck, roles: ["student"] },
     { title: "Exam Results", href: "/dashboard/student/exams", icon: NotebookText, roles: ["student"] },
     { title: "Study Materials", href: "/dashboard/student/study-materials", icon: BookOpen, roles: ["student"] },
+    { title: "Announcements", href: "/dashboard/student/announcements", icon: Bell, roles: ["student"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {

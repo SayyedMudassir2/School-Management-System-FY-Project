@@ -501,3 +501,18 @@ export const mockStudentAssignments: StudentAssignment[] = [
     { id: 'SA03', title: 'Essay on World War II', subject: 'History', dueDate: '2024-08-05', status: 'Graded', grade: 'A-', feedback: 'Excellent work! Very well-researched.' },
     { id: 'SA04', title: 'Lab Safety Quiz', subject: 'Chemistry', dueDate: '2024-08-01', status: 'Graded', grade: '18/20' },
 ];
+
+export type StudentAnnouncement = {
+  id: string;
+  title: string;
+  content: string;
+  type: 'School' | 'Class';
+  date: string;
+};
+
+export const mockStudentAnnouncements: StudentAnnouncement[] = [
+  { id: 'STU_ANN_1', title: "Holiday for Independence Day", content: "The school will remain closed on August 15th on account of Independence Day.", type: 'School', date: '2024-08-10' },
+  { id: 'STU_ANN_2', title: "Science Fair Registrations", content: "Students interested in participating in the annual science fair must register by this Friday.", type: 'School', date: '2024-08-08' },
+  { id: 'STU_ANN_3', title: "Maths Extra Class", content: "There will be an extra class for Mathematics this Saturday to cover advanced topics in trigonometry.", type: 'Class', date: '2024-08-12' },
+  { id: 'STU_ANN_4', title: "History Project Submission Deadline", content: "The deadline for the history project has been extended to next Monday.", type: 'Class', date: '2024-08-11' },
+];
