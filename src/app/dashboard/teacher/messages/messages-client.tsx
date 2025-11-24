@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Send, Paperclip, Smile, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format, isToday, isYesterday } from 'date-fns';
+import { format, isToday, isYesterday, isSameDay, startOfDay } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
@@ -108,9 +108,13 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
   const formatTimestamp = (timestamp: string) => {
     if (!isClient) return '';
     const date = new Date(timestamp);
-    if (isToday(date)) return format(date, 'p');
+    return format(date, 'p');
+  };
+
+  const formatDateSeparator = (date: Date) => {
+    if (isToday(date)) return 'Today';
     if (isYesterday(date)) return 'Yesterday';
-    return format(date, 'dd/MM/yyyy');
+    return format(date, 'MMMM d, yyyy');
   };
 
   return (
@@ -150,7 +154,7 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                             <div className="flex-1 overflow-hidden">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-sm truncate">{user.name}</h3>
-                                    <p className="text-xs text-muted-foreground shrink-0">{formatTimestamp(lastMessage.timestamp)}</p>
+                                    <p className="text-xs text-muted-foreground shrink-0">{isClient ? formatTimestamp(lastMessage.timestamp) : ''}</p>
                                 </div>
                                 <div className="flex justify-between items-start">
                                     <p className="text-xs text-muted-foreground truncate">{lastMessage.text}</p>
@@ -180,26 +184,38 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                         <p className="text-xs text-muted-foreground">{userMap.get(selectedConversation.userId)?.role}</p>
                     </div>
                 </div>
-                <ScrollArea className="flex-1 p-6 bg-[url('/images/chat-bg.png')] bg-contain">
+                <ScrollArea className="flex-1 p-6 bg-muted/20">
                     <div className="space-y-4">
-                        {selectedConversation.messages.map(message => {
+                        {selectedConversation.messages.map((message, index) => {
                             const isMe = message.senderId === 'T01';
+                            const prevMessage = selectedConversation.messages[index - 1];
+                            const showDateSeparator = !prevMessage || !isSameDay(new Date(message.timestamp), new Date(prevMessage.timestamp));
+                            
                             return (
-                                <div key={message.id} className={cn("flex items-end gap-2", isMe ? "justify-end" : "justify-start")}>
-                                    {!isMe && (
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarImage src={userMap.get(message.senderId)?.avatar} />
-                                            <AvatarFallback>{userMap.get(message.senderId)?.name.charAt(0)}</AvatarFallback>
-                                        </Avatar>
+                                <React.Fragment key={message.id}>
+                                    {showDateSeparator && (
+                                        <div className="flex justify-center my-4">
+                                            <Badge variant="secondary" className="shadow-md">
+                                                {formatDateSeparator(new Date(message.timestamp))}
+                                            </Badge>
+                                        </div>
                                     )}
-                                    <div className={cn(
-                                        "max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-xl shadow-md",
-                                        isMe ? "bg-primary text-primary-foreground rounded-br-none" : "bg-card rounded-bl-none"
-                                    )}>
-                                        <p className="text-sm">{message.text}</p>
-                                        <p className={cn("text-xs mt-1 text-right", isMe ? "text-primary-foreground/70" : "text-muted-foreground")}>{isClient ? format(new Date(message.timestamp), 'p') : ''}</p>
+                                    <div className={cn("flex items-end gap-2", isMe ? "justify-end" : "justify-start")}>
+                                        {!isMe && (
+                                            <Avatar className="h-8 w-8">
+                                                <AvatarImage src={userMap.get(message.senderId)?.avatar} />
+                                                <AvatarFallback>{userMap.get(message.senderId)?.name.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                        )}
+                                        <div className={cn(
+                                            "max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-xl shadow-md",
+                                            isMe ? "bg-primary text-primary-foreground rounded-br-none" : "bg-card rounded-bl-none"
+                                        )}>
+                                            <p className="text-sm">{message.text}</p>
+                                            <p className={cn("text-xs mt-1 text-right", isMe ? "text-primary-foreground/70" : "text-muted-foreground")}>{isClient ? format(new Date(message.timestamp), 'p') : ''}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </React.Fragment>
                             )
                         })}
                         <div ref={messagesEndRef} />
@@ -221,8 +237,8 @@ export function MessagesClient({ users, initialConversations }: MessagesClientPr
                 </div>
                 </>
             ) : (
-                <div className="flex h-full flex-col items-center justify-center text-center p-8 bg-card">
-                    <div className="relative h-48 w-48 text-primary">
+                <div className="flex h-full flex-col items-center justify-center text-center p-8 bg-muted/20">
+                     <div className="relative h-48 w-48 text-primary">
                         <Image src="/images/chat-placeholder.svg" alt="Chat placeholder" fill data-ai-hint="communication illustration"/>
                     </div>
                     <h2 className="text-3xl font-bold mt-6">Aedura Chat</h2>
