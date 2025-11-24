@@ -22,6 +22,7 @@ import {
     MapPin,
     Wallet,
     FileBarChart,
+    CalendarClock,
   } from "lucide-react";
 
 export const dashboardNavItems: NavItem[] = [
@@ -38,6 +39,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen, roles: ["admin", "teacher", "student"] },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus, roles: ["admin"] },
     { title: "Attendance Insights", href: "/dashboard/teacher/attendance", icon: CalendarCheck, roles: ["teacher"] },
+    { title: "My Timetable", href: "/dashboard/teacher/timetable", icon: CalendarClock, roles: ["teacher"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {
