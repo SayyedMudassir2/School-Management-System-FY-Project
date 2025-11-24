@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Search, Mail, FileText, Printer } from 'lucide-react';
 import { studentDirectory, type StudentProfile } from "@/lib/mock-data";
 import { useToast } from '@/hooks/use-toast';
+import Papa from 'papaparse';
 
 type StudentDirectoryClientProps = {
     students: StudentProfile[];
@@ -62,10 +63,41 @@ export function StudentDirectoryClient({ students, classes }: StudentDirectoryCl
   };
 
 
-  const handleBulkAction = (action: string) => {
+  const handleExport = () => {
+    if (filteredStudents.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "No students to export",
+        description: "Please adjust your filters to select students to export.",
+      });
+      return;
+    }
+
+    const dataToExport = filteredStudents.map(student => ({
+      'Admission No': student.admissionNo,
+      'Name': student.name,
+      'Class': `${student.class}-${student.section}`,
+      'Parent Name': student.parentName,
+      'Parent Contact': student.parentContact,
+      'Email': student.email,
+      'Status': student.status
+    }));
+
+    const csv = Papa.unparse(dataToExport);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'student_list.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
     toast({
-        title: "Action Triggered",
-        description: `The '${action}' bulk action is a placeholder and would be implemented in a real application.`
+      title: "Export Successful",
+      description: `${filteredStudents.length} student records have been exported.`
     });
   }
 
@@ -99,7 +131,7 @@ export function StudentDirectoryClient({ students, classes }: StudentDirectoryCl
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
                 <Button variant="outline" onClick={handleSendEmail}><Mail className="mr-2 h-4 w-4" /> Send Email</Button>
-                <Button variant="outline" onClick={() => handleBulkAction('Export List')}><FileText className="mr-2 h-4 w-4" /> Export</Button>
+                <Button variant="outline" onClick={handleExport}><FileText className="mr-2 h-4 w-4" /> Export</Button>
             </div>
         </div>
           <div className="border rounded-md">
