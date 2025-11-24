@@ -149,6 +149,9 @@ export function ExamsClient() {
             .printable-area, .printable-area * {
                 visibility: visible;
             }
+            .printable-area .non-printable-graph {
+                display: none;
+            }
             .printable-area {
                 position: absolute;
                 left: 0;
@@ -298,7 +301,7 @@ export function ExamsClient() {
                                 </p>
                             </div>
                          </div>
-                         <div>
+                         <div className="non-printable-graph">
                              <h4 className="font-semibold mb-2 text-center">Performance Chart</h4>
                             <ChartContainer config={chartConfig} className="h-[250px] w-full">
                                 <RechartsBarChart data={selectedStudentData.reportDetails} layout="vertical">
