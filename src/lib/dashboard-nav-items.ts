@@ -79,7 +79,7 @@ export const getNavItemsForRole = (role: UserRole): NavItem[] => {
   if (dashboardItem) {
     return [
       dashboardItem,
-      ...filteredItems.filter(item => item.href !== baseDashboard_path)
+      ...filteredItems.filter(item => item.href !== baseDashboardPath)
     ];
   }
   
