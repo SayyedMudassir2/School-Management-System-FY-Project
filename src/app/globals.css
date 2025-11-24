@@ -112,32 +112,6 @@
   .text-secondary {
       @apply text-muted-foreground;
   }
-
-  @media print {
-    body * {
-      visibility: hidden;
-    }
-    .printable-area, .printable-area * {
-      visibility: visible;
-    }
-    .printable-area {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-    }
-    .non-printable {
-        display: none !important;
-    }
-    .glassmorphic {
-        background: white !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
-    .printable-area .glassmorphic {
-        border: 1px solid #e5e7eb !important;
-    }
-  }
 }
 
 @layer components {

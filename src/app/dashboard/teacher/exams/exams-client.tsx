@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useRef } from 'react';
@@ -139,6 +140,29 @@ export function ExamsClient() {
   };
 
   return (
+    <>
+    <style jsx global>{`
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .printable-area, .printable-area * {
+                visibility: visible;
+            }
+            .printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                padding: 1rem;
+                background: white !important;
+            }
+            .non-printable {
+                display: none !important;
+            }
+        }
+    `}</style>
     <Tabs defaultValue="enter-marks" className="w-full">
       <TabsList className="grid w-full grid-cols-3 non-printable">
         <TabsTrigger value="enter-marks"><FilePen className="mr-2 h-4 w-4"/>Enter Marks</TabsTrigger>
@@ -235,60 +259,65 @@ export function ExamsClient() {
                     </Select>
                 </div>
             </CardHeader>
-            <CardContent ref={printRef}>
-                {selectedStudentData ? (
-                    <Card className="p-6 printable-area">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <h3 className="text-2xl font-bold">{selectedStudentData.student.name}</h3>
-                                <p className="text-muted-foreground">Admission No: {selectedStudentData.student.admissionNo}</p>
-                                <p className="text-muted-foreground">Class: {selectedStudentData.student.class}-{selectedStudentData.student.section}</p>
-                            </div>
-                            <Avatar className="h-16 w-16"><AvatarImage src={selectedStudentData.student.avatar}/><AvatarFallback>{selectedStudentData.student.name[0]}</AvatarFallback></Avatar>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                             <div>
-                                <Table>
-                                    <TableHeader><TableRow><TableHead>Subject</TableHead><TableHead>Marks</TableHead><TableHead>Grade</TableHead></TableRow></TableHeader>
-                                    <TableBody>
-                                        {selectedStudentData.reportDetails.map(item => (
-                                            <TableRow key={item.subject}>
-                                                <TableCell>{item.subject}</TableCell>
-                                                <TableCell>{item.marks}</TableCell>
-                                                <TableCell>{item.grade}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                                <div className="mt-4 p-4 bg-muted/50 rounded-lg text-center">
-                                    <p className="text-sm">Overall Percentage</p>
-                                    <p className="text-3xl font-bold">{selectedStudentData.percentage.toFixed(2)}%</p>
-                                    <p className={`font-semibold ${selectedStudentData.result === 'Pass' ? 'text-green-500' : 'text-red-500'}`}>
-                                        Result: {selectedStudentData.result}
-                                    </p>
-                                </div>
-                             </div>
-                             <div>
-                                 <h4 className="font-semibold mb-2 text-center">Performance Chart</h4>
-                                <ChartContainer config={chartConfig} className="h-[250px] w-full">
-                                    <RechartsBarChart data={selectedStudentData.reportDetails} layout="vertical">
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                                        <XAxis type="number" domain={[0, 100]} />
-                                        <YAxis dataKey="subject" type="category" width={80} />
-                                        <Tooltip content={<ChartTooltipContent />} cursor={{fill: 'hsl(var(--muted))' }} />
-                                        <Bar dataKey="marks" fill="var(--color-marks)" radius={4} />
-                                    </RechartsBarChart>
-                                </ChartContainer>
-                             </div>
-                        </div>
-                    </Card>
-                ) : (
-                    <div className="text-center py-12 text-muted-foreground"><p>Please select a class and student to view the report.</p></div>
-                )}
-            </CardContent>
-            {selectedStudentData && <CardFooter><Button onClick={handlePrint}><Printer className="mr-2 h-4 w-4"/>Print Report</Button></CardFooter>}
+            {selectedStudentData && (
+                 <CardFooter>
+                    <Button onClick={handlePrint}><Printer className="mr-2 h-4 w-4"/>Print Report</Button>
+                </CardFooter>
+            )}
          </Card>
+         <div ref={printRef} className="mt-6">
+            {selectedStudentData ? (
+                <Card className="p-6 printable-area">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h3 className="text-2xl font-bold">{selectedStudentData.student.name}</h3>
+                            <p className="text-muted-foreground">Admission No: {selectedStudentData.student.admissionNo}</p>
+                            <p className="text-muted-foreground">Class: {selectedStudentData.student.class}-{selectedStudentData.student.section}</p>
+                        </div>
+                        <Avatar className="h-16 w-16"><AvatarImage src={selectedStudentData.student.avatar}/><AvatarFallback>{selectedStudentData.student.name[0]}</AvatarFallback></Avatar>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                         <div>
+                            <Table>
+                                <TableHeader><TableRow><TableHead>Subject</TableHead><TableHead>Marks</TableHead><TableHead>Grade</TableHead></TableRow></TableHeader>
+                                <TableBody>
+                                    {selectedStudentData.reportDetails.map(item => (
+                                        <TableRow key={item.subject}>
+                                            <TableCell>{item.subject}</TableCell>
+                                            <TableCell>{item.marks}</TableCell>
+                                            <TableCell>{item.grade}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            <div className="mt-4 p-4 bg-muted/50 rounded-lg text-center">
+                                <p className="text-sm">Overall Percentage</p>
+                                <p className="text-3xl font-bold">{selectedStudentData.percentage.toFixed(2)}%</p>
+                                <p className={`font-semibold ${selectedStudentData.result === 'Pass' ? 'text-green-500' : 'text-red-500'}`}>
+                                    Result: {selectedStudentData.result}
+                                </p>
+                            </div>
+                         </div>
+                         <div>
+                             <h4 className="font-semibold mb-2 text-center">Performance Chart</h4>
+                            <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                                <RechartsBarChart data={selectedStudentData.reportDetails} layout="vertical">
+                                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                                    <XAxis type="number" domain={[0, 100]} />
+                                    <YAxis dataKey="subject" type="category" width={80} />
+                                    <Tooltip content={<ChartTooltipContent />} cursor={{fill: 'hsl(var(--muted))' }} />
+                                    <Bar dataKey="marks" fill="var(--color-marks)" radius={4} />
+                                </RechartsBarChart>
+                            </ChartContainer>
+                         </div>
+                    </div>
+                </Card>
+            ) : (
+                <div className="text-center py-12 text-muted-foreground non-printable"><p>Please select a class and student to view the report.</p></div>
+            )}
+         </div>
       </TabsContent>
     </Tabs>
+    </>
   );
 }
