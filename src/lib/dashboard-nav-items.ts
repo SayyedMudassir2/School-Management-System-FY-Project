@@ -39,6 +39,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Library", href: "/dashboard/admin/library", icon: BookOpen, roles: ["admin", "teacher", "student"] },
     { title: "Transport", href: "/dashboard/admin/transport", icon: Bus, roles: ["admin"] },
     { title: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarCheck, roles: ["teacher"] },
+    { title: "Assignments", href: "/dashboard/teacher/assignments", icon: ClipboardCheck, roles: ["teacher"] },
     { title: "My Timetable", href: "/dashboard/teacher/timetable", icon: CalendarClock, roles: ["teacher"] },
     { title: "Students", href: "/dashboard/teacher/students", icon: Users, roles: ["teacher"] },
 ];
