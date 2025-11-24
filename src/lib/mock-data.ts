@@ -424,3 +424,18 @@ export const transportRoutes: TransportRoute[] = [
         ]
     }
 ];
+
+export type Announcement = {
+    id: string;
+    title: string;
+    content: string;
+    date: string;
+    author: string;
+    target: 'All' | 'Class 10-A' | 'Class 9-B';
+};
+  
+export const mockAnnouncements: Announcement[] = [
+    { id: '1', title: "Parent-Teacher Meeting", content: "A PTM is scheduled for this Saturday for classes 9 and 10.", date: "2024-07-28", author: "Principal", target: "All" },
+    { id: '2', title: "Maths Test Rescheduled", content: "The maths unit test for Class 10-A scheduled for tomorrow has been postponed to next Monday.", date: "2024-07-27", author: "Ms. Emily White", target: "Class 10-A" },
+    { id: '3', title: "History Project Submission", content: "Please submit your history projects by the end of this week.", date: "2024-07-26", author: "Mr. James Wilson", target: "Class 9-B" },
+];

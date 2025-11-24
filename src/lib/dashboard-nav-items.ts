@@ -23,6 +23,7 @@ import {
     Wallet,
     FileBarChart,
     CalendarClock,
+    Megaphone
   } from "lucide-react";
 
 export const dashboardNavItems: NavItem[] = [
@@ -44,6 +45,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Study Materials", href: "/dashboard/teacher/study-materials", icon: BookUp, roles: ["teacher"] },
     { title: "My Timetable", href: "/dashboard/teacher/timetable", icon: CalendarClock, roles: ["teacher"] },
     { title: "Students", href: "/dashboard/teacher/students", icon: Users, roles: ["teacher"] },
+    { title: "Announcements", href: "/dashboard/teacher/announcements", icon: Megaphone, roles: ["teacher"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {
