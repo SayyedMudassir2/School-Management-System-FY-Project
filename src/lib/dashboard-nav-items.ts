@@ -58,6 +58,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "My Timetable", href: "/dashboard/student/timetable", icon: CalendarClock, roles: ["student"] },
     { title: "Attendance", href: "/dashboard/student/attendance", icon: CalendarCheck, roles: ["student"] },
     { title: "Assignments", href: "/dashboard/student/assignments", icon: ClipboardCheck, roles: ["student"] },
+    { title: "Exam Results", href: "/dashboard/student/exams", icon: NotebookText, roles: ["student"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {
@@ -78,7 +79,7 @@ export const getNavItemsForRole = (role: UserRole): NavItem[] => {
   if (dashboardItem) {
     return [
       dashboardItem,
-      ...filteredItems.filter(item => item.href !== baseDashboardPath)
+      ...filteredItems.filter(item => item.href !== baseDashboard_path)
     ];
   }
   
