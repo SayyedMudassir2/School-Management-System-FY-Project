@@ -45,6 +45,22 @@ export function StudentDirectoryClient({ students, classes }: StudentDirectoryCl
   const handleRowClick = (studentId: string) => {
     router.push(`/dashboard/teacher/students/${studentId}`);
   };
+  
+  const handleSendEmail = () => {
+    if (filteredStudents.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "No students to email",
+        description: "Please adjust your filters to select students.",
+      });
+      return;
+    }
+    // Assuming parent email is derivable or a placeholder. In a real app, this would be a dedicated field.
+    const parentEmails = filteredStudents.map(student => `parent.${student.email.split('@')[0]}@example.com`);
+    const bccEmails = parentEmails.join(',');
+    window.location.href = `mailto:?bcc=${bccEmails}&subject=Aedura School Announcement`;
+  };
+
 
   const handleBulkAction = (action: string) => {
     toast({
@@ -82,7 +98,7 @@ export function StudentDirectoryClient({ students, classes }: StudentDirectoryCl
                 </Select>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
-                <Button variant="outline" onClick={() => handleBulkAction('Send Email')}><Mail className="mr-2 h-4 w-4" /> Send Email</Button>
+                <Button variant="outline" onClick={handleSendEmail}><Mail className="mr-2 h-4 w-4" /> Send Email</Button>
                 <Button variant="outline" onClick={() => handleBulkAction('Export List')}><FileText className="mr-2 h-4 w-4" /> Export</Button>
             </div>
         </div>
@@ -125,4 +141,3 @@ export function StudentDirectoryClient({ students, classes }: StudentDirectoryCl
     </Card>
   );
 }
-
