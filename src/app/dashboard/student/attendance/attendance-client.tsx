@@ -57,14 +57,12 @@ export function AttendanceClient() {
     
     const modifiersStyles = {
         present: {
-            backgroundColor: 'hsl(var(--primary) / 0.1)',
-            color: 'hsl(var(--primary))',
-            borderRadius: '50%',
+            backgroundColor: 'hsl(var(--primary) / 0.8)',
+            color: 'hsl(var(--primary-foreground))',
         },
         absent: {
-            backgroundColor: 'hsl(var(--destructive) / 0.1)',
-            color: 'hsl(var(--destructive))',
-            borderRadius: '50%',
+            backgroundColor: 'hsl(var(--destructive) / 0.8)',
+            color: 'hsl(var(--destructive-foreground))',
         },
     };
 
@@ -129,8 +127,8 @@ export function AttendanceClient() {
                                 className="rounded-md border p-0"
                             />
                              <div className="flex justify-around w-full mt-4 text-xs">
-                                <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-primary/20"></div> Present</div>
-                                <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-destructive/20"></div> Absent</div>
+                                <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-primary/80"></div> Present</div>
+                                <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-destructive/80"></div> Absent</div>
                             </div>
                         </CardContent>
                     </Card>
