@@ -62,6 +62,7 @@ export const dashboardNavItems: NavItem[] = [
     { title: "Exam Results", href: "/dashboard/student/exams", icon: NotebookText, roles: ["student"] },
     { title: "Study Materials", href: "/dashboard/student/study-materials", icon: BookOpen, roles: ["student"] },
     { title: "Announcements", href: "/dashboard/student/announcements", icon: Bell, roles: ["student"] },
+    { title: "Fee Payment", href: "/dashboard/student/fees", icon: Wallet, roles: ["student"] },
 ];
 
 export const getNavItemsForRole = (role: UserRole): NavItem[] => {
