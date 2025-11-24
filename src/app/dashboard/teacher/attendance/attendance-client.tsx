@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { getAttendanceInsights, type AttendanceInsightsOutput } from "@/ai/flows/attendance-insights";
 import { mockAttendanceRecords, studentDirectory as allStudentsData } from "@/lib/mock-data";
-import { Rocket, FileText, UserX, Lightbulb, Check, X, Calendar as CalendarIcon, UserCheck } from "lucide-react";
+import { Rocket, FileText, UserX, Lightbulb, Check, X, Calendar as CalendarIcon, UserCheck, Edit, History } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -32,6 +32,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 type Class = { id: string; name: string };
 type Student = { id: string; name: string; avatar: string; admissionNo: string; classId?: string };
@@ -42,6 +43,7 @@ type AttendanceClientProps = {
 };
 
 type AttendanceStatus = { [studentId: string]: 'present' | 'absent' };
+type AttendanceRecord = { studentId: string; status: 'present' | 'absent' };
 
 export function AttendanceClient({ classes, students: initialStudents }: AttendanceClientProps) {
   const [selectedClass, setSelectedClass] = useState<string>("");
@@ -50,17 +52,29 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const studentMap = new Map(initialStudents.map(s => [s.id, s.name]));
+  const studentMap = new Map(initialStudents.map(s => [s.id, s]));
 
   // State for marking attendance
   const [attendanceDate, setAttendanceDate] = useState<Date | undefined>(new Date());
   const [attendanceStatus, setAttendanceStatus] = useState<AttendanceStatus>({});
   
+  // State for history view
+  const [historyClass, setHistoryClass] = useState<string>("");
+  const [historyDate, setHistoryDate] = useState<Date | undefined>(new Date());
+  const [historyRecords, setHistoryRecords] = useState<AttendanceRecord[]>([]);
+
   const studentsInClass = useMemo(() => {
     return allStudentsData
       .filter(s => s.class === selectedClass.replace('Class ', '').split('-')[0] && s.status === 'Active')
       .map(s => ({...s, classId: selectedClass}));
   }, [selectedClass]);
+
+  const studentsInHistoryClass = useMemo(() => {
+    if (!historyClass) return [];
+    const className = classes.find(c => c.id === historyClass)?.name;
+    return allStudentsData
+      .filter(s => `Class ${s.class}-${s.section}` === className && s.status === 'Active');
+  }, [historyClass, classes]);
 
   // Effect to initialize attendance when class or date changes
   useEffect(() => {
@@ -70,6 +84,21 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
     });
     setAttendanceStatus(newStatus);
   }, [selectedClass, attendanceDate, studentsInClass]);
+  
+  // Effect to fetch history records
+  useEffect(() => {
+    if(historyClass && historyDate) {
+        // Mock fetching data. In a real app, this would be an API call.
+        const mockData: AttendanceRecord[] = studentsInHistoryClass.map(student => ({
+            studentId: student.id,
+            status: Math.random() > 0.1 ? 'present' : 'absent' // Randomly generate for demo
+        }));
+        setHistoryRecords(mockData);
+    } else {
+        setHistoryRecords([]);
+    }
+  }, [historyClass, historyDate, studentsInHistoryClass]);
+
 
   const handleGenerate = async () => {
     if (!selectedClass) {
@@ -121,6 +150,12 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
     if (Object.keys(attendanceStatus).length === 0) return true;
     return Object.values(attendanceStatus).every(s => s === 'present');
   }, [attendanceStatus]);
+
+  const getStatusBadge = (status: 'present' | 'absent') => {
+    return status === 'present' 
+        ? <Badge variant="secondary" className="bg-green-500/20 text-green-700 border-green-500/20">Present</Badge>
+        : <Badge variant="destructive">Absent</Badge>
+  }
 
   return (
     <Tabs defaultValue="mark" className="w-full">
@@ -197,8 +232,62 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
 
       <TabsContent value="history" className="mt-4">
         <Card className="glassmorphic">
-            <CardHeader><CardTitle>Attendance History</CardTitle><CardDescription>This section is under development. You will soon be able to view and edit past attendance records here.</CardDescription></CardHeader>
-            <CardContent><p className="text-muted-foreground">Check back for updates!</p></CardContent>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><History className="h-5 w-5 text-primary"/>Attendance History</CardTitle>
+                <CardDescription>View past attendance records for any class on a specific date.</CardDescription>
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <Select value={historyClass} onValueChange={setHistoryClass}>
+                        <SelectTrigger className="w-full sm:w-[200px]"><SelectValue placeholder="Select a class" /></SelectTrigger>
+                        <SelectContent>{classes.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}</SelectContent>
+                    </Select>
+                     <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant={"outline"} className={cn("w-full sm:w-[240px] justify-start text-left font-normal", !historyDate && "text-muted-foreground")}>
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {historyDate ? format(historyDate, "PPP") : <span>Pick a date</span>}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0"><Calendar mode="single" selected={historyDate} onSelect={setHistoryDate} disabled={(date) => date > new Date()} /></PopoverContent>
+                    </Popover>
+                </div>
+            </CardHeader>
+            <CardContent>
+                {historyRecords.length > 0 ? (
+                    <div className="border rounded-md">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Student Name</TableHead>
+                                    <TableHead>Admission No.</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {studentsInHistoryClass.map(student => {
+                                    const record = historyRecords.find(r => r.studentId === student.id);
+                                    return (
+                                        <TableRow key={student.id}>
+                                            <TableCell className="font-medium">{student.name}</TableCell>
+                                            <TableCell>{student.admissionNo}</TableCell>
+                                            <TableCell>{record ? getStatusBadge(record.status) : <Badge variant="outline">N/A</Badge>}</TableCell>
+                                            <TableCell className="text-right">
+                                                <Button variant="outline" size="sm" disabled>
+                                                    <Edit className="h-3 w-3 mr-1"/> Edit
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </div>
+                ) : (
+                    <div className="text-center text-muted-foreground py-12">
+                        <p>{historyClass ? 'No records found for this date.' : 'Please select a class to view history.'}</p>
+                    </div>
+                )}
+            </CardContent>
         </Card>
       </TabsContent>
 
@@ -255,7 +344,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                             {insights.potentialTruancy.length > 0 ? (
                             insights.potentialTruancy.map((student) => (
                                 <TableRow key={student.studentId}>
-                                <TableCell className="font-medium">{studentMap.get(student.studentId) || student.studentId}</TableCell>
+                                <TableCell className="font-medium">{studentMap.get(student.studentId)?.name || student.studentId}</TableCell>
                                 <TableCell className="text-right text-destructive font-bold">{student.numberOfAbsences}</TableCell>
                                 </TableRow>
                             ))
