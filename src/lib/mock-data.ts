@@ -431,11 +431,56 @@ export type Announcement = {
     content: string;
     date: string;
     author: string;
-    target: 'All' | 'Class 10-A' | 'Class 9-B';
+    target: 'All' | 'Class 10-A' | 'Class 9-B' | 'All My Classes';
 };
   
 export const mockAnnouncements: Announcement[] = [
     { id: '1', title: "Parent-Teacher Meeting", content: "A PTM is scheduled for this Saturday for classes 9 and 10.", date: "2024-07-28", author: "Principal", target: "All" },
     { id: '2', title: "Maths Test Rescheduled", content: "The maths unit test for Class 10-A scheduled for tomorrow has been postponed to next Monday.", date: "2024-07-27", author: "Ms. Emily White", target: "Class 10-A" },
     { id: '3', title: "History Project Submission", content: "Please submit your history projects by the end of this week.", date: "2024-07-26", author: "Mr. James Wilson", target: "Class 9-B" },
+];
+
+type Message = {
+    id: string;
+    senderId: string;
+    text: string;
+    timestamp: string;
+};
+
+type Conversation = {
+    id: string;
+    userId: string;
+    unreadCount: number;
+    messages: Message[];
+};
+
+export const mockConversations: Conversation[] = [
+    {
+        id: 'C01',
+        userId: 'S001',
+        unreadCount: 2,
+        messages: [
+            { id: 'M01', senderId: 'S001', text: 'Good morning, sir. I have a question about the physics homework.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
+            { id: 'M02', senderId: 'T01', text: 'Good morning, Alice. I am here to help. What is your question?', timestamp: new Date(Date.now() - 1000 * 60 * 50).toISOString() },
+            { id: 'M03', senderId: 'S001', text: 'I am having trouble with question 3.', timestamp: new Date(Date.now() - 1000 * 60 * 10).toISOString() },
+            { id: 'M04', senderId: 'S001', text: 'Can you please explain it again?', timestamp: new Date(Date.now() - 1000 * 60 * 9).toISOString() }
+        ]
+    },
+    {
+        id: 'C02',
+        userId: 'S002',
+        unreadCount: 0,
+        messages: [
+            { id: 'M05', senderId: 'T01', text: 'Hi Bob, please remember to submit your assignment by tomorrow.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
+            { id: 'M06', senderId: 'S002', text: 'Yes sir, I will.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 23).toISOString() }
+        ]
+    },
+     {
+        id: 'C03',
+        userId: 'T02',
+        unreadCount: 1,
+        messages: [
+            { id: 'M07', senderId: 'T02', text: 'Can we sync up on the curriculum for Class 10? I have some ideas.', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString() }
+        ]
+    }
 ];
