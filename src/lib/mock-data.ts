@@ -460,10 +460,10 @@ export const mockConversations: Conversation[] = [
         userId: 'S001',
         unreadCount: 2,
         messages: [
-            { id: 'M01', senderId: 'S001', text: 'Good morning, sir. I have a question about the physics homework.', timestamp: '2024-07-29T03:30:00.000Z' },
-            { id: 'M02', senderId: 'T01', text: 'Good morning, Alice. I am here to help. What is your question?', timestamp: '2024-07-29T04:20:00.000Z' },
-            { id: 'M03', senderId: 'S001', text: 'I am having trouble with question 3.', timestamp: '2024-07-29T09:00:00.000Z' },
-            { id: 'M04', senderId: 'S001', text: 'Can you please explain it again?', timestamp: '2024-07-29T09:01:00.000Z' }
+            { id: 'M01', senderId: 'S001', text: 'Good morning, sir. I have a question about the physics homework.', timestamp: '2024-07-29T08:30:00.000Z' },
+            { id: 'M02', senderId: 'T01', text: 'Good morning, Alice. I am here to help. What is your question?', timestamp: '2024-07-29T09:20:00.000Z' },
+            { id: 'M03', senderId: 'S001', text: 'I am having trouble with question 3.', timestamp: '2024-07-29T14:00:00.000Z' },
+            { id: 'M04', senderId: 'S001', text: 'Can you please explain it again?', timestamp: '2024-07-29T14:01:00.000Z' }
         ]
     },
     {
@@ -471,8 +471,8 @@ export const mockConversations: Conversation[] = [
         userId: 'S002',
         unreadCount: 0,
         messages: [
-            { id: 'M05', senderId: 'T01', text: 'Hi Bob, please remember to submit your assignment by tomorrow.', timestamp: '2024-07-28T10:00:00.000Z' },
-            { id: 'M06', senderId: 'S002', text: 'Yes sir, I will.', timestamp: '2024-07-28T11:00:00.000Z' }
+            { id: 'M05', senderId: 'T01', text: 'Hi Bob, please remember to submit your assignment by tomorrow.', timestamp: '2024-07-28T15:00:00.000Z' },
+            { id: 'M06', senderId: 'S002', text: 'Yes sir, I will.', timestamp: '2024-07-28T16:00:00.000Z' }
         ]
     },
      {
@@ -480,7 +480,24 @@ export const mockConversations: Conversation[] = [
         userId: 'T02',
         unreadCount: 1,
         messages: [
-            { id: 'M07', senderId: 'T02', text: 'Can we sync up on the curriculum for Class 10? I have some ideas.', timestamp: '2024-07-29T05:00:00.000Z' }
+            { id: 'M07', senderId: 'T02', text: 'Can we sync up on the curriculum for Class 10? I have some ideas.', timestamp: '2024-07-29T10:00:00.000Z' }
         ]
     }
+];
+
+export type StudentAssignment = {
+    id: string;
+    title: string;
+    subject: string;
+    dueDate: string;
+    status: 'Pending' | 'Submitted' | 'Graded';
+    grade?: string;
+    feedback?: string;
+};
+
+export const mockStudentAssignments: StudentAssignment[] = [
+    { id: 'SA01', title: 'Algebra Homework 1', subject: 'Mathematics', dueDate: '2024-08-15', status: 'Pending' },
+    { id: 'SA02', title: 'Photosynthesis Lab Report', subject: 'Biology', dueDate: '2024-08-12', status: 'Submitted' },
+    { id: 'SA03', title: 'Essay on World War II', subject: 'History', dueDate: '2024-08-05', status: 'Graded', grade: 'A-', feedback: 'Excellent work! Very well-researched.' },
+    { id: 'SA04', title: 'Lab Safety Quiz', subject: 'Chemistry', dueDate: '2024-08-01', status: 'Graded', grade: '18/20' },
 ];
