@@ -153,11 +153,16 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
 
 
   const handleGenerate = async () => {
-    const className = classes.find(c => c.id === selectedClass)?.name;
-    if (!className) {
+    if (!selectedClass) {
       setError("Please select a class first.");
       return;
     }
+    const className = classes.find(c => c.id === selectedClass)?.name;
+    if (!className) {
+      setError("Invalid class selected.");
+      return;
+    }
+    
     setError(null);
     setIsGenerating(true);
     setInsights(null);
@@ -474,7 +479,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                 <CardDescription>Select a class to generate an AI-powered attendance analysis.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-4">
-                <Select value={classes.find(c => c.name === selectedClass)?.id || ""} onValueChange={(id) => setSelectedClass(classes.find(c => c.id === id)?.name || "")}>
+                <Select value={selectedClass} onValueChange={setSelectedClass}>
                     <SelectTrigger className="w-full sm:w-[200px]"><SelectValue placeholder="Select a class" /></SelectTrigger>
                     <SelectContent>{classes.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}</SelectContent>
                 </Select>
@@ -491,7 +496,7 @@ export function AttendanceClient({ classes, students: initialStudents }: Attenda
                 <CardContent className="space-y-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
                     <FileText className="h-5 w-5 text-primary" />
-                    Attendance Report for {selectedClass}
+                    Attendance Report for {classes.find(c => c.id === selectedClass)?.name}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                     <Card><CardHeader><CardTitle className="flex items-center gap-2"><UserX className="h-5 w-5" />Potential Truancy</CardTitle></CardHeader><CardContent>
