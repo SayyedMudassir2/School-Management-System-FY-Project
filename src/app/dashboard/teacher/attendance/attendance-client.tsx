@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getAttendanceInsights, type AttendanceInsightsOutput } from "@/ai/flows/attendance-insights";
-import { mockAttendanceRecords } from "@/lib/mock-data";
+import { mockAttendanceRecords, studentDirectory as allStudentsData } from "@/lib/mock-data";
 import { Rocket, FileText, UserX, Lightbulb, Check, X, Calendar as CalendarIcon, UserCheck } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -30,9 +30,11 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 
 type Class = { id: string; name: string };
-type Student = { id: string, name: string, classId?: string };
+type Student = { id: string; name: string; avatar: string; admissionNo: string; classId?: string };
 
 type AttendanceClientProps = {
   classes: Class[];
@@ -41,20 +43,33 @@ type AttendanceClientProps = {
 
 type AttendanceStatus = { [studentId: string]: 'present' | 'absent' };
 
-export function AttendanceClient({ classes, students }: AttendanceClientProps) {
+export function AttendanceClient({ classes, students: initialStudents }: AttendanceClientProps) {
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [insights, setInsights] = useState<AttendanceInsightsOutput | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
-  const studentMap = new Map(students.map(s => [s.id, s.name]));
+  const studentMap = new Map(initialStudents.map(s => [s.id, s.name]));
 
   // State for marking attendance
   const [attendanceDate, setAttendanceDate] = useState<Date | undefined>(new Date());
   const [attendanceStatus, setAttendanceStatus] = useState<AttendanceStatus>({});
-  const [presentAll, setPresentAll] = useState(true);
+  
+  const studentsInClass = useMemo(() => {
+    return allStudentsData
+      .filter(s => s.class === selectedClass.replace('Class ', '').split('-')[0] && s.status === 'Active')
+      .map(s => ({...s, classId: selectedClass}));
+  }, [selectedClass]);
 
-  const studentsInClass = students.filter(s => s.classId === selectedClass);
+  // Effect to initialize attendance when class or date changes
+  useEffect(() => {
+    const newStatus: AttendanceStatus = {};
+    studentsInClass.forEach(student => {
+      newStatus[student.id] = 'present';
+    });
+    setAttendanceStatus(newStatus);
+  }, [selectedClass, attendanceDate, studentsInClass]);
 
   const handleGenerate = async () => {
     if (!selectedClass) {
@@ -79,25 +94,32 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
     }
   };
 
-  const handleStatusToggle = (studentId: string) => {
+  const handleStatusChange = (studentId: string, status: 'present' | 'absent') => {
     setAttendanceStatus(prev => ({
       ...prev,
-      [studentId]: prev[studentId] === 'absent' ? 'present' : 'absent'
+      [studentId]: status
     }));
   };
 
   const handlePresentAllToggle = (checked: boolean) => {
-    setPresentAll(checked);
-    if (checked) {
-        const newStatus: AttendanceStatus = {};
-        studentsInClass.forEach(s => newStatus[s.id] = 'present');
-        setAttendanceStatus(newStatus);
-    } else {
-        const newStatus: AttendanceStatus = {};
-        studentsInClass.forEach(s => newStatus[s.id] = 'absent');
-        setAttendanceStatus(newStatus);
-    }
+    const newStatus: AttendanceStatus = {};
+    studentsInClass.forEach(student => {
+        newStatus[student.id] = checked ? 'present' : 'absent';
+    });
+    setAttendanceStatus(newStatus);
   }
+  
+  const handleSumbitAttendance = () => {
+    const absentCount = Object.values(attendanceStatus).filter(s => s === 'absent').length;
+    toast({
+        title: "Attendance Submitted",
+        description: `Attendance for Class ${selectedClass} on ${format(attendanceDate!, 'PPP')} has been recorded. ${absentCount} student(s) marked absent.`
+    });
+  }
+
+  const allPresent = useMemo(() => {
+    return Object.values(attendanceStatus).every(s => s === 'present');
+  }, [attendanceStatus]);
 
   return (
     <Tabs defaultValue="mark" className="w-full">
@@ -115,7 +137,7 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <Select value={selectedClass} onValueChange={setSelectedClass}>
                         <SelectTrigger className="w-full sm:w-[200px]"><SelectValue placeholder="Select a class" /></SelectTrigger>
-                        <SelectContent>{classes.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}</SelectContent>
+                        <SelectContent>{classes.map((c) => (<SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>))}</SelectContent>
                     </Select>
                     <Popover>
                         <PopoverTrigger asChild>
@@ -130,28 +152,44 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
             </CardHeader>
             {selectedClass && (
                  <CardContent>
-                    <div className="flex items-center justify-end space-x-2 mb-4">
+                    <div className="flex items-center justify-end space-x-2 mb-6">
                         <Label htmlFor="present-all-switch">Mark All Present</Label>
-                        <Switch id="present-all-switch" checked={presentAll} onCheckedChange={handlePresentAllToggle} />
+                        <Switch id="present-all-switch" checked={allPresent} onCheckedChange={handlePresentAllToggle} />
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                         {studentsInClass.map(student => (
-                            <Button
-                                key={student.id}
-                                variant={attendanceStatus[student.id] !== 'absent' ? 'default' : 'destructive'}
-                                className="h-auto flex flex-col items-center justify-center p-3 gap-2"
-                                onClick={() => handleStatusToggle(student.id)}
-                            >
-                                <UserCheck className={cn("h-6 w-6", attendanceStatus[student.id] === 'absent' && 'hidden')} />
-                                <UserX className={cn("h-6 w-6", attendanceStatus[student.id] !== 'absent' && 'hidden')} />
-                                <span className="text-xs text-center">{student.name}</span>
-                            </Button>
+                            <Card key={student.id} className="p-3 text-center glassmorphic">
+                                <Avatar className="h-16 w-16 mx-auto mb-2">
+                                    <AvatarImage src={student.avatar} alt={student.name} />
+                                    <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <p className="text-sm font-medium truncate">{student.name}</p>
+                                <p className="text-xs text-muted-foreground">{student.admissionNo}</p>
+                                <div className="grid grid-cols-2 gap-1 mt-3">
+                                    <Button
+                                        size="sm"
+                                        variant={attendanceStatus[student.id] === 'present' ? 'default' : 'outline'}
+                                        onClick={() => handleStatusChange(student.id, 'present')}
+                                        className="h-8"
+                                    >
+                                        <Check className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant={attendanceStatus[student.id] === 'absent' ? 'destructive' : 'outline'}
+                                        onClick={() => handleStatusChange(student.id, 'absent')}
+                                        className="h-8"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </Card>
                         ))}
                     </div>
                  </CardContent>
             )}
             <CardFooter>
-                <Button disabled={!selectedClass}>Submit Attendance</Button>
+                <Button onClick={handleSumbitAttendance} disabled={!selectedClass || studentsInClass.length === 0}>Submit Attendance</Button>
             </CardFooter>
         </Card>
       </TabsContent>
@@ -172,13 +210,13 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-4">
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                <Select value={selectedClass} onValueChange={(value) => setSelectedClass(classes.find(c=>c.id===value)?.name || '')}>
                 <SelectTrigger className="w-full sm:w-[200px]">
                     <SelectValue placeholder="Select a class" />
                 </SelectTrigger>
                 <SelectContent>
                     {classes.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>
+                    <SelectItem key={c.id} value={c.name}>
                         {c.name}
                     </SelectItem>
                     ))}
@@ -197,7 +235,7 @@ export function AttendanceClient({ classes, students }: AttendanceClientProps) {
                 <CardContent className="space-y-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
                     <FileText className="h-5 w-5 text-primary" />
-                    Attendance Report for Class {selectedClass}
+                    Attendance Report for {selectedClass}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                     <Card>
