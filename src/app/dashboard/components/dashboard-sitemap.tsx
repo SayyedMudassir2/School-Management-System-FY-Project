@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-export function Sitemap() {
+export function DashboardSitemap() {
     const pathname = usePathname();
 
     // Filter out the main dashboard link

@@ -1,6 +1,6 @@
 
 import { PageHeader } from "./components/page-header";
-import { Sitemap } from "./components/sitemap";
+import { DashboardSitemap } from "./components/dashboard-sitemap";
 
 // This page might not be directly visible as middleware will redirect.
 // However, it can serve as a fallback or a general dashboard entry point view
@@ -12,7 +12,7 @@ export default function DashboardPage() {
         title="Welcome to Aedura"
         description="Select a section to get started."
       />
-      <Sitemap />
+      <DashboardSitemap />
     </>
   );
 }
