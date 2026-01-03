@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { navItems } from "@/lib/dashboard-nav-items";
+import { dashboardNavItems } from "@/lib/dashboard-nav-items";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ export function Sitemap() {
     const pathname = usePathname();
 
     // Filter out the main dashboard link
-    const sitemapItems = navItems.filter(item => item.href !== '/dashboard' && item.href !== '/dashboard/admin' && item.href !== '/dashboard/parent' && item.href !== '/dashboard/student');
+    const sitemapItems = dashboardNavItems.filter(item => item.href !== '/dashboard' && item.href !== '/dashboard/admin' && item.href !== '/dashboard/parent' && item.href !== '/dashboard/student');
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
