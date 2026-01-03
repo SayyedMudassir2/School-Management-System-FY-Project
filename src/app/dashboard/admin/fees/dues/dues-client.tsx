@@ -19,16 +19,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format, isAfter } from 'date-fns';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { type StudentProfile } from '@/lib/mock-data';
 
-type StudentWithFee = {
-    id: string;
-    admissionNo: string;
-    name: string;
-    class: string;
-    section: string;
-    parentName: string;
-    parentContact: string;
-    status: string;
+
+type StudentWithFee = StudentProfile & {
     feeDetails: {
         id?: string;
         studentId: string;

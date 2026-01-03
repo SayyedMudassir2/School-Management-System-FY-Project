@@ -8,7 +8,7 @@ export default function SettingsPage() {
     <>
       <PageHeader
         title="Settings"
-        description="You can manage your account and application preferences."
+        description="Manage your account and application preferences."
       />
       <FirebaseClientProvider>
         <SettingsPageClient />
