@@ -1,0 +1,67 @@
+Project name: ?
+
+Goal: Generate clear, honest, and resume-ready answers to the questions below.
+
+Be detailed but realistic
+If a feature is not built, explicitly say “not implemented”
+Do NOT hallucinate metrics or users
+Use strong technical language where applicable
+Prefer clarity over buzzwords
+Assume this will be read by recruiters and engineers
+Tone:
+
+Professional
+Confident but truthful
+Startup / SaaS engineering style
+Now answer the following sections:
+
+──────────────────────── 1️⃣ High-level product understanding ──────────────────────── • What exactly is LearnSet in one sentence? • Who is the target user? (school students / college students / exam aspirants / self-learners / teachers) • Product type: web app / SaaS / internal tool / open-source • Is it live & deployed? (If not, say not deployed)
+
+──────────────────────── 2️⃣ Core features (VERY IMPORTANT) ──────────────────────── List clearly what a user can do.
+
+For each feature, say:
+
+Implemented / partially implemented / not implemented
+Short explanation of how it works
+Cover: • Upload PDFs / images / notes • AI summaries • Flashcards • Quizzes • Study plans / roadmaps • Chat with documents • Subject/topic organization • Any AI-powered workflows
+
+AI details: • LLM used (OpenAI / Gemini / Claude / etc.) • Prompt chaining? • Multi-step generation? • RAG? • Agents?
+
+Content generation type: • Real-time • Streaming • Async/background
+
+──────────────────────── 3️⃣ Tech stack (be precise) ──────────────────────── Frontend: • Framework (Next.js version if known) • React? • UI libraries (Tailwind, shadcn, etc.)
+
+Backend: • API routes / server actions • Runtime (Node / Edge) • Background jobs or queues
+
+Database: • DB used (Postgres / Mongo / Supabase / etc.) • What is stored (users, materials, embeddings, progress, history)
+
+Auth: • Auth provider (Clerk / Auth.js / Firebase / custom) • Role-based access (if any)
+
+──────────────────────── 4️⃣ AI & data processing depth ──────────────────────── Explain the pipeline step-by-step: • PDF parsing / text extraction • OCR for images (if any) • Chunking strategy • Embeddings • Vector storage (if any) • Frameworks used (LangChain, LlamaIndex, or custom)
+
+If applicable: • Accuracy considerations • Token reduction techniques • Latency optimizations
+
+If not implemented, say so clearly.
+
+──────────────────────── 5️⃣ Advanced / resume-worthy engineering ──────────────────────── Mention even small implementations:
+
+• Caching • Rate limiting • Streaming responses • Background queues • Cost optimizations • Reduced latency • UX improvements • Error handling • Retries • Validation • Fallback logic
+
+Explain impact briefly.
+
+──────────────────────── 6️⃣ Monetization / access control ──────────────────────── • Free / credits / subscription • Payments (Stripe or not) • Feature gating (if any) • Current status (planned vs implemented)
+
+──────────────────────── 7️⃣ Deployment & DevOps ──────────────────────── • Deployment platform (Vercel / AWS / other) • CI/CD setup • Environment separation • Secrets management
+
+──────────────────────── 8️⃣ Scale & impact ──────────────────────── Provide real numbers only. If none exist, say: “Early-stage project, no production users yet.”
+
+Possible metrics: • Users • Study sets created • Daily usage • Feedback
+
+──────────────────────── 9️⃣ Differentiation ──────────────────────── • What makes LearnSet different from similar tools? • Any unique UX or workflow? • Feature you’re personally proud of?
+
+──────────────────────── 🔟 Resume positioning ──────────────────────── Assume I’m targeting: • [Full-stack / AI engineer / Backend / SaaS founder]
+
+Make the project sound: • Highly technical • AI-heavy • Startup-like
+
+End with: • 3–5 strong resume bullet points written in STAR format • 1 short “interview explanation” paragraph
+and many more about complete app
