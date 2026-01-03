@@ -1,6 +1,6 @@
 
 import { PageHeader } from "./components/page-header";
-import { DashboardSitemap } from "./components/dashboard-sitemap";
+import { DashboardSitemap } from "./dashboard-sitemap";
 
 // This page might not be directly visible as middleware will redirect.
 // However, it can serve as a fallback or a general dashboard entry point view
